@@ -1,8 +1,7 @@
-import Auth from "./pages/auth/Auth";
+import Checkout from "./pages/checkout/Checkout";
 
 function App() {
-    return <Auth />;
-
+    return <Checkout />;
 }
 
 export default App;
