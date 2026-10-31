@@ -56,11 +56,57 @@ function CardIcon() {
   );
 }
 
+function ProductThumbnail({ tone }: { tone: string }) {
+  return (
+    <span className={`summary-product-thumbnail ${tone}`} aria-hidden="true">
+      <svg viewBox="0 0 48 48">
+        <path d="m15 8 9 4 9-4 9 7-5 8-5-3v20H16V20l-5 3-5-8 9-7Z" />
+        <path className="shirt-seam" d="m18 9 6 7 6-7M24 16v24" />
+      </svg>
+    </span>
+  );
+}
+
+const cartItems = [
+  {
+    name: 'Áo Sơ Mi Công Sở Oxford Nam Tay Dài',
+    options: 'Màu: Xanh Navy • Size: L (May chuẩn)',
+    quantity: 'Số lượng: 10 cái',
+    price: 2_450_000,
+    tone: 'thumbnail-navy',
+  },
+  {
+    name: 'Bộ Đồng Phục Scrub Y Tế Bác Sĩ & Điều Dưỡng',
+    options: 'Màu: Xanh Teal • Size: M (Chống nhăn)',
+    quantity: 'Số lượng: 5 bộ',
+    price: 1_250_000,
+    tone: 'thumbnail-teal',
+  },
+  {
+    name: 'Áo Polo Doanh Nghiệp Cotton Pique 100%',
+    options: 'Màu: Đen Tím Than • Size: XL',
+    quantity: 'Số lượng: 15 cái',
+    price: 2_850_000,
+    tone: 'thumbnail-plum',
+  },
+];
+
+const formatCurrency = (amount: number) => `${amount.toLocaleString('vi-VN')} đ`;
+
 function Checkout() {
   const [city, setCity] = useState('TP. Hồ Chí Minh');
   const [district, setDistrict] = useState('Quận 1');
   const [shippingMethod, setShippingMethod] = useState('standard');
   const [paymentMethod, setPaymentMethod] = useState('vietqr');
+  const [coupon, setCoupon] = useState('CORP2024');
+  const [couponStatus, setCouponStatus] = useState<'applied' | 'error' | 'idle'>('applied');
+
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const productDiscount = 786_000;
+  const couponDiscount = couponStatus === 'applied' ? 327_500 : 0;
+  const shippingCost = shippingMethod === 'express' ? 35_000 : 0;
+  const vat = 435_000;
+  const total = subtotal - productDiscount - couponDiscount + shippingCost + vat;
 
   const districts = city === 'TP. Hồ Chí Minh'
     ? ['Quận 1', 'Quận 3', 'Quận 7', 'Bình Thạnh', 'Thành phố Thủ Đức']
@@ -72,8 +118,9 @@ function Checkout() {
   };
 
   return (
-    <>
-    <section className="checkout-section checkout-delivery" aria-labelledby="delivery-title">
+    <div className="checkout-layout">
+      <div className="checkout-sections">
+        <section className="checkout-section checkout-delivery" aria-labelledby="delivery-title">
       <div className="delivery-card-heading">
         <div className="delivery-title-group">
           <div className="delivery-icon"><LocationIcon /></div>
@@ -128,9 +175,9 @@ function Checkout() {
           </div>
         </div>
       </form>
-    </section>
+        </section>
 
-    <section className="checkout-section checkout-shipping" aria-labelledby="shipping-title">
+        <section className="checkout-section checkout-shipping" aria-labelledby="shipping-title">
       <div className="checkout-section-heading">
         <div className="checkout-section-title-group">
           <div className="checkout-section-icon"><TruckIcon /></div>
@@ -168,9 +215,9 @@ function Checkout() {
           <strong className="checkout-choice-price">35.000 đ</strong>
         </label>
       </div>
-    </section>
+        </section>
 
-    <section className="checkout-section checkout-payment" aria-labelledby="payment-title">
+        <section className="checkout-section checkout-payment" aria-labelledby="payment-title">
       <div className="checkout-section-heading">
         <div className="checkout-section-title-group">
           <div className="checkout-section-icon"><PaymentIcon /></div>
@@ -218,8 +265,74 @@ function Checkout() {
           <span className="checkout-payment-icon"><CardIcon /></span>
         </label>
       </div>
-    </section>
-    </>
+        </section>
+      </div>
+
+      <aside className="checkout-order-summary" aria-labelledby="order-summary-title">
+        <div className="order-summary-heading">
+          <h2 id="order-summary-title">Tóm Tắt Đơn Hàng</h2>
+          <span>3 sản phẩm</span>
+        </div>
+
+        <div className="summary-product-list">
+          {cartItems.map((item) => (
+            <article className="summary-product" key={item.name}>
+              <ProductThumbnail tone={item.tone} />
+              <div className="summary-product-info">
+                <h3>{item.name}</h3>
+                <p>{item.options}</p>
+                <p>{item.quantity}</p>
+              </div>
+              <strong className="summary-product-price">{formatCurrency(item.price)}</strong>
+            </article>
+          ))}
+        </div>
+
+        <div className="summary-coupon">
+          <div className="summary-coupon-entry">
+            <input
+              aria-label="Mã ưu đãi"
+              value={coupon}
+              onChange={(event) => {
+                setCoupon(event.target.value);
+                setCouponStatus('idle');
+              }}
+            />
+            {couponStatus === 'applied' && <span className="coupon-check" aria-label="Đã áp dụng">✓</span>}
+            <button
+              type="button"
+              onClick={() => setCouponStatus(coupon.trim().toUpperCase() === 'CORP2024' ? 'applied' : 'error')}
+            >
+              Áp Dụng
+            </button>
+          </div>
+          {couponStatus === 'applied' && <p className="coupon-success">◇ Đã kích hoạt ưu đãi đối tác Doanh nghiệp (-5%)</p>}
+          {couponStatus === 'error' && <p className="coupon-error">Mã ưu đãi không hợp lệ. Vui lòng thử lại.</p>}
+        </div>
+
+        <dl className="summary-totals">
+          <div><dt>Tạm tính tổng sản phẩm (30 chiếc):</dt><dd>{formatCurrency(subtotal)}</dd></div>
+          <div className="summary-discount"><dt>Chiết khấu sỉ tự động (≥20 món) <span>-12%</span>:</dt><dd>- {formatCurrency(productDiscount)}</dd></div>
+          <div className="summary-discount"><dt>Voucher đối tác CORP2024:</dt><dd>- {formatCurrency(couponDiscount)}</dd></div>
+          <div className="summary-shipping-cost"><dt>Phí vận chuyển giao hàng:</dt><dd>{shippingCost === 0 ? 'Miễn phí (Toàn quốc)' : formatCurrency(shippingCost)}</dd></div>
+          <div><dt>Thuế GTGT (VAT 8% xuất theo ĐKKD):</dt><dd>{formatCurrency(vat)}</dd></div>
+        </dl>
+
+        <div className="summary-total">
+          <div><span>Tổng thanh toán:</span><strong>{formatCurrency(total)}</strong></div>
+          <p>{shippingCost === 0 ? 'Đã bao gồm VAT • Miễn phí giao hàng toàn quốc' : 'Đã bao gồm VAT và phí giao hỏa tốc'}</p>
+        </div>
+
+        <button type="button" className="summary-submit">Hoàn Tất Đặt Hàng (Mô Phỏng) <span aria-hidden="true">→</span></button>
+        <p className="summary-terms">Bằng việc hoàn tất, bạn đồng ý với Điều Khoản Cung Ứng B2B của VIETUNIFORM</p>
+
+        <ul className="summary-benefits">
+          <li><span aria-hidden="true">◉</span> Hỗ trợ đổi size tận nơi trong vòng 30 ngày nếu không vừa</li>
+          <li><span aria-hidden="true">♧</span> Chất lượng và chuẩn kiểm định, đền 200% nếu sai mô tả</li>
+          <li><span aria-hidden="true">◉</span> Chuyên viên tư vấn mẫu vải và bảng size hỗ trợ 24/7</li>
+        </ul>
+      </aside>
+    </div>
   );
 }
 
