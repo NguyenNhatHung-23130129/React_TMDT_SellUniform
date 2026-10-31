@@ -39,7 +39,7 @@ export const Auth: React.FC = () => {
         <div className="login-page">
             <header className="header">
                 <div className="header-content">
-                    <a href="/" className="back-btn">
+                    <a href="/public" className="back-btn">
                         <i className="fa-solid fa-arrow-left"></i> Quay lại trang chủ
                     </a>
                     <span className="divider"></span>

@@ -1,15 +1,8 @@
-
-import './App.css'
-import Header from "./components/layout/Header.tsx";
+import Auth from "./pages/auth/Auth";
 
 function App() {
+    return <Auth />;
 
-
-  return (
-    <>
-<Header />
-    </>
-  )
 }
 
 export default App;
