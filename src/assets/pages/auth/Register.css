@@ -1,0 +1,27 @@
+@import './Login.css';
+
+.register-card {
+    max-width: 560px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.link-text {
+    color: #004db0;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+@media (max-width: 576px) {
+    .form-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
