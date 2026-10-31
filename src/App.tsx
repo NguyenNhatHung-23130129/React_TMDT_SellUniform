@@ -1,4 +1,4 @@
-import Auth from "./assets/pages/auth/Auth";
+import Auth from "./pages/auth/Auth";
 
 function App() {
     return <Auth />;
