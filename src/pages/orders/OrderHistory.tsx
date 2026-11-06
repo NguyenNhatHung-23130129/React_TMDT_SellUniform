@@ -5,6 +5,7 @@ import './OrderHistory.css';
 type OrderHistoryProps = {
   orders: OrderHistoryRecord[];
   onContinueShopping: () => void;
+  onSelectOrder: (order: OrderHistoryRecord) => void;
 };
 
 type StatusFilter = 'all' | OrderHistoryStatus;
@@ -68,14 +69,13 @@ function OrderThumbnail({ tone }: { tone: string }) {
   );
 }
 
-function OrderHistory({ orders, onContinueShopping }: OrderHistoryProps) {
+function OrderHistory({ orders, onContinueShopping, onSelectOrder }: OrderHistoryProps) {
   const [searchInput, setSearchInput] = useState('');
   const [submittedSearch, setSubmittedSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
   const [timeFilter, setTimeFilter] = useState<TimeFilter>('all');
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
   const [currentPage, setCurrentPage] = useState(1);
-  const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
 
   const statusCounts = useMemo(
     () => ({
@@ -120,16 +120,11 @@ function OrderHistory({ orders, onContinueShopping }: OrderHistoryProps) {
   const selectStatus = (status: StatusFilter) => {
     setStatusFilter(status);
     setCurrentPage(1);
-    setExpandedOrder(null);
   };
 
   const setTimeRange = (range: TimeFilter) => {
     setTimeFilter(range);
     setCurrentPage(1);
-  };
-
-  const toggleOrderDetails = (orderNumber: string) => {
-    setExpandedOrder((current) => (current === orderNumber ? null : orderNumber));
   };
 
   return (
@@ -330,15 +325,15 @@ function OrderHistory({ orders, onContinueShopping }: OrderHistoryProps) {
                 <button
                   type="button"
                   className="history-detail-button"
-                  onClick={() => toggleOrderDetails(order.orderNumber)}
+                  onClick={() => onSelectOrder(order)}
                 >
-                  {expandedOrder === order.orderNumber ? 'Thu gọn' : 'Xem chi tiết'}
+                  Xem chi tiết
                 </button>
                 {order.status === 'shipping' && (
                   <button
                     type="button"
                     className="history-track-button"
-                    onClick={() => toggleOrderDetails(order.orderNumber)}
+                    onClick={() => onSelectOrder(order)}
                   >
                     Theo dõi đơn hàng
                   </button>
@@ -354,32 +349,6 @@ function OrderHistory({ orders, onContinueShopping }: OrderHistoryProps) {
                 )}
               </div>
             </div>
-
-            {expandedOrder === order.orderNumber && (
-              <div className="history-order-expanded">
-                <div>
-                  <span>Người nhận</span>
-                  <strong>
-                    {order.customerName} • {order.customerPhone}
-                  </strong>
-                </div>
-                <div>
-                  <span>Địa chỉ</span>
-                  <strong>{order.address}</strong>
-                </div>
-                <div>
-                  <span>Thanh toán</span>
-                  <strong>{order.paymentLabel}</strong>
-                </div>
-                <div>
-                  <span>Vận chuyển</span>
-                  <strong>{order.shippingLabel}</strong>
-                </div>
-                {order.status === 'shipping' && (
-                  <p role="status">Đơn hàng đã rời kho và đang trên đường giao đến bạn.</p>
-                )}
-              </div>
-            )}
           </article>
         ))}
 

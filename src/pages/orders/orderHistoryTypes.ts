@@ -15,6 +15,15 @@ export type OrderHistoryRecord = Pick<
   | 'items'
   | 'total'
 > & {
+  customerType?: OrderConfirmation['customerType'];
+  companyTaxCode?: OrderConfirmation['companyTaxCode'];
+  deliveryNote?: OrderConfirmation['deliveryNote'];
+  subtotal?: OrderConfirmation['subtotal'];
+  productDiscount?: OrderConfirmation['productDiscount'];
+  couponDiscount?: OrderConfirmation['couponDiscount'];
+  shippingCost?: OrderConfirmation['shippingCost'];
+  vat?: OrderConfirmation['vat'];
+  couponCode?: OrderConfirmation['couponCode'];
   createdAt: number;
   status: OrderHistoryStatus;
 };
@@ -31,6 +40,15 @@ export function toOrderHistoryRecord(order: OrderConfirmation): OrderHistoryReco
     shippingLabel: order.shippingLabel,
     items: order.items,
     total: order.total,
+    customerType: order.customerType,
+    companyTaxCode: order.companyTaxCode,
+    deliveryNote: order.deliveryNote,
+    subtotal: order.subtotal,
+    productDiscount: order.productDiscount,
+    couponDiscount: order.couponDiscount,
+    shippingCost: order.shippingCost,
+    vat: order.vat,
+    couponCode: order.couponCode,
     createdAt: Date.now(),
     status: 'waiting',
   };
