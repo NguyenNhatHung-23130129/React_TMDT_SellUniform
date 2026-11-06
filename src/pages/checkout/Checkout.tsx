@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './Checkout.css';
+import type { OrderConfirmation } from './orderTypes';
 
 type CustomerType = 'personal' | 'business';
 
@@ -389,7 +390,11 @@ const cartItems = [
 
 const formatCurrency = (amount: number) => `${amount.toLocaleString('vi-VN')} đ`;
 
-function Checkout() {
+type CheckoutProps = {
+  onOrderComplete: (order: OrderConfirmation) => void;
+};
+
+function Checkout({ onOrderComplete }: CheckoutProps) {
   const deliveryFormRef = useRef<HTMLFormElement>(null);
   const [customerType, setCustomerType] = useState<CustomerType>('personal');
   const [provinces, setProvinces] = useState<AdministrativeProvince[]>([]);
@@ -441,6 +446,55 @@ function Checkout() {
   const shippingCost = shippingMethod === 'express' ? 35_000 : 0;
   const vat = isBusiness ? 435_000 : 0;
   const total = subtotal - productDiscount - couponDiscount + shippingCost + vat;
+
+  const handleCompleteOrder = () => {
+    const form = deliveryFormRef.current;
+
+    if (!form?.reportValidity()) {
+      return;
+    }
+
+    const formData = new FormData(form);
+    const getValue = (name: string) => String(formData.get(name) ?? '').trim();
+    const selectedWard = wards.find((ward) => String(ward.code) === getValue('wardCode'));
+    const address = isBusiness
+      ? getValue('companyAddress')
+      : [getValue('address'), selectedWard?.name, selectedProvince?.name]
+          .filter(Boolean)
+          .join(', ');
+
+    const paymentLabels: Record<string, string> = {
+      vietqr: 'VietQR chuyển khoản ngân hàng',
+      cod: 'Thanh toán khi nhận hàng (COD)',
+      card: 'Thẻ ATM / Visa / Mastercard / JCB',
+    };
+    const shippingLabels: Record<string, string> = {
+      standard: 'Giao hàng tiêu chuẩn toàn quốc',
+      express: 'Giao hỏa tốc nội thành 2h',
+    };
+
+    onOrderComplete({
+      orderNumber: `SU${Date.now()}`,
+      orderedAt: new Date().toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' }),
+      customerType,
+      customerName: isBusiness ? getValue('companyName') : getValue('recipientName'),
+      customerPhone: isBusiness ? getValue('companyPhone') : getValue('recipientPhone'),
+      customerEmail: isBusiness ? getValue('invoiceEmail') : getValue('recipientEmail'),
+      address,
+      companyTaxCode: isBusiness ? getValue('companyTaxCode') : undefined,
+      deliveryNote: isBusiness ? undefined : getValue('deliveryNote'),
+      paymentLabel: paymentLabels[paymentMethod] ?? paymentLabels.vietqr,
+      shippingLabel: shippingLabels[shippingMethod] ?? shippingLabels.standard,
+      couponCode: couponDiscount > 0 ? coupon.trim().toUpperCase() : undefined,
+      items: cartItems.map((item) => ({ ...item })),
+      subtotal,
+      productDiscount,
+      couponDiscount,
+      shippingCost,
+      vat,
+      total,
+    });
+  };
 
   return (
     <>
@@ -793,12 +847,8 @@ function Checkout() {
             </p>
           </div>
 
-          <button
-            type="button"
-            className="summary-submit"
-            onClick={() => deliveryFormRef.current?.reportValidity()}
-          >
-            Hoàn Tất Đặt Hàng (Mô Phỏng) <span aria-hidden="true">→</span>
+          <button type="button" className="summary-submit" onClick={handleCompleteOrder}>
+            Hoàn Tất Đặt Hàng <span aria-hidden="true">→</span>
           </button>
           <p className="summary-terms">
             {isBusiness
