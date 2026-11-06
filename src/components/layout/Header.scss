@@ -43,7 +43,6 @@ $c-border: #ced0d4;
       border-radius: 24px;
       font-family: inherit;
       color: #8595a4;
-
     }
 
     img {
@@ -90,7 +89,6 @@ $c-border: #ced0d4;
     position: relative;
     padding: 10px;
 
-
     .badge {
       position: absolute;
       top: 4px;
@@ -107,7 +105,9 @@ $c-border: #ced0d4;
       justify-content: center;
     }
 
-    &:first-of-type .badge { background: #f0284a; }
+    &:first-of-type .badge {
+      background: #f0284a;
+    }
   }
 
   .login {

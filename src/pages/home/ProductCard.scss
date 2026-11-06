@@ -117,7 +117,9 @@
 }
 
 .swatch.selected {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px $c-primary;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 4px $c-primary;
 }
 
 .swatch.more {
@@ -143,7 +145,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 .price {
   display: flex;
