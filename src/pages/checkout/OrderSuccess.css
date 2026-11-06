@@ -72,7 +72,7 @@
   border-radius: 999px;
   background: #fff;
   color: #596775;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .order-success-number strong {
@@ -85,7 +85,7 @@
   border-radius: 999px;
   background: #edf4ff;
   color: #075bc2;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -104,19 +104,6 @@
   height: 7px;
   border-radius: 50%;
   background: #e6a82b;
-}
-
-.order-tracking-message {
-  width: fit-content;
-  max-width: 680px;
-  margin: 10px auto 0;
-  padding: 9px 13px;
-  border: 1px solid #d7e7fb;
-  border-radius: 10px;
-  background: #f1f7ff;
-  color: #365b83;
-  font-size: 11px;
-  line-height: 1.5;
 }
 
 .order-success-grid {
@@ -147,7 +134,7 @@
 .success-card-heading h2 {
   margin: 0;
   color: #26323e;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.35;
 }
 
@@ -157,7 +144,7 @@
   border-radius: 999px;
   background: #f0f3f7;
   color: #647181;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
 }
 
@@ -217,20 +204,20 @@
 .success-product-copy h3 {
   margin: 0 0 3px;
   color: #293541;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.4;
 }
 
 .success-product-copy p {
   margin: 2px 0 0;
   color: #77828e;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.4;
 }
 
 .success-product > strong {
   color: #26323e;
-  font-size: 11px;
+  font-size: 13px;
   white-space: nowrap;
 }
 
@@ -252,7 +239,7 @@
 
 .success-product-note p {
   margin: 0;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.5;
 }
 
@@ -265,7 +252,7 @@
   display: block;
   margin-top: 12px;
   color: #303c48;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .success-recipient-phone,
@@ -273,7 +260,7 @@
 .success-recipient-note {
   margin: 3px 0 0;
   color: #677483;
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .success-address-box {
@@ -287,7 +274,7 @@
 
 .success-address-box span {
   color: #83909e;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -295,7 +282,7 @@
 .success-address-box p {
   margin: 0;
   color: #505d6b;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.5;
 }
 
@@ -320,7 +307,7 @@
   gap: 8px;
   margin: 12px 0 0;
   color: #394653;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
 }
 
@@ -341,7 +328,7 @@
   padding: 11px 0;
   border-top: 1px solid #edf0f4;
   border-bottom: 1px solid #edf0f4;
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .success-totals > div {
@@ -379,7 +366,7 @@
 
 .success-grand-total span {
   color: #303c48;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -393,7 +380,7 @@
 .success-total-note {
   margin: 4px 0 0;
   color: #8994a1;
-  font-size: 8px;
+  font-size: 10px;
   text-align: right;
 }
 
@@ -410,7 +397,7 @@
   padding: 0 17px;
   border-radius: 999px;
   font: inherit;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition:
@@ -469,14 +456,14 @@
 .success-benefit-card h2 {
   margin: 0;
   color: #344150;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .success-benefit-card p {
   max-width: 290px;
   margin: 6px auto 0;
   color: #7a8794;
-  font-size: 9px;
+  font-size: 11px;
   line-height: 1.55;
 }
 
@@ -502,7 +489,7 @@
   }
 
   .order-success-message {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .order-success-meta {
@@ -513,7 +500,7 @@
   .order-success-number,
   .order-success-status {
     justify-content: center;
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .success-card {
@@ -522,7 +509,7 @@
   }
 
   .success-card-heading h2 {
-    font-size: 13px;
+    font-size: 15px;
   }
 
   .success-product {
@@ -538,6 +525,18 @@
   .success-product > strong {
     grid-column: 2;
     justify-self: start;
+  }
+
+  .success-product-copy h3 {
+    font-size: 12px;
+  }
+
+  .success-product-copy p,
+  .success-recipient-phone,
+  .success-recipient-email,
+  .success-recipient-note,
+  .success-address-box p {
+    font-size: 10px;
   }
 
   .success-detail-stack,
