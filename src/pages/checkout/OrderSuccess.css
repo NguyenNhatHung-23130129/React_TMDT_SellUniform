@@ -12,9 +12,9 @@
 
 .order-success-check {
   display: grid;
-  width: 58px;
-  height: 58px;
-  margin: 0 auto 10px;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto 12px;
   place-items: center;
   border-radius: 50%;
   background: #28a45b;
@@ -23,8 +23,8 @@
 }
 
 .order-success-check svg {
-  width: 29px;
-  height: 29px;
+  width: 34px;
+  height: 34px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -33,16 +33,16 @@
 }
 
 .order-success-hero h1 {
-  margin: 15px 0 4px;
+  margin: 17px 0 6px;
   color: #202a35;
-  font-size: clamp(22px, 2.5vw, 30px);
+  font-size: clamp(26px, 3vw, 36px);
   line-height: 1.25;
 }
 
 .order-success-thanks {
   margin: 0;
   color: #075bc2;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
 }
 
@@ -50,7 +50,7 @@
   max-width: 690px;
   margin: 6px auto 14px;
   color: #697684;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
@@ -64,15 +64,15 @@
 .order-success-number,
 .order-success-status {
   display: inline-flex;
-  min-height: 34px;
+  min-height: 40px;
   align-items: center;
   gap: 7px;
-  padding: 6px 11px;
+  padding: 7px 13px;
   border: 1px solid #dce3ec;
   border-radius: 999px;
   background: #fff;
   color: #596775;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .order-success-number strong {
@@ -85,7 +85,7 @@
   border-radius: 999px;
   background: #edf4ff;
   color: #075bc2;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -115,7 +115,7 @@
 
 .success-card {
   min-width: 0;
-  padding: 17px;
+  padding: 20px;
   border: 1px solid #dfe5ed;
   border-radius: 16px;
   background: #fff;
@@ -134,7 +134,7 @@
 .success-card-heading h2 {
   margin: 0;
   color: #26323e;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.35;
 }
 
@@ -144,7 +144,7 @@
   border-radius: 999px;
   background: #f0f3f7;
   color: #647181;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
 }
 
@@ -154,17 +154,17 @@
 
 .success-product {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) auto;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 10px;
-  padding: 12px 0;
+  gap: 12px;
+  padding: 15px 0;
   border-bottom: 1px solid #edf0f4;
 }
 
 .success-product-thumb {
   display: grid;
-  width: 42px;
-  height: 48px;
+  width: 54px;
+  height: 58px;
   place-items: center;
   overflow: hidden;
   border-radius: 7px;
@@ -172,8 +172,8 @@
 }
 
 .success-product-thumb svg {
-  width: 38px;
-  height: 38px;
+  width: 46px;
+  height: 46px;
   fill: currentColor;
 }
 
@@ -202,22 +202,22 @@
 }
 
 .success-product-copy h3 {
-  margin: 0 0 3px;
+  margin: 0 0 4px;
   color: #293541;
-  font-size: 13px;
-  line-height: 1.4;
+  font-size: 15px;
+  line-height: 1.45;
 }
 
 .success-product-copy p {
-  margin: 2px 0 0;
+  margin: 3px 0 0;
   color: #77828e;
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .success-product > strong {
   color: #26323e;
-  font-size: 13px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -239,7 +239,7 @@
 
 .success-product-note p {
   margin: 0;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.5;
 }
 
@@ -252,7 +252,7 @@
   display: block;
   margin-top: 12px;
   color: #303c48;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .success-recipient-phone,
@@ -260,7 +260,7 @@
 .success-recipient-note {
   margin: 3px 0 0;
   color: #677483;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .success-address-box {
@@ -274,7 +274,7 @@
 
 .success-address-box span {
   color: #83909e;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -282,7 +282,7 @@
 .success-address-box p {
   margin: 0;
   color: #505d6b;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.5;
 }
 
@@ -307,7 +307,7 @@
   gap: 8px;
   margin: 12px 0 0;
   color: #394653;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
 }
 
@@ -323,12 +323,12 @@
 
 .success-totals {
   display: grid;
-  gap: 7px;
+  gap: 9px;
   margin: 12px 0 0;
-  padding: 11px 0;
+  padding: 14px 0;
   border-top: 1px solid #edf0f4;
   border-bottom: 1px solid #edf0f4;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .success-totals > div {
@@ -366,13 +366,13 @@
 
 .success-grand-total span {
   color: #303c48;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 700;
 }
 
 .success-grand-total strong {
   color: #075bc2;
-  font-size: clamp(20px, 2.4vw, 27px);
+  font-size: clamp(24px, 1.8vw, 32px);
   letter-spacing: -0.5px;
   white-space: nowrap;
 }
@@ -380,7 +380,7 @@
 .success-total-note {
   margin: 4px 0 0;
   color: #8994a1;
-  font-size: 10px;
+  font-size: 12px;
   text-align: right;
 }
 
@@ -393,11 +393,11 @@
 }
 
 .order-success-actions button {
-  min-height: 38px;
-  padding: 0 17px;
+  min-height: 50px;
+  padding: 0 22px;
   border-radius: 999px;
   font: inherit;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
   cursor: pointer;
   transition:
@@ -456,14 +456,14 @@
 .success-benefit-card h2 {
   margin: 0;
   color: #344150;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .success-benefit-card p {
   max-width: 290px;
   margin: 6px auto 0;
   color: #7a8794;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.55;
 }
 
@@ -489,7 +489,7 @@
   }
 
   .order-success-message {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .order-success-meta {
@@ -500,26 +500,26 @@
   .order-success-number,
   .order-success-status {
     justify-content: center;
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .success-card {
-    padding: 14px;
+    padding: 16px;
     border-radius: 13px;
   }
 
   .success-card-heading h2 {
-    font-size: 15px;
+    font-size: 18px;
   }
 
   .success-product {
-    grid-template-columns: 38px minmax(0, 1fr);
-    gap: 8px;
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 10px;
   }
 
   .success-product-thumb {
-    width: 38px;
-    height: 44px;
+    width: 46px;
+    height: 52px;
   }
 
   .success-product > strong {
@@ -528,7 +528,7 @@
   }
 
   .success-product-copy h3 {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .success-product-copy p,
@@ -536,7 +536,7 @@
   .success-recipient-email,
   .success-recipient-note,
   .success-address-box p {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .success-detail-stack,
@@ -546,5 +546,9 @@
 
   .success-benefit-card {
     min-height: 0;
+  }
+
+  .order-success-actions button {
+    width: 100%;
   }
 }
