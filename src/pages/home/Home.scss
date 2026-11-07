@@ -1,0 +1,20 @@
+$c-bg-hero: #f1f4f7;
+$c-border: #dee3e9;
+$c-text-dark: #1a1c1f;
+$c-text-muted: #5d6c7b;
+$c-text-white: #ffffff;
+$c-primary: #0064e0;
+$c-card-bg: #ffffff;
+$c-radius-lg: 32px;
+$c-radius-md: 18px;
+$c-radius-pill: 24px;
+$c-max-width: 1280px;
+$c-section-gap: 32px;
+
+.home {
+  font-family: 'Be Vietnam Pro', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: $c-text-dark;
+  background: #fff;
+}

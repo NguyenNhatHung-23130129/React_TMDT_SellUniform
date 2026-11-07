@@ -1,0 +1,71 @@
+@import './Home.scss';
+
+.hero {
+  background: $c-bg-hero;
+  border: 1px solid $c-border;
+  border-radius: $c-radius-lg;
+  margin: 24px auto 0;
+  padding: 64px;
+  position: relative;
+  overflow: hidden;
+  min-height: 580px;
+}
+
+.hero-content {
+  max-width: 672px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 64px;
+  line-height: 72px;
+  letter-spacing: -1.28px;
+  margin: 0 0 24px 0;
+  color: $c-text-dark;
+  white-space: pre-line;
+}
+
+.hero-subtitle {
+  font-size: 16px;
+  line-height: 26px;
+  color: $c-text-muted;
+  margin: 0 0 24px 0;
+  max-width: 512px;
+}
+
+.btn-primary {
+  background: #0a1317;
+  color: #fff;
+  border: none;
+  border-radius: $c-radius-pill;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.hero-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
