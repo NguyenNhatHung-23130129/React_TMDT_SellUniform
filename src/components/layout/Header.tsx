@@ -1,6 +1,11 @@
 import './Header.scss';
 
-export default function Header() {
+type HeaderProps = {
+  isOrderHistory?: boolean;
+  onOrdersClick?: () => void;
+};
+
+export default function Header({ isOrderHistory = false, onOrdersClick }: HeaderProps) {
   return (
     <header className="header container">
       <div className="brand-search">
@@ -15,10 +20,20 @@ export default function Header() {
       </div>
 
       <nav className="nav">
-        <a href="/categories" className="active" aria-current="page">
+        <a href="/categories" className={!isOrderHistory ? 'active' : undefined}>
           Sản phẩm nổi bật
         </a>
-        <a href="/categories">Đơn hàng</a>
+        <a
+          href="/orders"
+          className={isOrderHistory ? 'active' : undefined}
+          aria-current={isOrderHistory ? 'page' : undefined}
+          onClick={(event) => {
+            event.preventDefault();
+            onOrdersClick?.();
+          }}
+        >
+          Đơn hàng
+        </a>
         <a href="/categories">Giới thiệu</a>
         <a href="/categories">Liên hệ</a>
         <a href="/categories">Khuyến mãi</a>

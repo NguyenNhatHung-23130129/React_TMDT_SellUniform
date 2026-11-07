@@ -5,13 +5,13 @@ import './OrderSuccess.css';
 type OrderSuccessProps = {
   order: OrderConfirmation;
   onContinueShopping: () => void;
+  onTrackOrder: () => void;
 };
 
 const formatCurrency = (amount: number) => `${amount.toLocaleString('vi-VN')} đ`;
 
-function OrderSuccess({ order, onContinueShopping }: OrderSuccessProps) {
+function OrderSuccess({ order, onContinueShopping, onTrackOrder }: OrderSuccessProps) {
   const [copied, setCopied] = useState(false);
-  const [showTrackingInfo, setShowTrackingInfo] = useState(false);
 
   const copyOrderNumber = async () => {
     try {
@@ -50,12 +50,6 @@ function OrderSuccess({ order, onContinueShopping }: OrderSuccessProps) {
             <time>{order.orderedAt}</time>
           </div>
         </div>
-        {showTrackingInfo && (
-          <p className="order-tracking-message" role="status">
-            Đơn hàng {order.orderNumber} đang chờ xác nhận. Chúng tôi sẽ liên hệ với bạn qua số điện
-            thoại đã đăng ký.
-          </p>
-        )}
       </section>
 
       <div className="order-success-grid">
@@ -171,11 +165,7 @@ function OrderSuccess({ order, onContinueShopping }: OrderSuccessProps) {
       </div>
 
       <div className="order-success-actions">
-        <button
-          type="button"
-          className="success-track-button"
-          onClick={() => setShowTrackingInfo((isVisible) => !isVisible)}
-        >
+        <button type="button" className="success-track-button" onClick={onTrackOrder}>
           Theo dõi đơn hàng
         </button>
         <button type="button" className="success-continue-button" onClick={onContinueShopping}>
