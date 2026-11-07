@@ -615,6 +615,122 @@
     color: #111827;
 }
 
+.size-table-wrapper {
+    overflow-x: auto;
+}
+
+.size-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: center;
+}
+
+.size-table th {
+    background-color: #F8FAFC;
+    color: #475569;
+    padding: 12px;
+    border-bottom: 2px solid #E2E8F0;
+    font-weight: 700;
+}
+
+.size-table td {
+    padding: 12px;
+    border-bottom: 1px solid #E2E8F0;
+    color: #334155;
+}
+
+.size-table tr.highlight-row {
+    background-color: #EFF6FF;
+}
+
+.size-tag {
+    color: #0088FF;
+    font-weight: 700;
+}
+
+.policy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.policy-card {
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #F8FAFC;
+}
+
+.policy-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.policy-card-header h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.policy-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.policy-badge.green {
+    background-color: #D1FAE5;
+    color: #059669;
+}
+
+.policy-badge.blue {
+    background-color: #DBEAFE;
+    color: #1D4ED8;
+}
+
+.policy-list {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #475569;
+}
+
+.policy-list li {
+    margin-bottom: 8px;
+}
+
+.fee-table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fee-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 8px 10px;
+    background: #FFFFFF;
+    border-radius: 6px;
+    border: 1px solid #E2E8F0;
+    color: #334155;
+}
+
+.fee-row.highlight {
+    background-color: #EFF6FF;
+    border-color: #BFDBFE;
+}
+
+.text-free {
+    color: #059669;
+}
+
 .cross-sell-section {
     margin-top: 40px;
 }

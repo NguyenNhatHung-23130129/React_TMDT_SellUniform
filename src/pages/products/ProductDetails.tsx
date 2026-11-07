@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Header from '../../components/layout/Header.tsx';
 import Footer from '../../components/layout/Footer.tsx';
 import heroImg from '../../assets/hero.png';
@@ -10,6 +11,8 @@ import lightningIcon from '../../assets/icons/lightning-icon.svg';
 import './ProductDetails.css';
 
 export default function ProductDetails() {
+    const [activeTab, setActiveTab] = useState<'specs' | 'size' | 'policy'>('specs');
+
     return (
         <main className="home">
             <Header />
@@ -110,7 +113,7 @@ export default function ProductDetails() {
                         <div className="option-section">
                             <div className="option-label-row">
                                 <span><strong>Kích Thước Vừa Vặn (Size chuẩn Á Đông):</strong></span>
-                                <span className="size-guide">
+                                <span className="size-guide" onClick={() => setActiveTab('size')}>
                                     <img src={rulerIcon} alt="Ruler" className="size-icon-img" /> Hướng dẫn chọn size
                                 </span>
                             </div>
@@ -178,35 +181,173 @@ export default function ProductDetails() {
 
                 <div className="product-tabs-section">
                     <div className="tab-header">
-                        <button className="tab-btn active">Chất Liệu & Thông Số Kỹ Thuật</button>
-                        <button className="tab-btn">Bảng Tra Cứu Size Chuẩn</button>
-                        <button className="tab-btn">Chính Sách Đổi Trả & Phụ Phí</button>
+                        <button
+                            className={`tab-btn ${activeTab === 'specs' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('specs')}
+                        >
+                            Chất Liệu & Thông Số Kỹ Thuật
+                        </button>
+                        <button
+                            className={`tab-btn ${activeTab === 'size' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('size')}
+                        >
+                            Bảng Tra Cứu Size Chuẩn
+                        </button>
+                        <button
+                            className={`tab-btn ${activeTab === 'policy' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('policy')}
+                        >
+                            Chính Sách Đổi Trả & Phụ Phí
+                        </button>
                     </div>
 
-                    <div className="tab-content">
-                        <h3 className="tab-title">Đặc tính vải dệt Coolmax CVC Doanh Nghiệp</h3>
-                        <p className="tab-description">
-                            Dòng áo polo đồng phục may sẵn sử dụng kết hợp sợi vóc dệt dặn tỉ lệ đạt <strong>65% Cotton sợi bông tự nhiên</strong> mang đến cảm giác êm ái, thân thiện tuyệt đối với làn da, kết hợp cùng <strong>35% Sợi công nghệ Coolmax</strong> với cấu trúc thoáng khí hình thoi giúp tốc độ bay hơi mồ hôi gấp 3 lần so với thông thường.
-                        </p>
-                        <div className="spec-grid">
-                            <div className="spec-card">
-                                <span className="spec-label">Định lượng sợi</span>
-                                <span className="spec-value">220 GSM (Độ dày tối ưu)</span>
-                            </div>
-                            <div className="spec-card">
-                                <span className="spec-label">Tỉ lệ co giãn</span>
-                                <span className="spec-value">Co giãn 4 chiều (Spandex)</span>
-                            </div>
-                            <div className="spec-card">
-                                <span className="spec-label">Công nghệ nhuộm</span>
-                                <span className="spec-value">Bền màu tuyệt đối (Đạt chuẩn 4.5/5)</span>
-                            </div>
-                            <div className="spec-card">
-                                <span className="spec-label">Đặc tính bề mặt</span>
-                                <span className="spec-value">Chống xù lông, rụng chỉ khi giặt máy</span>
+                    {activeTab === 'specs' && (
+                        <div className="tab-content">
+                            <h3 className="tab-title">Đặc tính vải dệt Coolmax CVC Doanh Nghiệp</h3>
+                            <p className="tab-description">
+                                Dòng áo polo đồng phục may sẵn sử dụng kết hợp sợi vóc dệt dặn tỉ lệ đạt <strong>65% Cotton sợi bông tự nhiên</strong> mang đến cảm giác êm ái, thân thiện tuyệt đối với làn da, kết hợp cùng <strong>35% Sợi công nghệ Coolmax</strong> với cấu trúc thoáng khí hình thoi giúp tốc độ bay hơi mồ hôi gấp 3 lần so với thông thường.
+                            </p>
+                            <div className="spec-grid">
+                                <div className="spec-card">
+                                    <span className="spec-label">Định lượng sợi</span>
+                                    <span className="spec-value">220 GSM (Độ dày tối ưu)</span>
+                                </div>
+                                <div className="spec-card">
+                                    <span className="spec-label">Tỉ lệ co giãn</span>
+                                    <span className="spec-value">Co giãn 4 chiều (Spandex)</span>
+                                </div>
+                                <div className="spec-card">
+                                    <span className="spec-label">Công nghệ nhuộm</span>
+                                    <span className="spec-value">Bền màu tuyệt đối (Đạt chuẩn 4.5/5)</span>
+                                </div>
+                                <div className="spec-card">
+                                    <span className="spec-label">Đặc tính bề mặt</span>
+                                    <span className="spec-value">Chống xù lông, rụng chỉ khi giặt máy</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
+
+                    {activeTab === 'size' && (
+                        <div className="tab-content">
+                            <h3 className="tab-title">Bảng Thông Số Size Áo Polo Chuẩn Form Á Đông</h3>
+                            <p className="tab-description">
+                                Khuyến nghị quý khách chọn size theo chiều cao và cân nặng để có form áo vừa vặn nhất. Trường hợp nằm ở giữa 2 size, ưu tiên chọn size lớn hơn nếu thích mặc thoải mái.
+                            </p>
+                            <div className="size-table-wrapper">
+                                <table className="size-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Size</th>
+                                        <th>Chiều cao (cm)</th>
+                                        <th>Cân nặng (kg)</th>
+                                        <th>Rộng vai (cm)</th>
+                                        <th>Dài áo (cm)</th>
+                                        <th>Vòng ngực (cm)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><strong className="size-tag">S</strong></td>
+                                        <td>150 - 160</td>
+                                        <td>45 - 53</td>
+                                        <td>40</td>
+                                        <td>65</td>
+                                        <td>90</td>
+                                    </tr>
+                                    <tr className="highlight-row">
+                                        <td><strong className="size-tag">M</strong></td>
+                                        <td>160 - 167</td>
+                                        <td>54 - 62</td>
+                                        <td>42</td>
+                                        <td>67</td>
+                                        <td>94</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong className="size-tag">L</strong></td>
+                                        <td>167 - 173</td>
+                                        <td>63 - 70</td>
+                                        <td>44</td>
+                                        <td>70</td>
+                                        <td>98</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong className="size-tag">XL</strong></td>
+                                        <td>173 - 178</td>
+                                        <td>71 - 78</td>
+                                        <td>46</td>
+                                        <td>72</td>
+                                        <td>102</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong className="size-tag">2XL</strong></td>
+                                        <td>178 - 183</td>
+                                        <td>79 - 86</td>
+                                        <td>48</td>
+                                        <td>74</td>
+                                        <td>106</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong className="size-tag">3XL</strong></td>
+                                        <td>183 - 188</td>
+                                        <td>87 - 95</td>
+                                        <td>50</td>
+                                        <td>76</td>
+                                        <td>110</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    )}
+
+                    {activeTab === 'policy' && (
+                        <div className="tab-content">
+                            <h3 className="tab-title">Chính Sách Bảo Hành, Đổi Trả & Phụ Phí In Thêu</h3>
+                            <p className="tab-description">
+                                VIETUNIFORM cam kết mang lại sự hài lòng tuyệt đối cho doanh nghiệp với các điều khoản bảo hành công khai, minh bạch.
+                            </p>
+
+                            <div className="policy-grid">
+                                <div className="policy-card">
+                                    <div className="policy-card-header">
+                                        <span className="policy-badge green">Miễn Phí</span>
+                                        <h4>Chính Sách Đổi Trả</h4>
+                                    </div>
+                                    <ul className="policy-list">
+                                        <li><strong>1 Đổi 1 trong 15 ngày:</strong> Áp dụng cho các sản phẩm bị lỗi sản xuất, sai màu vải, rách chỉ hoặc sai logo.</li>
+                                        <li><strong>Hỗ trợ đổi size:</strong> Miễn phí đổi size trong 7 ngày nếu áo chưa qua sử dụng và còn nguyên tem mác.</li>
+                                        <li><strong>Bảo hành in/thêu 12 tháng:</strong> Cam kết hình in không bong tróc, thêu không sút chỉ.</li>
+                                    </ul>
+                                </div>
+
+                                <div className="policy-card">
+                                    <div className="policy-card-header">
+                                        <span className="policy-badge blue">Bảng Giá</span>
+                                        <h4>Phụ Phí In & Thêu Logo</h4>
+                                    </div>
+                                    <div className="fee-table">
+                                        <div className="fee-row">
+                                            <span>In lụa / In chuyển nhiệt (1 vị trí)</span>
+                                            <strong>+10.000đ / cái</strong>
+                                        </div>
+                                        <div className="fee-row">
+                                            <span>Thêu vi tính chất lượng cao (1 vị trí)</span>
+                                            <strong>+15.000đ / cái</strong>
+                                        </div>
+                                        <div className="fee-row">
+                                            <span>In/Thêu tên riêng cá nhân lên ngực</span>
+                                            <strong>+20.000đ / cái</strong>
+                                        </div>
+                                        <div className="fee-row highlight">
+                                            <span>Miễn phí In/Thêu 1 vị trí</span>
+                                            <strong className="text-free">Đơn từ 50 cái</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className="cross-sell-section">
