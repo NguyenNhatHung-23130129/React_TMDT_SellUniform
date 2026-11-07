@@ -11,7 +11,7 @@
   gap: 8px;
   margin-bottom: 12px;
   color: #83909e;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .order-history-breadcrumb button {
@@ -39,14 +39,14 @@
 .order-history-title-row h1 {
   margin: 0;
   color: #202b37;
-  font-size: clamp(22px, 2.4vw, 29px);
+  font-size: clamp(26px, 3vw, 36px);
   line-height: 1.2;
 }
 
 .order-history-title-row p {
   margin: 5px 0 0;
   color: #758290;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.5;
 }
 
@@ -63,7 +63,7 @@
   background: #075bc2;
   color: #fff;
   font: inherit;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
@@ -74,8 +74,8 @@
 }
 
 .history-shop-button {
-  min-height: 34px;
-  padding: 0 14px;
+  min-height: 42px;
+  padding: 0 18px;
   border: 1px solid #dce4ed;
   background: #fff;
   color: #075bc2;
@@ -105,8 +105,8 @@
   display: flex;
   min-width: 0;
   align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
+  gap: 12px;
+  padding: 15px 16px;
   border: 1px solid #e1e7ef;
   border-radius: 13px;
   background: #fff;
@@ -114,8 +114,8 @@
 
 .history-metric-icon {
   display: grid;
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   flex: 0 0 auto;
   place-items: center;
   border-radius: 50%;
@@ -124,8 +124,8 @@
 }
 
 .history-metric-icon svg {
-  width: 16px;
-  height: 16px;
+  width: 19px;
+  height: 19px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -159,14 +159,14 @@
 .history-metric-card > div > span {
   overflow: hidden;
   color: #667482;
-  font-size: 11px;
+  font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .history-metric-card strong {
   color: #24303c;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 1;
 }
 
@@ -174,12 +174,12 @@
   grid-column: 1 / -1;
   margin-top: 4px;
   color: #929daa;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .history-filter-panel {
   margin-bottom: 12px;
-  padding: 14px 15px 10px;
+  padding: 17px 18px 13px;
   border: 1px solid #e1e7ef;
   border-radius: 14px;
   background: #fff;
@@ -195,19 +195,19 @@
 .history-filter-controls label {
   display: grid;
   min-width: 0;
-  gap: 5px;
+  gap: 7px;
   color: #4a5663;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
 }
 
 .history-search-box,
 .history-time-field select {
   display: flex;
-  height: 36px;
+  height: 42px;
   align-items: center;
   gap: 7px;
-  padding: 0 10px;
+  padding: 0 12px;
   border: 1px solid #d9e0e8;
   border-radius: 9px;
   background: #fff;
@@ -215,8 +215,8 @@
 
 .history-search-box svg,
 .history-search-button svg {
-  width: 14px;
-  height: 14px;
+  width: 17px;
+  height: 17px;
   flex: 0 0 auto;
   fill: none;
   stroke: currentColor;
@@ -236,7 +236,7 @@
   background: transparent;
   color: #2c3743;
   font: inherit;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .history-search-box input::placeholder {
@@ -247,12 +247,12 @@
   width: 100%;
   color: #53606e;
   font: inherit;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .history-search-button {
-  height: 36px;
-  padding: 0 14px;
+  height: 42px;
+  padding: 0 18px;
 }
 
 .history-status-tabs {
@@ -263,14 +263,14 @@
 }
 
 .history-status-tabs button {
-  min-height: 25px;
-  padding: 0 10px;
+  min-height: 32px;
+  padding: 0 12px;
   border: 1px solid #e0e6ed;
   border-radius: 999px;
   background: #f7f9fb;
   color: #687583;
   font: inherit;
-  font-size: 10px;
+  font-size: 12px;
   cursor: pointer;
 }
 
@@ -291,7 +291,7 @@
 .history-list-toolbar p {
   margin: 0;
   color: #7b8794;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .history-list-toolbar p strong {
@@ -303,7 +303,7 @@
   align-items: center;
   gap: 5px;
   color: #87929f;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .history-list-toolbar select {
@@ -312,18 +312,18 @@
   background: transparent;
   color: #52606e;
   font: inherit;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .history-order-list {
   display: grid;
-  gap: 10px;
+  gap: 13px;
 }
 
 .history-order-card {
   overflow: hidden;
   border: 1px solid #e0e6ed;
-  border-radius: 13px;
+  border-radius: 15px;
   background: #fff;
 }
 
@@ -332,16 +332,16 @@
   grid-template-columns: minmax(0, 1fr) minmax(110px, 0.7fr) auto;
   align-items: center;
   gap: 10px;
-  min-height: 34px;
-  padding: 7px 13px;
+  min-height: 42px;
+  padding: 9px 16px;
   background: #f1f4f7;
   color: #778391;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .history-order-heading strong {
   color: #3c4854;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .history-status-badge {
@@ -349,7 +349,7 @@
   align-items: center;
   justify-self: end;
   gap: 5px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -378,23 +378,23 @@
 }
 
 .history-order-items {
-  padding: 0 13px;
+  padding: 0 16px;
 }
 
 .history-order-item {
   display: grid;
-  grid-template-columns: 40px minmax(0, 1fr) 75px minmax(125px, 0.45fr);
+  grid-template-columns: 50px minmax(0, 1fr) 82px minmax(145px, 0.45fr);
   align-items: center;
-  gap: 9px;
-  min-height: 66px;
-  padding: 8px 0;
+  gap: 12px;
+  min-height: 78px;
+  padding: 11px 0;
   border-bottom: 1px solid #edf0f4;
 }
 
 .history-product-thumbnail {
   display: grid;
-  width: 38px;
-  height: 44px;
+  width: 48px;
+  height: 56px;
   place-items: center;
   overflow: hidden;
   border-radius: 7px;
@@ -402,8 +402,8 @@
 }
 
 .history-product-thumbnail svg {
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
   fill: currentColor;
 }
 
@@ -435,8 +435,8 @@
   overflow: hidden;
   margin: 0 0 3px;
   color: #35414d;
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -445,15 +445,15 @@
   overflow: hidden;
   margin: 0;
   color: #85909d;
-  font-size: 10px;
-  line-height: 1.4;
+  font-size: 12px;
+  line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .history-item-quantity {
   color: #64717f;
-  font-size: 10px;
+  font-size: 12px;
   text-align: center;
 }
 
@@ -469,12 +469,12 @@
 .history-order-total span,
 .history-order-total small {
   color: #8b96a2;
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .history-order-total strong {
   color: #075bc2;
-  font-size: 16px;
+  font-size: 19px;
   line-height: 1.15;
 }
 
@@ -483,7 +483,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 8px 13px;
+  padding: 11px 16px;
 }
 
 .history-order-footer > p {
@@ -492,8 +492,8 @@
   gap: 6px;
   margin: 0;
   color: #6e7b88;
-  font-size: 10px;
-  line-height: 1.4;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .history-order-footer > p span {
@@ -503,18 +503,18 @@
 .history-order-actions {
   display: flex;
   flex: 0 0 auto;
-  gap: 6px;
+  gap: 8px;
 }
 
 .history-order-actions button {
-  min-height: 27px;
-  padding: 0 10px;
+  min-height: 34px;
+  padding: 0 13px;
   border: 1px solid #dce4ed;
   border-radius: 999px;
   background: #fff;
   color: #506071;
   font: inherit;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -527,7 +527,7 @@
 
 .history-empty-state {
   display: grid;
-  min-height: 150px;
+  min-height: 180px;
   justify-items: center;
   align-content: center;
   gap: 6px;
@@ -544,32 +544,32 @@
 
 .history-empty-state strong {
   color: #465360;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .history-empty-state p {
   margin: 0;
   color: #8a95a1;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .history-pagination {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   margin: 16px 0 20px;
 }
 
 .history-pagination button {
-  min-width: 28px;
-  height: 28px;
-  padding: 0 8px;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 10px;
   border: 1px solid #dfe5ec;
   border-radius: 8px;
   background: #fff;
   color: #64717e;
   font: inherit;
-  font-size: 10px;
+  font-size: 12px;
   cursor: pointer;
 }
 
@@ -587,8 +587,8 @@
 .history-help-card {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 13px 15px;
+  gap: 14px;
+  padding: 16px 18px;
   border: 1px solid #dbe8f8;
   border-radius: 14px;
   background: #eff6ff;
@@ -596,14 +596,14 @@
 
 .history-help-icon {
   display: grid;
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
   flex: 0 0 auto;
   place-items: center;
   border-radius: 50%;
   background: #dbeaff;
   color: #075bc2;
-  font-size: 14px;
+  font-size: 17px;
 }
 
 .history-help-card > div {
@@ -614,21 +614,21 @@
 
 .history-help-card strong {
   color: #35485b;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .history-help-card p,
 .history-help-card small {
   margin: 0;
   color: #788a9d;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .history-phone-button,
 .history-support-button {
-  min-height: 29px;
-  padding: 0 11px;
-  font-size: 10px;
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: 12px;
 }
 
 .history-phone-button {
@@ -676,21 +676,21 @@
   }
 
   .history-metric-card {
-    gap: 7px;
-    padding: 10px 9px;
+    gap: 8px;
+    padding: 12px 10px;
   }
 
   .history-metric-icon {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
   }
 
   .history-metric-card > div > span {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .history-metric-card strong {
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .history-filter-controls {
@@ -727,13 +727,13 @@
   }
 
   .history-order-item {
-    grid-template-columns: 36px minmax(0, 1fr) auto;
-    gap: 7px;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    gap: 9px;
   }
 
   .history-product-thumbnail {
-    width: 34px;
-    height: 40px;
+    width: 42px;
+    height: 48px;
   }
 
   .history-item-quantity {
@@ -760,6 +760,12 @@
 
   .history-order-actions {
     align-self: flex-end;
+  }
+
+  .history-order-actions button {
+    min-height: 38px;
+    padding: 0 14px;
+    font-size: 13px;
   }
 
   .history-help-card {
