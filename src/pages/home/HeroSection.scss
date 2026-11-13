@@ -1,10 +1,8 @@
-@import './Home.scss';
+@use './Home.scss' as *;
 
 .hero {
   background: $c-bg-hero;
   border: 1px solid $c-border;
-  border-radius: $c-radius-lg;
-  margin: 24px auto 0;
   padding: 64px;
   position: relative;
   overflow: hidden;
