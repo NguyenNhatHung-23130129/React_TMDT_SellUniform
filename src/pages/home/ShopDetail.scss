@@ -1,0 +1,99 @@
+@use './Home.scss' as *;
+@use "../../styles/shop-layout";
+
+.shop-page {
+  min-height: 100vh;
+  padding-bottom: 10px;
+  font-family: sans-serif;
+
+  .banner {
+    margin-bottom: 20px;
+
+    .bg-img {
+      height: 400px;
+      background: url("https://arena.fpt.edu.vn/wp-content/uploads/2022/10/banner-thoi-trang.jpg") center/cover;
+    }
+
+    .shop-card {
+      background: #fff;
+      margin: -60px auto 0;
+      width: 80%;
+      border: 1px solid $c-primary;
+      border-radius: 12px;
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+
+      .left {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .avatar {
+        width: 80px;
+        height: 80px;
+        border: 1px solid $c-primary;
+        border-radius: 50%;
+        background-image: url("https://arena.fpt.edu.vn/wp-content/uploads/2022/10/banner-thoi-trang.jpg");
+        background-position: center;
+        background-size: cover;
+      }
+
+      h2 {
+        margin: 0 0 5px;
+        font-size: 20px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .badge {
+        font-size: 13px;
+        background: #e6f0ff;
+        color: $c-primary;
+        padding: 2px 8px;
+        border-radius: 10px;
+      }
+
+      .green {
+        color: #00b341;
+        font-weight: bold;
+        margin: 0 0 5px;
+        font-size: 13px;
+      }
+
+      .desc {
+        margin: 0 0 5px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .right {
+        display: flex;
+        gap: 10px;
+
+        button {
+          padding: 8px 16px;
+          border-radius: 20px;
+          border: 1px solid $c-primary;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
+
+      .btn-blue {
+        background: #0066ff;
+        color: #fff;
+        border: none;
+      }
+
+      .btn-white {
+        background: #fff;
+        color: #333;
+      }
+    }
+  }
+}
