@@ -1,4 +1,4 @@
-@import './Home.scss';
+@use './Home.scss' as *;
 
 .category {
   padding-top: 100px;
