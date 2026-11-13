@@ -36,7 +36,7 @@ const categories = [
 export default function CategorySection() {
   return (
     <section className="category">
-        <h2 className="section-title">DANH MỤC SẢN PHẨM</h2>
+      <h2 className="section-title">DANH MỤC SẢN PHẨM</h2>
       <div className="category-grid">
         {categories.map((cat, i) => (
           <div key={i} className="category-card">

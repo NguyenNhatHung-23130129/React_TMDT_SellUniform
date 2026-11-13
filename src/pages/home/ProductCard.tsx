@@ -19,7 +19,6 @@ const products = [
   },
 ];
 
-
 export default function ProductCard() {
   return (
     <section className="product-section">
@@ -27,7 +26,9 @@ export default function ProductCard() {
         <h2 className="title">Top sản phẩm bán chạy</h2>
         <div className="tabs">
           {tabs.map((label, i) => (
-            <button key={i} className={`tab ${i === 0 ? 'selected' : ''}`}>{label}</button>
+            <button key={i} className={`tab ${i === 0 ? 'selected' : ''}`}>
+              {label}
+            </button>
           ))}
         </div>
       </div>
@@ -49,9 +50,7 @@ export default function ProductCard() {
                     aria-label={`Màu ${j + 1}`}
                   />
                 ))}
-                <button className="swatch more">
-                  +{product.colors.length - 1} màu
-                </button>
+                <button className="swatch more">+{product.colors.length - 1} màu</button>
                 <button className="save" aria-label="Lưu mẫu">
                   <i className="fa-regular fa-heart"></i>
                 </button>
