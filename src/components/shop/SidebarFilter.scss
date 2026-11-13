@@ -1,4 +1,4 @@
-@import '../../pages/home/Home.scss';
+@use '../../pages/home/Home.scss' as *;
 
 .sidebar {
   width: 260px;
