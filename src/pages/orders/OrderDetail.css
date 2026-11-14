@@ -11,7 +11,7 @@
   gap: 8px;
   margin-bottom: 8px;
   color: #8190a0;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .order-detail-breadcrumb button {
@@ -38,7 +38,7 @@
 .order-detail-title-row h1 {
   margin: 0;
   color: #202b37;
-  font-size: clamp(23px, 2.5vw, 30px);
+  font-size: clamp(26px, 3vw, 36px);
   line-height: 1.25;
 }
 
@@ -47,7 +47,7 @@
   align-items: center;
   gap: 7px;
   color: #d29319;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   white-space: nowrap;
 }
@@ -78,29 +78,29 @@
 
 .order-detail-card-heading {
   display: flex;
-  min-height: 52px;
+  min-height: 60px;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 10px 20px;
+  padding: 12px 22px;
   border-bottom: 1px solid #e9edf2;
 }
 
 .order-detail-card-heading h2 {
   margin: 0;
   color: #26323e;
-  font-size: 15px;
+  font-size: 18px;
 }
 
 .order-detail-card-heading button {
-  min-height: 30px;
-  padding: 0 10px;
+  min-height: 36px;
+  padding: 0 13px;
   border: 1px solid #dfe5ed;
   border-radius: 8px;
   background: #fff;
   color: #4d5d6d;
   font: inherit;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
 }
@@ -111,14 +111,14 @@
 }
 
 .order-tracking {
-  padding: 18px 22px 16px;
+  padding: 20px 22px 18px;
   border-bottom: 1px solid #e9edf2;
 }
 
 .order-tracking > h3 {
-  margin: 0 0 18px;
+  margin: 0 0 20px;
   color: #526171;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.035em;
   text-transform: uppercase;
@@ -133,7 +133,7 @@
 
 .order-tracking-rail {
   position: absolute;
-  top: 14px;
+  top: 17px;
   right: 12.5%;
   left: 12.5%;
   height: 2px;
@@ -155,8 +155,8 @@
 
 .order-tracking-marker {
   display: grid;
-  width: 29px;
-  height: 29px;
+  width: 35px;
+  height: 35px;
   margin-bottom: 8px;
   place-items: center;
   border: 1px solid #d7dfe8;
@@ -166,8 +166,8 @@
 }
 
 .order-tracking-marker svg {
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -190,8 +190,8 @@
   display: block;
   margin-bottom: 4px;
   color: #536171;
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.45;
 }
 
 .order-tracking-step.is-complete > strong,
@@ -204,17 +204,17 @@
   display: block;
   margin: 0;
   color: #8793a0;
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
 .order-tracking-message {
-  margin: 14px 0 0;
-  padding: 9px 11px;
+  margin: 16px 0 0;
+  padding: 11px 13px;
   border-radius: 8px;
   background: #f1f7ff;
   color: #41658c;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.5;
 }
 
@@ -242,16 +242,16 @@
 .order-detail-recipient {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
+  gap: 14px;
+  padding: 18px 22px;
   border-bottom: 1px solid #e9edf2;
 }
 
 .order-detail-recipient-icon,
 .order-detail-help-icon {
   display: grid;
-  width: 38px;
-  height: 38px;
+  width: 46px;
+  height: 46px;
   flex: 0 0 auto;
   place-items: center;
   border-radius: 50%;
@@ -260,8 +260,8 @@
 }
 
 .order-detail-recipient-icon svg {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -278,31 +278,31 @@
 
 .order-detail-recipient-copy strong {
   color: #2e3b48;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .order-detail-recipient-copy span {
   overflow: hidden;
   color: #748292;
-  font-size: 10px;
+  font-size: 13px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .order-detail-call-button {
-  min-height: 30px;
+  min-height: 38px;
   flex: 0 0 auto;
-  padding: 7px 11px;
+  padding: 8px 14px;
   border: 1px solid #d9e2ec;
   border-radius: 999px;
   color: #344658;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   text-decoration: none;
 }
 
 .order-detail-products {
-  padding: 16px 20px 19px;
+  padding: 19px 22px 22px;
 }
 
 .order-detail-section-heading {
@@ -316,14 +316,14 @@
 .order-detail-section-heading h3 {
   margin: 0;
   color: #2d3a47;
-  font-size: 13px;
-  line-height: 1.4;
+  font-size: 16px;
+  line-height: 1.45;
 }
 
 .order-detail-section-heading p {
   margin: 4px 0 0;
   color: #84909d;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .order-detail-section-heading > span {
@@ -332,23 +332,23 @@
   border-radius: 999px;
   background: #f1f4f7;
   color: #677584;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .order-detail-product {
   display: grid;
-  grid-template-columns: 43px minmax(0, 1fr) auto;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 10px;
-  padding: 11px 0;
+  gap: 12px;
+  padding: 14px 0;
   border-bottom: 1px solid #edf0f4;
 }
 
 .order-detail-product-thumbnail {
   display: grid;
-  width: 42px;
-  height: 48px;
+  width: 52px;
+  height: 58px;
   place-items: center;
   overflow: hidden;
   border-radius: 7px;
@@ -357,8 +357,8 @@
 }
 
 .order-detail-product-thumbnail svg {
-  width: 38px;
-  height: 38px;
+  width: 46px;
+  height: 46px;
   fill: currentColor;
 }
 
@@ -386,7 +386,7 @@
   display: block;
   margin-bottom: 2px;
   color: #8895a3;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -395,8 +395,8 @@
   overflow: hidden;
   margin: 0;
   color: #2d3a47;
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 15px;
+  line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -407,8 +407,8 @@
   overflow: hidden;
   margin: 3px 0 0;
   color: #7f8b98;
-  font-size: 9px;
-  line-height: 1.4;
+  font-size: 12px;
+  line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -422,24 +422,24 @@
 
 .order-detail-product-price strong {
   color: #293541;
-  font-size: 12px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
 .order-detail-product-price small {
   color: #8793a0;
-  font-size: 8px;
+  font-size: 11px;
   white-space: nowrap;
 }
 
 .order-detail-totals {
   display: grid;
-  gap: 8px;
+  gap: 10px;
   margin: 12px 0 0;
-  padding: 12px 0 0;
+  padding: 14px 0 0;
   border-top: 1px solid #e9edf2;
   color: #697785;
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .order-detail-totals > div {
@@ -467,27 +467,27 @@
 
 .order-detail-totals .order-detail-grand-total {
   margin-top: 2px;
-  padding-top: 10px;
+  padding-top: 12px;
   border-top: 1px solid #e9edf2;
   color: #273644;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .order-detail-grand-total dd {
   color: #075bc2;
-  font-size: 18px;
+  font-size: 28px;
 }
 
 .order-detail-side-column {
   display: grid;
-  gap: 12px;
-  padding: 16px;
+  gap: 14px;
+  padding: 18px;
 }
 
 .order-detail-side-card {
   position: relative;
-  padding: 13px;
+  padding: 16px;
   border: 1px solid #e3e9f0;
   border-radius: 12px;
   background: #fff;
@@ -496,18 +496,18 @@
 .order-detail-side-card h3 {
   display: flex;
   align-items: center;
-  gap: 7px;
-  margin: 0 0 11px;
-  padding-bottom: 9px;
+  gap: 9px;
+  margin: 0 0 13px;
+  padding-bottom: 11px;
   border-bottom: 1px solid #edf0f4;
   color: #344251;
-  font-size: 11px;
+  font-size: 14px;
   text-transform: uppercase;
 }
 
 .order-detail-side-card h3 svg {
-  width: 14px;
-  height: 14px;
+  width: 17px;
+  height: 17px;
   flex: 0 0 auto;
   fill: none;
   stroke: #075bc2;
@@ -520,14 +520,14 @@
   display: block;
   margin-bottom: 5px;
   color: #344251;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .order-detail-side-card > p {
   margin: 4px 0 0;
   color: #667483;
-  font-size: 10px;
-  line-height: 1.55;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .order-detail-business-label {
@@ -538,7 +538,7 @@
   border-radius: 999px;
   background: #edf4ff;
   color: #075bc2;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
 }
 
@@ -551,32 +551,32 @@
 
 .order-detail-payment-method {
   display: grid;
-  grid-template-columns: 25px minmax(0, 1fr);
+  grid-template-columns: 30px minmax(0, 1fr);
   align-items: center;
-  gap: 2px 9px;
+  gap: 3px 10px;
   color: #344251;
 }
 
 .order-detail-payment-method > span {
   display: grid;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   grid-row: span 2;
   place-items: center;
   border-radius: 7px;
   background: #eaf2ff;
   color: #075bc2;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
 }
 
 .order-detail-payment-method strong {
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .order-detail-payment-method small {
   color: #299451;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .order-detail-payment-reference {
@@ -584,7 +584,7 @@
   padding-top: 9px;
   border-top: 1px solid #edf0f4;
   color: #82909e;
-  font-size: 9px;
+  font-size: 12px;
 }
 
 .order-detail-payment-reference strong {
@@ -592,23 +592,23 @@
 }
 
 .order-detail-help-card {
-  padding: 13px;
+  padding: 16px;
   border: 1px solid #dbe8fa;
   border-radius: 12px;
   background: #f2f7ff;
 }
 
 .order-detail-help-icon {
-  width: 31px;
-  height: 31px;
-  margin-bottom: 8px;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 10px;
   background: #075bc2;
   color: #fff;
 }
 
 .order-detail-help-icon svg {
-  width: 17px;
-  height: 17px;
+  width: 20px;
+  height: 20px;
   fill: none;
   stroke: currentColor;
   stroke-linecap: round;
@@ -619,22 +619,22 @@
 .order-detail-help-card h3 {
   margin: 0;
   color: #314357;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .order-detail-help-card > p {
-  margin: 5px 0 11px;
+  margin: 6px 0 13px;
   color: #738294;
-  font-size: 9px;
-  line-height: 1.55;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .order-detail-help-contact {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  padding-top: 10px;
+  gap: 10px;
+  padding-top: 12px;
   border-top: 1px solid #dfe9f6;
 }
 
@@ -642,27 +642,27 @@
   display: grid;
   gap: 3px;
   color: #8290a0;
-  font-size: 8px;
+  font-size: 11px;
 }
 
 .order-detail-help-contact strong {
   color: #075bc2;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .order-detail-help-contact strong small {
   color: #83909e;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 400;
 }
 
 .order-detail-help-contact a {
   flex: 0 0 auto;
-  padding: 7px 9px;
+  padding: 9px 12px;
   border: 1px solid #075bc2;
   border-radius: 999px;
   color: #075bc2;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   text-align: center;
   text-decoration: none;
@@ -722,7 +722,7 @@
   }
 
   .order-detail-status {
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .order-detail-card {
@@ -762,17 +762,17 @@
   }
 
   .order-detail-section-heading h3 {
-    font-size: 12px;
+    font-size: 15px;
   }
 
   .order-detail-product {
-    grid-template-columns: 40px minmax(0, 1fr);
-    gap: 8px;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 10px;
   }
 
   .order-detail-product-thumbnail {
-    width: 39px;
-    height: 45px;
+    width: 46px;
+    height: 52px;
   }
 
   .order-detail-product-price {
