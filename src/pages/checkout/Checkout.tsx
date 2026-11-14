@@ -4,6 +4,101 @@ import type { OrderConfirmation } from './orderTypes';
 
 type CustomerType = 'personal' | 'business';
 
+type SavedDeliveryAddress =
+  | {
+      id: string;
+      label: string;
+      customerType: 'personal';
+      recipientName: string;
+      phone: string;
+      email: string;
+      address: string;
+      provinceCode: string;
+      wardName: string;
+      streetAddress: string;
+      deliveryNote: string;
+    }
+  | {
+      id: string;
+      label: string;
+      customerType: 'business';
+      companyName: string;
+      phone: string;
+      taxCode: string;
+      email: string;
+      address: string;
+    };
+
+const savedDeliveryAddresses: SavedDeliveryAddress[] = [
+  {
+    id: 'personal-home',
+    label: 'Nhà riêng',
+    customerType: 'personal',
+    recipientName: 'Nguyễn Văn Hoàng',
+    phone: '0988 234 567',
+    email: 'hoang.nguyen@vinacorp.vn',
+    address: 'Tầng 12, Bitexco Financial Tower, số 2 Hải Triều, Phường Sài Gòn, TP. Hồ Chí Minh',
+    provinceCode: '79',
+    wardName: 'Phường Sài Gòn',
+    streetAddress: 'Tầng 12, Bitexco Financial Tower, số 2 Hải Triều',
+    deliveryNote: 'Giao giờ hành chính, gọi trước khi giao, đồng phục kiểm tra mã size kỹ',
+  },
+  {
+    id: 'business-office',
+    label: 'Văn phòng công ty',
+    customerType: 'business',
+    companyName: 'CÔNG TY CỔ PHẦN CÔNG NGHỆ VÀ TRUYỀN THÔNG VINA TECH',
+    phone: '028 7300 8899',
+    taxCode: '0315998822',
+    email: 'ketoan@vinacorp.vn',
+    address:
+      'Tầng 12, Bitexco Financial Tower, số 2 Hải Triều, Phường Sài Gòn, TP. Hồ Chí Minh',
+  },
+];
+
+const savedDeliveryAddressesStorageKey = 'vietuniform-saved-delivery-addresses';
+
+function isSavedDeliveryAddress(value: unknown): value is SavedDeliveryAddress {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  const record = value as Record<string, unknown>;
+  const commonFields = ['id', 'label', 'phone', 'email', 'address'];
+  if (!commonFields.every((field) => typeof record[field] === 'string')) {
+    return false;
+  }
+
+  if (record.customerType === 'personal') {
+    return ['recipientName', 'provinceCode', 'wardName', 'streetAddress', 'deliveryNote'].every(
+      (field) => typeof record[field] === 'string',
+    );
+  }
+
+  if (record.customerType === 'business') {
+    return ['companyName', 'taxCode'].every((field) => typeof record[field] === 'string');
+  }
+
+  return false;
+}
+
+function loadSavedDeliveryAddresses(): SavedDeliveryAddress[] {
+  try {
+    const storedAddresses = window.localStorage.getItem(savedDeliveryAddressesStorageKey);
+    if (!storedAddresses) {
+      return savedDeliveryAddresses;
+    }
+
+    const parsedAddresses: unknown = JSON.parse(storedAddresses);
+    const validAddresses = Array.isArray(parsedAddresses)
+      ? parsedAddresses.filter(isSavedDeliveryAddress)
+      : [];
+    return validAddresses.length > 0 ? validAddresses : savedDeliveryAddresses;
+  } catch {
+    return savedDeliveryAddresses;
+  }
+}
+
 type AdministrativeWard = {
   code: number;
   name: string;
@@ -55,6 +150,14 @@ function validateAddress(input: HTMLInputElement, minLength = 8) {
 }
 
 type PersonalDeliveryFieldsProps = {
+  idPrefix?: string;
+  initialValues?: Partial<{
+    recipientName: string;
+    recipientPhone: string;
+    recipientEmail: string;
+    address: string;
+    deliveryNote: string;
+  }>;
   provinces: AdministrativeProvince[];
   wards: AdministrativeWard[];
   provinceCode: string;
@@ -66,6 +169,8 @@ type PersonalDeliveryFieldsProps = {
 };
 
 function PersonalDeliveryFields({
+  idPrefix = '',
+  initialValues,
   provinces,
   wards,
   provinceCode,
@@ -75,32 +180,34 @@ function PersonalDeliveryFields({
   onProvinceChange,
   onWardChange,
 }: PersonalDeliveryFieldsProps) {
+  const fieldId = (name: string) => (idPrefix ? `${idPrefix}-${name}` : name);
+
   return (
     <div className="delivery-fields">
       <div className="delivery-field">
-        <label htmlFor="recipient-name">
+        <label htmlFor={fieldId('recipient-name')}>
           Họ và tên người nhận <span>*</span>
         </label>
         <input
-          id="recipient-name"
+          id={fieldId('recipient-name')}
           name="recipientName"
           type="text"
-          defaultValue="Nguyễn Văn Hoàng"
+          defaultValue={initialValues?.recipientName ?? 'Nguyễn Văn Hoàng'}
           autoComplete="name"
           required
         />
       </div>
 
       <div className="delivery-field">
-        <label htmlFor="recipient-phone">
+        <label htmlFor={fieldId('recipient-phone')}>
           Số điện thoại nhận hàng <span>*</span>
         </label>
         <input
-          id="recipient-phone"
+          id={fieldId('recipient-phone')}
           name="recipientPhone"
           type="tel"
           inputMode="tel"
-          defaultValue="0988 234 567"
+          defaultValue={initialValues?.recipientPhone ?? '0988 234 567'}
           autoComplete="tel"
           required
           onInput={(event) => validateVietnamesePhone(event.currentTarget)}
@@ -108,14 +215,14 @@ function PersonalDeliveryFields({
       </div>
 
       <div className="delivery-field delivery-field-wide">
-        <label htmlFor="recipient-email">
+        <label htmlFor={fieldId('recipient-email')}>
           Email nhận thông báo đơn &amp; mã tracking <span>*</span>
         </label>
         <input
-          id="recipient-email"
+          id={fieldId('recipient-email')}
           name="recipientEmail"
           type="email"
-          defaultValue="hoang.nguyen@vinacorp.vn"
+          defaultValue={initialValues?.recipientEmail ?? 'hoang.nguyen@vinacorp.vn'}
           autoComplete="email"
           maxLength={254}
           required
@@ -124,11 +231,11 @@ function PersonalDeliveryFields({
       </div>
 
       <div className="delivery-field">
-        <label htmlFor="recipient-city">
+        <label htmlFor={fieldId('recipient-city')}>
           Tỉnh / Thành phố <span>*</span>
         </label>
         <select
-          id="recipient-city"
+          id={fieldId('recipient-city')}
           name="provinceCode"
           value={provinceCode}
           onChange={(event) => onProvinceChange(event.target.value)}
@@ -147,11 +254,11 @@ function PersonalDeliveryFields({
       </div>
 
       <div className="delivery-field">
-        <label htmlFor="recipient-ward">
+        <label htmlFor={fieldId('recipient-ward')}>
           Phường / Xã <span>*</span>
         </label>
         <select
-          id="recipient-ward"
+          id={fieldId('recipient-ward')}
           name="wardCode"
           value={wardCode}
           onChange={(event) => onWardChange(event.target.value)}
@@ -179,14 +286,16 @@ function PersonalDeliveryFields({
       </div>
 
       <div className="delivery-field delivery-field-wide">
-        <label htmlFor="recipient-address">
+        <label htmlFor={fieldId('recipient-address')}>
           Địa chỉ chi tiết (Tòa nhà, số tầng, số phòng) <span>*</span>
         </label>
         <input
-          id="recipient-address"
+          id={fieldId('recipient-address')}
           name="address"
           type="text"
-          defaultValue="Tầng 12, Tòa nhà Bitexco Financial, số 2 Hải Triều"
+          defaultValue={
+            initialValues?.address ?? 'Tầng 12, Tòa nhà Bitexco Financial, số 2 Hải Triều'
+          }
           autoComplete="street-address"
           minLength={8}
           maxLength={255}
@@ -196,12 +305,15 @@ function PersonalDeliveryFields({
       </div>
 
       <div className="delivery-field delivery-field-wide">
-        <label htmlFor="delivery-note">Ghi chú giao hàng cho shipper</label>
+        <label htmlFor={fieldId('delivery-note')}>Ghi chú giao hàng cho shipper</label>
         <textarea
-          id="delivery-note"
+          id={fieldId('delivery-note')}
           name="deliveryNote"
           rows={3}
-          defaultValue="Giao giờ hành chính, gọi trước khi giao, đồng phục kiểm tra mã size kỹ"
+          defaultValue={
+            initialValues?.deliveryNote ??
+            'Giao giờ hành chính, gọi trước khi giao, đồng phục kiểm tra mã size kỹ'
+          }
         />
       </div>
     </div>
@@ -397,15 +509,99 @@ type CheckoutProps = {
 function Checkout({ onOrderComplete }: CheckoutProps) {
   const deliveryFormRef = useRef<HTMLFormElement>(null);
   const [customerType, setCustomerType] = useState<CustomerType>('personal');
+  const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false);
+  const [isAddAddressDialogOpen, setIsAddAddressDialogOpen] = useState(false);
+  const [savedAddresses, setSavedAddresses] = useState<SavedDeliveryAddress[]>(
+    loadSavedDeliveryAddresses,
+  );
+  const [pendingAddress, setPendingAddress] = useState<SavedDeliveryAddress | null>(null);
   const [provinces, setProvinces] = useState<AdministrativeProvince[]>([]);
   const [provinceCode, setProvinceCode] = useState('79');
   const [wardCode, setWardCode] = useState('');
+  const [newAddressProvinceCode, setNewAddressProvinceCode] = useState('79');
+  const [newAddressWardCode, setNewAddressWardCode] = useState('');
   const [isLoadingLocations, setIsLoadingLocations] = useState(true);
   const [locationLoadError, setLocationLoadError] = useState(false);
   const [shippingMethod, setShippingMethod] = useState('standard');
   const [paymentMethod, setPaymentMethod] = useState('vietqr');
   const [coupon, setCoupon] = useState('CORP2024');
   const [couponStatus, setCouponStatus] = useState<'applied' | 'error' | 'idle'>('applied');
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(savedDeliveryAddressesStorageKey, JSON.stringify(savedAddresses));
+    } catch {
+      // Saved addresses remain available for the current checkout if storage is unavailable.
+    }
+  }, [savedAddresses]);
+
+  useEffect(() => {
+    if (!pendingAddress || pendingAddress.customerType !== customerType) {
+      return;
+    }
+
+    if (pendingAddress.customerType === 'personal' && isLoadingLocations) {
+      return;
+    }
+
+    const form = deliveryFormRef.current;
+    if (!form) {
+      return;
+    }
+
+    const setFieldValue = (name: string, value: string) => {
+      const field = form.elements.namedItem(name);
+      if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+        field.value = value;
+        field.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    };
+
+    if (pendingAddress.customerType === 'personal') {
+      setFieldValue('recipientName', pendingAddress.recipientName);
+      setFieldValue('recipientPhone', pendingAddress.phone);
+      setFieldValue('recipientEmail', pendingAddress.email);
+      setFieldValue('address', pendingAddress.streetAddress);
+      setFieldValue('deliveryNote', pendingAddress.deliveryNote);
+      setProvinceCode(pendingAddress.provinceCode);
+
+      const province = provinces.find(
+        (item) => String(item.code) === pendingAddress.provinceCode,
+      );
+      const ward = province?.wards?.find(
+        (item) =>
+          item.name.localeCompare(pendingAddress.wardName, 'vi', { sensitivity: 'base' }) === 0,
+      );
+      setWardCode(ward ? String(ward.code) : '');
+    } else {
+      setFieldValue('companyName', pendingAddress.companyName);
+      setFieldValue('companyPhone', pendingAddress.phone);
+      setFieldValue('companyTaxCode', pendingAddress.taxCode);
+      setFieldValue('invoiceEmail', pendingAddress.email);
+      setFieldValue('companyAddress', pendingAddress.address);
+    }
+
+    setPendingAddress(null);
+  }, [customerType, isLoadingLocations, pendingAddress, provinces]);
+
+  useEffect(() => {
+    if (!isAddressDialogOpen && !isAddAddressDialogOpen) {
+      return;
+    }
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (isAddAddressDialogOpen) {
+          setIsAddAddressDialogOpen(false);
+        } else {
+          setIsAddressDialogOpen(false);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [isAddAddressDialogOpen, isAddressDialogOpen]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -438,6 +634,10 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
 
   const selectedProvince = provinces.find((province) => String(province.code) === provinceCode);
   const wards = selectedProvince?.wards ?? [];
+  const newAddressProvince = provinces.find(
+    (province) => String(province.code) === newAddressProvinceCode,
+  );
+  const newAddressWards = newAddressProvince?.wards ?? [];
   const isBusiness = customerType === 'business';
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
@@ -518,7 +718,15 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                   </p>
                 </div>
               </div>
-              <span className="required-badge">Bắt buộc</span>
+              <button
+                className="address-change-button"
+                type="button"
+                aria-haspopup="dialog"
+                aria-expanded={isAddressDialogOpen}
+                onClick={() => setIsAddressDialogOpen(true)}
+              >
+                Đổi địa chỉ
+              </button>
             </div>
 
             <div className="checkout-customer-tabs" role="tablist" aria-label="Loại khách hàng">
@@ -871,6 +1079,210 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
           </ul>
         </aside>
       </div>
+
+      {isAddressDialogOpen && (
+        <div
+          className="address-dialog-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsAddressDialogOpen(false);
+            }
+          }}
+        >
+          <section
+            className="address-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="address-dialog-title"
+          >
+            <header className="address-dialog-header">
+              <div>
+                <h2 id="address-dialog-title">Chọn địa chỉ nhận hàng</h2>
+                <p>Chọn thông tin cá nhân hoặc doanh nghiệp đã lưu.</p>
+              </div>
+              <button
+                className="address-dialog-close"
+                type="button"
+                aria-label="Đóng danh sách địa chỉ"
+                onClick={() => setIsAddressDialogOpen(false)}
+              >
+                ×
+              </button>
+            </header>
+
+            <div className="address-dialog-list">
+              {savedAddresses.map((address) => (
+                <article className="saved-address-card" key={address.id}>
+                  <div className="saved-address-heading">
+                    <div>
+                      <span className={`saved-address-type ${address.customerType}`}>
+                        {address.customerType === 'personal' ? 'Cá nhân' : 'Doanh nghiệp'}
+                      </span>
+                      <h3>{address.label}</h3>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPendingAddress(address);
+                        setCustomerType(address.customerType);
+                        setIsAddressDialogOpen(false);
+                      }}
+                    >
+                      Sử dụng địa chỉ
+                    </button>
+                  </div>
+
+                  <dl className="saved-address-details">
+                    <div>
+                      <dt>{address.customerType === 'personal' ? 'Người nhận' : 'Tên công ty'}</dt>
+                      <dd>
+                        {address.customerType === 'personal'
+                          ? address.recipientName
+                          : address.companyName}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Số điện thoại</dt>
+                      <dd>{address.phone}</dd>
+                    </div>
+                    {address.customerType === 'business' && (
+                      <div>
+                        <dt>Mã số thuế</dt>
+                        <dd>{address.taxCode}</dd>
+                      </div>
+                    )}
+                    <div>
+                      <dt>Email</dt>
+                      <dd>{address.email}</dd>
+                    </div>
+                    <div className="saved-address-full-width">
+                      <dt>Địa chỉ</dt>
+                      <dd>{address.address}</dd>
+                    </div>
+                  </dl>
+                </article>
+              ))}
+            </div>
+
+            <footer className="address-dialog-footer">
+              <button type="button" onClick={() => setIsAddAddressDialogOpen(true)}>
+                <span aria-hidden="true">＋</span> Thêm địa chỉ
+              </button>
+            </footer>
+          </section>
+        </div>
+      )}
+
+      {isAddAddressDialogOpen && (
+        <div
+          className="address-entry-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsAddAddressDialogOpen(false);
+            }
+          }}
+        >
+          <section
+            className="address-dialog address-entry-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="address-entry-title"
+          >
+            <header className="address-dialog-header">
+              <div>
+                <span className="saved-address-type personal">Cá nhân</span>
+                <h2 id="address-entry-title">Thêm địa chỉ cá nhân</h2>
+                <p>Nhập thông tin người nhận và địa chỉ giao hàng.</p>
+              </div>
+              <button
+                className="address-dialog-close"
+                type="button"
+                aria-label="Đóng biểu mẫu thêm địa chỉ"
+                onClick={() => setIsAddAddressDialogOpen(false)}
+              >
+                ×
+              </button>
+            </header>
+
+            <div className="address-entry-body">
+              <div className="checkout-delivery address-entry-delivery">
+                <form
+                  className="delivery-form address-entry-form"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    const form = event.currentTarget;
+                    if (!form.reportValidity()) {
+                      return;
+                    }
+
+                    const formData = new FormData(form);
+                    const getValue = (name: string) => String(formData.get(name) ?? '').trim();
+                    const province = newAddressProvince;
+                    const ward = newAddressWards.find(
+                      (item) => String(item.code) === newAddressWardCode,
+                    );
+                    const streetAddress = getValue('address');
+                    const recipientName = getValue('recipientName');
+
+                    const newAddress: SavedDeliveryAddress = {
+                      id: `personal-${Date.now()}`,
+                      label: `Địa chỉ của ${recipientName}`,
+                      customerType: 'personal',
+                      recipientName,
+                      phone: getValue('recipientPhone'),
+                      email: getValue('recipientEmail'),
+                      address: [streetAddress, ward?.name, province?.name]
+                        .filter(Boolean)
+                        .join(', '),
+                      provinceCode: newAddressProvinceCode,
+                      wardName: ward?.name ?? '',
+                      streetAddress,
+                      deliveryNote: getValue('deliveryNote'),
+                    };
+
+                    setSavedAddresses((currentAddresses) => [newAddress, ...currentAddresses]);
+                    setIsAddAddressDialogOpen(false);
+                  }}
+                >
+                  <PersonalDeliveryFields
+                    idPrefix="new-address"
+                    initialValues={{
+                      recipientName: '',
+                      recipientPhone: '',
+                      recipientEmail: '',
+                      address: '',
+                      deliveryNote: '',
+                    }}
+                    provinces={provinces}
+                    wards={newAddressWards}
+                    provinceCode={newAddressProvinceCode}
+                    wardCode={newAddressWardCode}
+                    isLoadingLocations={isLoadingLocations}
+                    locationLoadError={locationLoadError}
+                    onProvinceChange={(value) => {
+                      setNewAddressProvinceCode(value);
+                      setNewAddressWardCode('');
+                    }}
+                    onWardChange={setNewAddressWardCode}
+                  />
+                  <div className="address-entry-actions">
+                    <button
+                      className="address-entry-cancel"
+                      type="button"
+                      onClick={() => setIsAddAddressDialogOpen(false)}
+                    >
+                      Hủy
+                    </button>
+                    <button className="address-entry-save" type="submit">
+                      Lưu địa chỉ
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </section>
+        </div>
+      )}
     </>
   );
 }

@@ -913,6 +913,101 @@
   padding: 20px 25px 25px;
 }
 
+.address-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 25px 20px;
+  border-top: 1px solid #e8edf3;
+}
+
+.address-dialog-footer button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 7px;
+  padding: 0 17px;
+  border: 1px solid #075bc2;
+  border-radius: 999px;
+  background: #075bc2;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.address-dialog-footer button:hover {
+  background: #064c9f;
+}
+
+.address-entry-backdrop {
+  position: fixed;
+  z-index: 1220;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(13 25 42 / 66%);
+  overscroll-behavior: contain;
+}
+
+.address-entry-dialog {
+  width: min(100%, 760px);
+}
+
+.address-entry-dialog .address-dialog-header h2 {
+  margin-top: 9px;
+}
+
+.address-entry-body {
+  max-height: calc(88vh - 105px);
+  overflow: auto;
+  padding: 21px 25px 24px;
+}
+
+.address-entry-delivery .delivery-form {
+  padding-top: 0;
+}
+
+.address-entry-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 17px;
+  border-top: 1px solid #e8edf3;
+}
+
+.address-entry-actions button {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.address-entry-cancel {
+  border: 1px solid #d6dee8;
+  background: #fff;
+  color: #4d5b6a;
+}
+
+.address-entry-cancel:hover {
+  background: #f4f6f9;
+}
+
+.address-entry-save {
+  border: 1px solid #0865dc;
+  background: #0865dc;
+  color: #fff;
+}
+
+.address-entry-save:hover {
+  background: #0754bd;
+}
+
 .saved-address-card {
   min-width: 0;
   padding: 18px;
@@ -1191,6 +1286,23 @@
     padding: 14px 16px 18px;
   }
 
+  .address-dialog-footer {
+    padding: 12px 16px 16px;
+  }
+
+  .address-entry-backdrop {
+    padding: 12px;
+  }
+
+  .address-entry-dialog {
+    max-height: 94vh;
+  }
+
+  .address-entry-body {
+    max-height: calc(94vh - 100px);
+    padding: 16px;
+  }
+
   .saved-address-card {
     padding: 15px;
   }
@@ -1201,6 +1313,12 @@
 
   .saved-address-heading button {
     min-height: 38px;
+  }
+
+  .address-entry-actions button {
+    min-height: 42px;
+    padding: 0 15px;
+    font-size: 13px;
   }
 }
 
