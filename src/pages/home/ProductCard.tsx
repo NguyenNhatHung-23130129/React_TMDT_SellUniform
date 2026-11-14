@@ -1,9 +1,11 @@
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import type { RootState } from '../../store/store';
 import { tabs } from '../../data/mockProducts';
 import './ProductCard.scss';
 
 export default function ProductCard() {
+    const navigate = useNavigate();
     const products = useSelector((state: RootState) => state.data.products).slice(0, 4);
 
     return (
@@ -20,7 +22,12 @@ export default function ProductCard() {
             </div>
             <div className="grid">
                 {products.map((product: any) => (
-                    <div key={product.id} className="card">
+                    <div
+                        key={product.id}
+                        className="card"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => navigate(`/product/${product.id}`)}
+                    >
                         <div className="media">
                             <img src={product.image} alt={product.name} />
                         </div>
@@ -28,11 +35,18 @@ export default function ProductCard() {
                             <p className="name">{product.name}</p>
                             <div className="colors">
                                 {product.colors?.map((color: string, j: number) => (
-                                    <button key={j} className={`swatch ${j === 0 ? 'selected' : ''}`}
+                                    <button
+                                        key={j}
+                                        className={`swatch ${j === 0 ? 'selected' : ''}`}
                                         style={{ backgroundColor: color }}
+                                        onClick={(e) => e.stopPropagation()}
                                     />
                                 ))}
-                                <button className="save" aria-label="Lưu">
+                                <button
+                                    className="save"
+                                    aria-label="Lưu"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
                                     <i className="fa-regular fa-heart"></i>
                                 </button>
                             </div>
