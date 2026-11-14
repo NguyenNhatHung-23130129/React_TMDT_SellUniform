@@ -1,39 +1,16 @@
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router';
+// src/App.tsx
+import './App.css';
 import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router';
 import { store } from './store/store';
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import Home from './pages/home/Home';
-import { SearchResults } from './pages/products/SearchResults';
-import Auth from './pages/auth/Auth';
-import ProductDetails from './pages/products/ProductDetails';
-import Cart from './pages/cart/Cart';
+import { router } from './routes/Router';
 
-
-function AppLayout() {
-    const navigate = useNavigate();
-    const location = useLocation();
-    return (
-        <>
-            <Header />
-            <Routes>
-                <Route path="/" element={<Home onSelectCategory={(catId) => navigate(`/search?cat=${catId}`)} />} />
-                <Route path="/search" element={<SearchResults key={location.search} />} />
-                <Route path="/product/:id" element={<ProductDetails />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/auth/login" element={<Auth />} />
-            </Routes>
-            <Footer />
-        </>
-    );
-}
-
-export default function App() {
+function App() {
     return (
         <Provider store={store}>
-            <BrowserRouter>
-                <AppLayout />
-            </BrowserRouter>
+            <RouterProvider router={router} />
         </Provider>
     );
 }
+
+export default App;

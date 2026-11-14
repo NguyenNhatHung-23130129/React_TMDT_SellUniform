@@ -1,0 +1,236 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "title": "Công sở / Doanh nghiệp",
+      "desc": "Sơ mi, quần âu, chân váy, vest công sở",
+      "image": "/src/assets/images/figma/product_2.jpeg"
+    },
+    {
+      "id": 2,
+      "title": "Áo Polo & Sự kiện",
+      "desc": "Polo CVC, Pique mắt chim, team building",
+      "image": "/src/assets/images/figma/product_1.jpeg"
+    },
+    {
+      "id": 3,
+      "title": "Y tế & Spa",
+      "desc": "Bộ Scrub co giãn 4 chiều, áo Blouse",
+      "image": "/src/assets/images/figma/product_3.jpeg"
+    },
+    {
+      "id": 4,
+      "title": "Nhà hàng & F&B",
+      "desc": "Áo bếp thoáng khí, tạp dề canvas",
+      "image": "/src/assets/images/figma/product_5.jpeg"
+    },
+    {
+      "id": 5,
+      "title": "Bảo hộ & Kỹ thuật",
+      "desc": "Quần áo kaki Pangrim, áo phản quang",
+      "image": "/src/assets/images/figma/product_6.jpeg"
+    },
+    {
+      "id": 6,
+      "title": "Học sinh - Sinh viên",
+      "desc": "Sơ mi trắng, áo khoác gió đồng phục",
+      "image": "/src/assets/images/figma/product_7.jpeg"
+    },
+    {
+      "id": 7,
+      "title": "Đồng phục Thể thao",
+      "desc": "Áo thun thể thao, đồ giải chạy",
+      "image": "/src/assets/images/figma/product_9.jpeg"
+    },
+    {
+      "id": 8,
+      "title": "Phụ kiện Đồng phục",
+      "desc": "Tạp dề, nón kết, cà vạt, bảng tên",
+      "image": "/src/assets/images/figma/product_4.jpeg"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "categoryId": 2,
+      "tabId": 1,
+      "name": "Áo Polo Doanh Nghiệp Phối Line Navy",
+      "price": 185000,
+      "oldPrice": 220000,
+      "image": "/src/assets/images/figma/product_1.jpeg",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#007a78",
+        "#004299",
+        "#755bb4",
+        "#3f484d"
+      ]
+    },
+    {
+      "id": 2,
+      "categoryId": 1,
+      "tabId": 2,
+      "name": "Sơ Mi Trắng Kháng Khuẩn Bamboo Sợi Tre",
+      "price": 195000,
+      "oldPrice": 250000,
+      "image": "/src/assets/images/figma/product_2.jpeg",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#d9d9d9",
+        "#004299",
+        "#3f484d"
+      ]
+    },
+    {
+      "id": 3,
+      "categoryId": 3,
+      "tabId": 3,
+      "name": "Bộ Scrub Bác Sĩ Co Giãn 4 Chiều",
+      "price": 260000,
+      "oldPrice": 320000,
+      "image": "/src/assets/images/figma/product_3.jpeg",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL",
+        "3XL"
+      ],
+      "colors": [
+        "#007a78",
+        "#004299",
+        "#755bb4",
+        "#3f484d"
+      ]
+    },
+    {
+      "id": 4,
+      "categoryId": 8,
+      "tabId": 4,
+      "name": "Tạp Dề Đồng Phục Canvas Phối Dây Da",
+      "price": 85000,
+      "oldPrice": 110000,
+      "image": "/src/assets/images/figma/product_4.jpeg",
+      "sizes": [
+        "Free Size"
+      ],
+      "colors": [
+        "#755bb4",
+        "#3f484d",
+        "#8b5e3c",
+        "#007a78"
+      ]
+    },
+    {
+      "id": 5,
+      "categoryId": 4,
+      "tabId": 4,
+      "name": "Áo Bếp Trưởng Cao Cấp 2 Hàng Khuy",
+      "price": 215000,
+      "oldPrice": 270000,
+      "image": "/src/assets/images/figma/product_5.jpeg",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#3f484d",
+        "#004299",
+        "#007a78"
+      ]
+    },
+    {
+      "id": 6,
+      "categoryId": 5,
+      "tabId": 5,
+      "name": "Bộ Bảo Hộ Lao Động Kaki Pangrim",
+      "price": 285000,
+      "oldPrice": 340000,
+      "image": "/src/assets/images/figma/product_6.jpeg",
+      "sizes": [
+        "M",
+        "L",
+        "XL",
+        "2XL",
+        "3XL"
+      ],
+      "colors": [
+        "#3f484d",
+        "#004299",
+        "#755bb4",
+        "#007a78"
+      ]
+    },
+    {
+      "id": 7,
+      "categoryId": 6,
+      "tabId": 1,
+      "name": "Áo Polo Đồng Phục CVC Coolmax Khử Mùi",
+      "price": 165000,
+      "oldPrice": 210000,
+      "image": "/src/assets/images/figma/product_7.jpeg",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#004299",
+        "#007a78",
+        "#3f484d"
+      ]
+    },
+    {
+      "id": 8,
+      "categoryId": 3,
+      "tabId": 3,
+      "name": "Áo Blouse Trắng Bác Sĩ Kaki Thun Nhẹ",
+      "price": 145000,
+      "oldPrice": 190000,
+      "image": "/src/assets/images/figma/product_8.jpeg",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#d9d9d9",
+        "#007a78",
+        "#004299"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "fullName": "Nguyễn Nhật Hưng",
+      "email": "admin@vietuniform.vn",
+      "phone": "0988234567",
+      "password": "123"
+    }
+  ],
+  "cart": [],
+  "orders": []
+}
