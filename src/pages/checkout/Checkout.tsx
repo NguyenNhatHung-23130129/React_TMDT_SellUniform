@@ -4,6 +4,13 @@ import type { OrderConfirmation } from './orderTypes';
 
 type CustomerType = 'personal' | 'business';
 
+type DeliveryEditSnapshot = {
+  customerType: CustomerType;
+  fields: Record<string, string>;
+  provinceCode: string;
+  wardCode: string;
+};
+
 type SavedDeliveryAddress =
   | {
       id: string;
@@ -527,12 +534,15 @@ type CheckoutProps = {
 
 function Checkout({ onOrderComplete }: CheckoutProps) {
   const deliveryFormRef = useRef<HTMLFormElement>(null);
+  const deliveryEditSnapshotRef = useRef<DeliveryEditSnapshot | null>(null);
   const [customerType, setCustomerType] = useState<CustomerType>('personal');
   const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false);
   const [isAddAddressDialogOpen, setIsAddAddressDialogOpen] = useState(false);
   const [newAddressType, setNewAddressType] = useState<CustomerType>('personal');
   const [isEditingDelivery, setIsEditingDelivery] = useState(false);
   const [deliverySaveMessage, setDeliverySaveMessage] = useState('');
+  const [deliveryRestoreSnapshot, setDeliveryRestoreSnapshot] =
+    useState<DeliveryEditSnapshot | null>(null);
   const [savedAddresses, setSavedAddresses] = useState<SavedDeliveryAddress[]>(
     loadSavedDeliveryAddresses,
   );
@@ -548,6 +558,70 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
   const [paymentMethod, setPaymentMethod] = useState('vietqr');
   const [coupon, setCoupon] = useState('CORP2024');
   const [couponStatus, setCouponStatus] = useState<'applied' | 'error' | 'idle'>('applied');
+
+  const beginDeliveryEdit = () => {
+    if (!deliveryEditSnapshotRef.current) {
+      const fields: Record<string, string> = {};
+      const form = deliveryFormRef.current;
+
+      if (form) {
+        new FormData(form).forEach((value, name) => {
+          if (typeof value === 'string') {
+            fields[name] = value;
+          }
+        });
+      }
+
+      deliveryEditSnapshotRef.current = {
+        customerType,
+        fields,
+        provinceCode,
+        wardCode,
+      };
+    }
+
+    setDeliverySaveMessage('');
+    setIsEditingDelivery(true);
+  };
+
+  const handleCancelDeliveryEdit = () => {
+    const snapshot = deliveryEditSnapshotRef.current;
+
+    if (snapshot) {
+      setCustomerType(snapshot.customerType);
+      setProvinceCode(snapshot.provinceCode);
+      setWardCode(snapshot.wardCode);
+      setDeliveryRestoreSnapshot(snapshot);
+    }
+
+    deliveryEditSnapshotRef.current = null;
+    setPendingAddress(null);
+    setDeliverySaveMessage('');
+    setIsEditingDelivery(false);
+  };
+
+  useEffect(() => {
+    if (!deliveryRestoreSnapshot || deliveryRestoreSnapshot.customerType !== customerType) {
+      return;
+    }
+
+    const form = deliveryFormRef.current;
+    if (!form) {
+      return;
+    }
+
+    Object.entries(deliveryRestoreSnapshot.fields).forEach(([name, value]) => {
+      const field = form.elements.namedItem(name);
+      if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+        field.value = value;
+        field.dispatchEvent(new Event('input', { bubbles: true }));
+      } else if (field instanceof HTMLSelectElement) {
+        field.value = value;
+      }
+    });
+
+    setDeliveryRestoreSnapshot(null);
+  }, [customerType, deliveryRestoreSnapshot]);
 
   useEffect(() => {
     try {
@@ -744,6 +818,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
         return true;
       }),
     ]);
+    deliveryEditSnapshotRef.current = null;
     setIsEditingDelivery(false);
     setDeliverySaveMessage('Đã lưu thông tin nhận hàng.');
   };
@@ -824,10 +899,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                   <button
                     className="delivery-edit-button"
                     type="button"
-                    onClick={() => {
-                      setDeliverySaveMessage('');
-                      setIsEditingDelivery(true);
-                    }}
+                    onClick={beginDeliveryEdit}
                   >
                     Chỉnh sửa thông tin
                   </button>
@@ -902,13 +974,22 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                     </p>
                   )}
                   {isEditingDelivery && (
-                    <button
-                      className="delivery-save-button"
-                      type="button"
-                      onClick={handleSaveDeliveryInfo}
-                    >
-                      Lưu thông tin
-                    </button>
+                    <>
+                      <button
+                        className="delivery-cancel-button"
+                        type="button"
+                        onClick={handleCancelDeliveryEdit}
+                      >
+                        Hủy
+                      </button>
+                      <button
+                        className="delivery-save-button"
+                        type="button"
+                        onClick={handleSaveDeliveryInfo}
+                      >
+                        Lưu thông tin
+                      </button>
+                    </>
                   )}
                 </div>
               )}
@@ -922,7 +1003,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                   <TruckIcon />
                 </div>
                 <div>
-                  <h2 id="shipping-title">3. Phương Thức Vận Chuyển</h2>
+                  <h2 id="shipping-title">2. Phương Thức Vận Chuyển</h2>
                   <p>Đồng phục may sẵn đóng kiện cẩn thận theo tiêu chuẩn</p>
                 </div>
               </div>
@@ -990,7 +1071,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                   <PaymentIcon />
                 </div>
                 <div>
-                  <h2 id="payment-title">4. Phương Thức Thanh Toán</h2>
+                  <h2 id="payment-title">3. Phương Thức Thanh Toán</h2>
                   <p>
                     {isBusiness
                       ? 'Tích hợp cổng thanh toán doanh nghiệp chuẩn bảo mật cao'
@@ -1260,10 +1341,9 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                         <button
                           type="button"
                           onClick={() => {
+                            beginDeliveryEdit();
                             setPendingAddress(address);
                             setCustomerType(address.customerType);
-                          setDeliverySaveMessage('');
-                          setIsEditingDelivery(true);
                             setIsAddressDialogOpen(false);
                           }}
                         >
