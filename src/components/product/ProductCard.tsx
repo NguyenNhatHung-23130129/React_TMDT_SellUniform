@@ -1,29 +1,43 @@
+import { useState } from 'react';
+import { Link } from 'react-router';
 import './ProductCard.scss';
-import type {Product} from "../../store/store.ts";
 
-export const ProductCard = ({ product }: { product: Product }) => (
-    <div className="product-card">
-        <div className="img-box">
-            <img src={product.image} alt={product.name} />
+export const ProductCard = ({ product }: any) => {
+    const [liked, setLiked] = useState(false);
+
+    return (
+        <div className="product-card">
+            <div className="img-box">
+                <Link to={`/product/${product.id}`}>
+                    <img src={product.image} alt={product.name} />
+                </Link>
+                <button
+                    type="button"
+                    className={`save ${liked ? 'active' : ''}`}
+                    onClick={() => setLiked(!liked)}
+                    aria-label="Yêu thích"
+                >
+                    <i className={`${liked ? 'fa-solid' : 'fa-regular'} fa-heart`}></i>
+                </button>
+            </div>
+
+            <div className="info">
+                <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                    <strong>{product.name}</strong>
+                </Link>
+
+                <div className="price">
+                    <span className="new">{product.price.toLocaleString('vi-VN')}đ</span>
+                    {product.oldPrice && (
+                        <span className="old">{product.oldPrice.toLocaleString('vi-VN')}đ</span>
+                    )}
+                </div>
+
+                <Link to={`/product/${product.id}`} className="buy-btn">
+                    Xem chi tiết
+                </Link>
+            </div>
         </div>
-        <div className="info">
-            <strong>{product.name}</strong>
-            <div className="colors">
-                {product.colors?.map((color: string, j: number) => (
-                    <button key={j} className={`swatch ${j === 0 ? 'selected' : ''}`}
-                        style={{ backgroundColor: color }}
-                    />
-                ))}
-                <button className="save"><i className="fa-regular fa-heart"></i></button>
-            </div>
-            <div className="price">
-                <span className="new">{product.price.toLocaleString('vi-VN')}đ</span>
-                {product.oldPrice && <span className="old">{product.oldPrice.toLocaleString('vi-VN')}đ</span>}
-            </div>
-            <div className="btn-action">
-                <button className="btn cart-btn"><i className="fa-solid fa-cart-shopping"></i></button>
-                <button className="btn buy-btn">Mua ngay</button>
-            </div>
-        </div>
-    </div>
-);
+    );
+};
+

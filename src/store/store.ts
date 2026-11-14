@@ -1,5 +1,4 @@
-import { configureStore, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { mockProducts, categories } from '../data/mockProducts';
+import { configureStore, createSlice } from '@reduxjs/toolkit';
 
 export interface Product {
     id: number;
@@ -13,47 +12,41 @@ export interface Product {
     sizes: string[];
 }
 
-export const fetchProducts = createAsyncThunk<Product[]>('products/fetch', async () => {
-    return new Promise<Product[]>((resolve) => setTimeout(() => resolve(mockProducts as Product[]), 300));
-});
-
 const productsSlice = createSlice({
     name: 'products',
-    initialState: { items: [] as Product[], status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed' },
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchProducts.pending, (state) => { state.status = 'loading'; })
-            .addCase(fetchProducts.fulfilled, (state, action) => {
-                state.items = action.payload;
-                state.status = 'succeeded';
-            })
-            .addCase(fetchProducts.rejected, (state) => { state.status = 'failed'; });
+    initialState: { items: [] as Product[] },
+    reducers: {
+        loadProducts: (state, action) => {
+            state.items = action.payload;
+        }
     }
-});
-
-export const fetchAllData = createAsyncThunk('data/fetchAll', async () => {
-    return new Promise<{ categories: typeof categories; products: Product[] }>((resolve) =>
-        setTimeout(() => resolve({ categories, products: mockProducts as Product[] }), 300)
-    );
 });
 
 const dataSlice = createSlice({
     name: 'data',
-    initialState: { categories: [] as typeof categories, products: [] as Product[], status: 'idle' as 'idle' | 'loading' | 'succeeded' | 'failed' },
-    reducers: {},
-    extraReducers: (builder) => {
-        builder
-            .addCase(fetchAllData.pending, (state) => { state.status = 'loading'; })
-            .addCase(fetchAllData.fulfilled, (state, action) => {
-                state.categories = action.payload.categories;
-                state.products = action.payload.products;
-                state.status = 'succeeded';
-            })
-            .addCase(fetchAllData.rejected, (state) => { state.status = 'failed'; });
+    initialState: {
+        categories: [] as any[],
+        products: [] as Product[],
+        orders: [] as any[]
+    },
+    reducers: {
+        load: (state, action) => {
+            state.categories = action.payload.categories;
+            state.products = action.payload.products;
+            state.orders = action.payload.orders || [];
+        }
     }
 });
 
-export const store = configureStore({ reducer: { products: productsSlice.reducer, data: dataSlice.reducer } });
+export const { loadProducts } = productsSlice.actions;
+export const { load } = dataSlice.actions;
+
+export const store = configureStore({
+    reducer: {
+        products: productsSlice.reducer,
+        data: dataSlice.reducer
+    }
+});
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

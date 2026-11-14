@@ -1,18 +1,27 @@
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
 import { tabs } from '../../data/mockProducts';
+import { ProductCard as ProductItem } from '../../components/product/ProductCard';
 import './ProductCard.scss';
 
 export default function ProductCard() {
-    const products = useSelector((state: RootState) => state.data.products).slice(0, 4);
+    const allProducts = useSelector((state: any) => state.data.products);
+    const [activeTab, setActiveTab] = useState(0);
+
+    const products = allProducts
+        .filter((p: any) => !activeTab || Number(p.tabId) === activeTab);
 
     return (
         <section className="product-section">
             <div className="head">
                 <h2 className="title">Top sản phẩm bán chạy</h2>
                 <div className="tabs">
-                    {tabs.slice(1).map((t, i) => (
-                        <button key={t.id} className={`tab ${i === 0 ? 'selected' : ''}`}>
+                    {tabs.map((t) => (
+                        <button
+                            key={t.id}
+                            className={`tab ${activeTab === t.id ? 'selected' : ''}`}
+                            onClick={() => setActiveTab(t.id)}
+                        >
                             {t.title}
                         </button>
                     ))}
@@ -20,28 +29,7 @@ export default function ProductCard() {
             </div>
             <div className="grid">
                 {products.map((product: any) => (
-                    <div key={product.id} className="card">
-                        <div className="media">
-                            <img src={product.image} alt={product.name} />
-                        </div>
-                        <div className="content">
-                            <p className="name">{product.name}</p>
-                            <div className="colors">
-                                {product.colors?.map((color: string, j: number) => (
-                                    <button key={j} className={`swatch ${j === 0 ? 'selected' : ''}`}
-                                        style={{ backgroundColor: color }}
-                                    />
-                                ))}
-                                <button className="save" aria-label="Lưu">
-                                    <i className="fa-regular fa-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div className="price">
-                            <p className="label">Giá:</p>
-                            <p className="value">{product.price.toLocaleString('vi-VN')}đ</p>
-                        </div>
-                    </div>
+                    <ProductItem key={product.id} product={product} />
                 ))}
             </div>
         </section>
