@@ -6,6 +6,8 @@ import Footer from './components/layout/Footer';
 import Home from './pages/home/Home';
 import { SearchResults } from './pages/products/SearchResults';
 import Auth from './pages/auth/Auth';
+import ProductDetails from './pages/products/ProductDetails';
+import Cart from './pages/cart/Cart';
 
 
 function AppLayout() {
@@ -17,6 +19,8 @@ function AppLayout() {
             <Routes>
                 <Route path="/" element={<Home onSelectCategory={(catId) => navigate(`/search?cat=${catId}`)} />} />
                 <Route path="/search" element={<SearchResults key={location.search} />} />
+                <Route path="/product/:id" element={<ProductDetails />} />
+                <Route path="/cart" element={<Cart />} />
                 <Route path="/auth/login" element={<Auth />} />
             </Routes>
             <Footer />
