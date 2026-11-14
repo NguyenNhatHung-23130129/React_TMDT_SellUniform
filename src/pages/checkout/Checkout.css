@@ -129,6 +129,81 @@
   outline-offset: 2px;
 }
 
+.delivery-heading-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.delivery-edit-button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #d5dfe9;
+  border-radius: 999px;
+  background: #fff;
+  color: #46596d;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.delivery-edit-button:hover {
+  border-color: #a9c9ef;
+  background: #f5f9ff;
+  color: #075bc2;
+}
+
+.delivery-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e5eaf0;
+}
+
+.delivery-save-message {
+  margin: 0 auto 0 0;
+  color: #21864a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.delivery-save-button {
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid #0865dc;
+  border-radius: 999px;
+  background: #0865dc;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.delivery-save-button:hover {
+  transform: translateY(-1px);
+  background: #0754bd;
+}
+
+.delivery-save-button:focus-visible,
+.delivery-edit-button:focus-visible {
+  outline: 3px solid rgb(18 97 216 / 28%);
+  outline-offset: 2px;
+}
+
 .checkout-customer-tabs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1150,6 +1225,12 @@
 
   .checkout-delivery .delivery-card-heading {
     align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .delivery-heading-actions {
+    width: 100%;
+    justify-content: flex-end;
   }
 
   .checkout-delivery .delivery-title-group {
@@ -1288,6 +1369,14 @@
 
   .checkout-payment .checkout-payment-note {
     font-size: 11px;
+  }
+
+  .delivery-form-actions {
+    flex-wrap: wrap;
+  }
+
+  .delivery-save-button {
+    min-height: 42px;
   }
 }
 
