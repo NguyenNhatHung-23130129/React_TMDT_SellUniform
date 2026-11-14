@@ -1,210 +1,225 @@
-import Header from '../../components/layout/Header.tsx';
-import Footer from '../../components/layout/Footer.tsx';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
 import heroImg from '../../assets/hero.png';
 import deliveryTruckIcon from '../../assets/icons/delivery-truck-icon.svg';
 import lightningIcon from '../../assets/icons/lightning-icon.svg';
 import trashCanIcon from '../../assets/icons/trash-can-icon.svg';
 import './Cart.css';
 
+interface CartItem {
+    id: string;
+    name: string;
+    image: string;
+    size: string;
+    color: string;
+    sku: string;
+    price: number;
+    oldPrice: number;
+    quantity: number;
+    selected: boolean;
+}
+
 export default function Cart() {
+    const navigate = useNavigate();
+    const products = useSelector((state: RootState) => state.data.products);
+
+    const [items, setItems] = useState<CartItem[]>([]);
+    const [voucherCode, setVoucherCode] = useState('');
+    const [voucherDiscount, setVoucherDiscount] = useState(0);
+
+    useEffect(() => {
+        const savedCart = localStorage.getItem('cart_items');
+        if (savedCart) {
+            setItems(JSON.parse(savedCart));
+            return;
+        }
+        if (products && products.length > 0) {
+            const initialItems: CartItem[] = products.slice(0, 4).map((p: any, idx: number) => ({
+                id: String(p.id),
+                name: p.name,
+                image: p.image || heroImg,
+                size: ['L', 'M', 'Freesize', '39 (M)'][idx] || 'M',
+                color: p.colors?.[0] || 'Navy Đậm',
+                sku: p.sku || `SP-${p.id}`,
+                price: Number(p.price),
+                oldPrice: Number(p.oldPrice) || Math.round(Number(p.price) * 1.15),
+                quantity: idx === 0 ? 4 : 3,
+                selected: true,
+            }));
+            setItems(initialItems);
+        }
+    }, [products]);
+
+    const updateCart = (nextItems: CartItem[]) => {
+        setItems(nextItems);
+        localStorage.setItem('cart_items', JSON.stringify(nextItems));
+    };
+
+    const allSelected = items.length > 0 && items.every((item) => item.selected);
+
+    const handleToggleAll = () => {
+        const nextState = !allSelected;
+        updateCart(items.map((item) => ({ ...item, selected: nextState })));
+    };
+
+    const handleToggleItem = (id: string) => {
+        updateCart(items.map((item) => (item.id === id ? { ...item, selected: !item.selected } : item)));
+    };
+
+    const handleQuantity = (id: string, delta: number) => {
+        updateCart(
+            items.map((item) =>
+                item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+            )
+        );
+    };
+
+    const handleRemoveItem = (id: string) => {
+        updateCart(items.filter((item) => item.id !== id));
+    };
+
+    const handleClearCart = () => {
+        updateCart([]);
+    };
+
+    const handleApplyVoucher = (codeToApply?: string) => {
+        const code = (codeToApply ?? voucherCode).trim().toUpperCase();
+        if (code === 'NEW15') {
+            setVoucherCode('NEW15');
+            setVoucherDiscount(15000);
+        } else if (code === 'FREESHIP300K') {
+            setVoucherCode('FREESHIP300K');
+        } else if (code) {
+            alert('Mã giảm giá không hợp lệ!');
+        }
+    };
+
+    const selectedItems = items.filter((item) => item.selected);
+    const totalQuantity = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
+    const originalSubtotal = selectedItems.reduce((sum, item) => sum + item.oldPrice * item.quantity, 0);
+    const currentSubtotal = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const wholesaleDiscount = totalQuantity >= 10 ? Math.round(currentSubtotal * 0.1) : 0;
+    const shippingFee = currentSubtotal >= 300000 || currentSubtotal === 0 ? 0 : 30000;
+    const finalTotal = Math.max(0, currentSubtotal - wholesaleDiscount - voucherDiscount + shippingFee);
+
+    const formatPrice = (val: number) => val.toLocaleString('vi-VN') + 'đ';
+
     return (
         <main className="cart-page">
-            <Header />
             <div className="cart-container">
                 <div className="cart-layout">
                     <div className="cart-main">
                         <div className="cart-header-bar">
                             <label className="checkbox-label">
-                                <input type="checkbox" defaultChecked />
+                                <input type="checkbox" checked={allSelected} onChange={handleToggleAll} />
                                 <span className="checkbox-custom"></span>
-                                <strong>Chọn tất cả (4 mã đồng phục)</strong>
+                                <strong>Chọn tất cả ({items.length} mã đồng phục)</strong>
                             </label>
-                            <button className="delete-all-btn">
+                            <button type="button" className="delete-all-btn" onClick={handleClearCart}>
                                 <img src={trashCanIcon} alt="Trash" className="trash-icon-img trash-red" />
                                 Xóa toàn bộ giỏ
                             </button>
                         </div>
 
                         <div className="cart-items-list">
-                            <div className="cart-item">
-                                <div className="cart-item-select">
-                                    <label className="checkbox-label">
-                                        <input type="checkbox" defaultChecked />
-                                        <span className="checkbox-custom"></span>
-                                    </label>
+                            {items.length === 0 ? (
+                                <div className="cart-item" style={{ justifyContent: 'center', padding: '40px' }}>
+                                    <p>Giỏ hàng của bạn đang trống.</p>
                                 </div>
-                                <div className="cart-item-thumb">
-                                    <img src={heroImg} alt="Áo Polo CVC Coolmax" />
-                                </div>
-                                <div className="cart-item-details">
-                                    <div className="item-title-row">
-                                        <h3 className="item-title">Áo Polo CVC Coolmax Đồng Phục Cao Cấp</h3>
-                                        <button className="remove-item-btn">
-                                            <img src={trashCanIcon} alt="Remove" className="trash-icon-img" />
-                                        </button>
-                                    </div>
-                                    <div className="item-variants">
-                                        <span className="variant-tag">Phân loại: <strong>Size L</strong></span>
-                                        <span className="variant-tag">Màu: <strong>Navy Đậm</strong></span>
-                                        <span className="sku-tag">SKU: POL-CVC-04</span>
-                                    </div>
-                                    <div className="item-action-row">
-                                        <div className="price-block">
-                                            <span className="item-price">189.000đ</span>
-                                            <span className="item-old-price">210.000đ</span>
-                                            <span className="discount-tag">-10% Sỉ</span>
+                            ) : (
+                                items.map((item) => (
+                                    <div key={item.id} className="cart-item">
+                                        <div className="cart-item-select">
+                                            <label className="checkbox-label">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={item.selected}
+                                                    onChange={() => handleToggleItem(item.id)}
+                                                />
+                                                <span className="checkbox-custom"></span>
+                                            </label>
                                         </div>
-                                        <div className="qty-picker">
-                                            <button className="qty-btn">-</button>
-                                            <input type="text" className="qty-input" defaultValue="4" readOnly />
-                                            <button className="qty-btn">+</button>
+                                        <div
+                                            className="cart-item-thumb"
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => navigate(`/product/${item.id}`)}
+                                        >
+                                            <img src={item.image} alt={item.name} />
                                         </div>
-                                        <div className="subtotal-block">
-                                            <span className="subtotal-label">Thành tiền:</span>
-                                            <span className="subtotal-price">756.000đ</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="cart-item">
-                                <div className="cart-item-select">
-                                    <label className="checkbox-label">
-                                        <input type="checkbox" defaultChecked />
-                                        <span className="checkbox-custom"></span>
-                                    </label>
-                                </div>
-                                <div className="cart-item-thumb">
-                                    <img src={heroImg} alt="Bộ Scrub Y Tế" />
-                                </div>
-                                <div className="cart-item-details">
-                                    <div className="stock-notice">
-                                        <img src={lightningIcon} alt="Lightning" className="lightning-icon-img" />
-                                        Sẵn kho giao hỏa tốc 2H
-                                    </div>
-                                    <div className="item-title-row">
-                                        <h3 className="item-title">Bộ Scrub Y Tế Tech-Flex Kháng Khuẩn Bệnh Viện</h3>
-                                        <button className="remove-item-btn">
-                                            <img src={trashCanIcon} alt="Remove" className="trash-icon-img" />
-                                        </button>
-                                    </div>
-                                    <div className="item-variants">
-                                        <span className="variant-tag">Phân loại: <strong>Size M</strong></span>
-                                        <span className="variant-tag">Màu: <strong>Xanh Cổ Vịt</strong></span>
-                                        <span className="sku-tag">SKU: SCR-TF-08</span>
-                                    </div>
-                                    <div className="item-action-row">
-                                        <div className="price-block">
-                                            <span className="item-price">297.000đ</span>
-                                            <span className="item-old-price">330.000đ</span>
-                                            <span className="discount-tag">-10% Sỉ</span>
-                                        </div>
-                                        <div className="qty-picker">
-                                            <button className="qty-btn">-</button>
-                                            <input type="text" className="qty-input" defaultValue="3" readOnly />
-                                            <button className="qty-btn">+</button>
-                                        </div>
-                                        <div className="subtotal-block">
-                                            <span className="subtotal-label">Thành tiền:</span>
-                                            <span className="subtotal-price">891.000đ</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="cart-item">
-                                <div className="cart-item-select">
-                                    <label className="checkbox-label">
-                                        <input type="checkbox" defaultChecked />
-                                        <span className="checkbox-custom"></span>
-                                    </label>
-                                </div>
-                                <div className="cart-item-thumb">
-                                    <img src={heroImg} alt="Tạp Dề Canvas" />
-                                </div>
-                                <div className="cart-item-details">
-                                    <div className="stock-notice">
-                                        <img src={lightningIcon} alt="Lightning" className="lightning-icon-img" />
-                                        Sẵn kho giao hỏa tốc 2H
-                                    </div>
-                                    <div className="item-title-row">
-                                        <h3 className="item-title">Tạp Dề Canvas Vintage Phối Dây Da F&B Quán Cafe</h3>
-                                        <button className="remove-item-btn">
-                                            <img src={trashCanIcon} alt="Remove" className="trash-icon-img" />
-                                        </button>
-                                    </div>
-                                    <div className="item-variants">
-                                        <span className="variant-tag">Phân loại: <strong>Freesize (Dây Tăng Chỉnh)</strong></span>
-                                        <span className="variant-tag">Màu: <strong>Nâu Mộc Cổ Điển</strong></span>
-                                        <span className="sku-tag">SKU: APR-CV-12</span>
-                                    </div>
-                                    <div className="item-action-row">
-                                        <div className="price-block">
-                                            <span className="item-price">135.000đ</span>
-                                            <span className="item-old-price">150.000đ</span>
-                                            <span className="discount-tag">-10% Sỉ</span>
-                                        </div>
-                                        <div className="qty-picker">
-                                            <button className="qty-btn">-</button>
-                                            <input type="text" className="qty-input" defaultValue="3" readOnly />
-                                            <button className="qty-btn">+</button>
-                                        </div>
-                                        <div className="subtotal-block">
-                                            <span className="subtotal-label">Thành tiền:</span>
-                                            <span className="subtotal-price">405.000đ</span>
+                                        <div className="cart-item-details">
+                                            <div className="stock-notice">
+                                                <img src={lightningIcon} alt="Lightning" className="lightning-icon-img" />
+                                                Sẵn kho giao hỏa tốc 2H
+                                            </div>
+                                            <div className="item-title-row">
+                                                <h3
+                                                    className="item-title"
+                                                    style={{ cursor: 'pointer' }}
+                                                    onClick={() => navigate(`/product/${item.id}`)}
+                                                >
+                                                    {item.name}
+                                                </h3>
+                                                <button
+                                                    type="button"
+                                                    className="remove-item-btn"
+                                                    onClick={() => handleRemoveItem(item.id)}
+                                                >
+                                                    <img src={trashCanIcon} alt="Remove" className="trash-icon-img" />
+                                                </button>
+                                            </div>
+                                            <div className="item-variants">
+                                                <span className="variant-tag">Phân loại: <strong>Size {item.size}</strong></span>
+                                                <span className="variant-tag">Màu: <strong>{item.color}</strong></span>
+                                                <span className="sku-tag">SKU: {item.sku}</span>
+                                            </div>
+                                            <div className="item-action-row">
+                                                <div className="price-block">
+                                                    <span className="item-price">{formatPrice(item.price)}</span>
+                                                    {item.oldPrice > item.price && (
+                                                        <span className="item-old-price">{formatPrice(item.oldPrice)}</span>
+                                                    )}
+                                                    <span className="discount-tag">-10% Sỉ</span>
+                                                </div>
+                                                <div className="qty-picker">
+                                                    <button
+                                                        type="button"
+                                                        className="qty-btn"
+                                                        onClick={() => handleQuantity(item.id, -1)}
+                                                    >
+                                                        -
+                                                    </button>
+                                                    <input type="text" className="qty-input" value={item.quantity} readOnly />
+                                                    <button
+                                                        type="button"
+                                                        className="qty-btn"
+                                                        onClick={() => handleQuantity(item.id, 1)}
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
+                                                <div className="subtotal-block">
+                                                    <span className="subtotal-label">Thành tiền:</span>
+                                                    <span className="subtotal-price">{formatPrice(item.price * item.quantity)}</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div className="cart-item">
-                                <div className="cart-item-select">
-                                    <label className="checkbox-label">
-                                        <input type="checkbox" defaultChecked />
-                                        <span className="checkbox-custom"></span>
-                                    </label>
-                                </div>
-                                <div className="cart-item-thumb">
-                                    <img src={heroImg} alt="Áo Sơ Mi Sợi Tre" />
-                                </div>
-                                <div className="cart-item-details">
-                                    <div className="stock-notice">
-                                        <img src={lightningIcon} alt="Lightning" className="lightning-icon-img" />
-                                        Sẵn kho giao hỏa tốc 2H
-                                    </div>
-                                    <div className="item-title-row">
-                                        <h3 className="item-title">Áo Sơ Mi Sợi Tre Bamboo Slimfit Chống Nhăn Công Sở</h3>
-                                        <button className="remove-item-btn">
-                                            <img src={trashCanIcon} alt="Remove" className="trash-icon-img" />
-                                        </button>
-                                    </div>
-                                    <div className="item-variants">
-                                        <span className="variant-tag">Phân loại: <strong>Size 39 (M)</strong></span>
-                                        <span className="variant-tag">Màu: <strong>Trắng Tinh Khôi</strong></span>
-                                        <span className="sku-tag">SKU: SMT-BB-01</span>
-                                    </div>
-                                    <div className="item-action-row">
-                                        <div className="price-block">
-                                            <span className="item-price">261.000đ</span>
-                                            <span className="item-old-price">290.000đ</span>
-                                            <span className="discount-tag">-10% Sỉ</span>
-                                        </div>
-                                        <div className="qty-picker">
-                                            <button className="qty-btn">-</button>
-                                            <input type="text" className="qty-input" defaultValue="2" readOnly />
-                                            <button className="qty-btn">+</button>
-                                        </div>
-                                        <div className="subtotal-block">
-                                            <span className="subtotal-label">Thành tiền:</span>
-                                            <span className="subtotal-price">522.000đ</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                ))
+                            )}
                         </div>
 
                         <div className="continue-shopping">
-                            <a href="#">← Tiếp tục xem sản phẩm</a>
+                            <a
+                                href="/"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    navigate('/');
+                                }}
+                            >
+                                ← Tiếp tục xem sản phẩm
+                            </a>
                         </div>
                     </div>
 
@@ -214,19 +229,26 @@ export default function Cart() {
 
                             <div className="summary-row">
                                 <span>Tạm tính tiền hàng gốc:</span>
-                                <span className="text-bold">2.870.000đ</span>
+                                <span className="text-bold">{formatPrice(originalSubtotal)}</span>
                             </div>
 
                             <div className="summary-row text-red">
                                 <span>Chiết khấu sỉ (≥10 cái -10%):</span>
-                                <span className="text-bold">-296.000đ</span>
+                                <span className="text-bold">-{formatPrice(wholesaleDiscount)}</span>
                             </div>
+
+                            {voucherDiscount > 0 && (
+                                <div className="summary-row text-red">
+                                    <span>Voucher ưu đãi ({voucherCode}):</span>
+                                    <span className="text-bold">-{formatPrice(voucherDiscount)}</span>
+                                </div>
+                            )}
 
                             <div className="summary-row text-green">
                                 <span>Ước tính phí vận chuyển:</span>
                                 <span className="text-bold free-shipping-badge">
                                     <img src={deliveryTruckIcon} alt="Delivery Truck" className="truck-icon-img" />
-                                    Miễn phí
+                                    {shippingFee === 0 ? 'Miễn phí' : formatPrice(shippingFee)}
                                 </span>
                             </div>
 
@@ -237,15 +259,32 @@ export default function Cart() {
                             <div className="voucher-section">
                                 <label className="voucher-label">Mã giảm giá / Voucher doanh nghiệp:</label>
                                 <div className="voucher-input-group">
-                                    <input type="text" placeholder="Nhập Mã Ưu Đãi..." />
-                                    <button className="apply-btn">Áp dụng</button>
+                                    <input
+                                        type="text"
+                                        placeholder="Nhập Mã Ưu Đãi..."
+                                        value={voucherCode}
+                                        onChange={(e) => setVoucherCode(e.target.value)}
+                                    />
+                                    <button type="button" className="apply-btn" onClick={() => handleApplyVoucher()}>
+                                        Áp dụng
+                                    </button>
                                 </div>
                                 <div className="available-vouchers">
                                     <span className="vouchers-title">MÃ KHẢ DỤNG:</span>
-                                    <div className="voucher-item">
+                                    <div className={`voucher-item ${voucherDiscount > 0 ? 'applied' : ''}`}>
                                         <span className="voucher-code">NEW15</span>
                                         <span className="voucher-desc">Giảm thêm 15.000đ đơn mới</span>
-                                        <button className="use-voucher-btn">Dùng mã</button>
+                                        {voucherDiscount > 0 ? (
+                                            <span className="applied-text">Đã áp dụng</span>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                className="use-voucher-btn"
+                                                onClick={() => handleApplyVoucher('NEW15')}
+                                            >
+                                                Dùng mã
+                                            </button>
+                                        )}
                                     </div>
                                     <div className="voucher-item applied">
                                         <span className="voucher-code">FREESHIP300K</span>
@@ -258,19 +297,37 @@ export default function Cart() {
                             <div className="total-section">
                                 <div className="total-row">
                                     <span className="total-label">Tổng tiền thanh toán:</span>
-                                    <span className="total-price">2.574.000đ</span>
+                                    <span className="total-price">{formatPrice(finalTotal)}</span>
                                 </div>
                                 <p className="tax-note">(Đã bao gồm thuế GTGT & chiết khấu sỉ)</p>
                             </div>
 
-                            <button className="checkout-btn">
+                            <button
+                                type="button"
+                                className="checkout-btn"
+                                onClick={() => {
+                                    if (selectedItems.length === 0) {
+                                        alert('Vui lòng chọn ít nhất 1 sản phẩm để thanh toán!');
+                                        return;
+                                    }
+                                    navigate('/checkout', {
+                                        state: {
+                                            items: selectedItems,
+                                            subtotal: currentSubtotal,
+                                            wholesaleDiscount,
+                                            voucherDiscount,
+                                            shippingFee,
+                                            total: finalTotal,
+                                        },
+                                    });
+                                }}
+                            >
                                 Tiến Hành Đặt Hàng & Thanh Toán →
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <Footer />
         </main>
     );
 }
