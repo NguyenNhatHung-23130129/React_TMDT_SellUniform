@@ -9,8 +9,6 @@
 .hero {
   background: #f1f4f7;
   border: 1px solid #dee3e9;
-  border-radius: 32px;
-  margin: 24px auto 0;
   padding: 64px;
   position: relative;
   overflow: hidden;
