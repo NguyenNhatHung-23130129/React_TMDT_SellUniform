@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import Header from '../../components/layout/Header.tsx';
-import Footer from '../../components/layout/Footer.tsx';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
 import heroImg from '../../assets/hero.png';
 import shoppingCartIcon from '../../assets/icons/shopping-cart-icon.svg';
 import searchIcon from '../../assets/icons/search-icon.svg';
@@ -11,32 +12,97 @@ import lightningIcon from '../../assets/icons/lightning-icon.svg';
 import './ProductDetails.css';
 
 export default function ProductDetails() {
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const products = useSelector((state: RootState) => state.data.products);
+    const product: any = products.find((item: any) => String(item.id) === String(id)) || products[0];
+
+    const colors: string[] = product?.colors?.length ? product.colors : ['#1E3A8A', '#FFFFFF', '#111827', '#6B7280', '#059669'];
+
     const [activeTab, setActiveTab] = useState<'specs' | 'size' | 'policy'>('specs');
+    const [selectedSize, setSelectedSize] = useState('M');
+    const [selectedColor, setSelectedColor] = useState(colors[0]);
+    const [quantity, setQuantity] = useState(1);
+
+    useEffect(() => {
+        if (colors.length > 0) {
+            setSelectedColor(colors[0]);
+        }
+    }, [id]);
+
+    const productName = product?.name || 'Áo Polo CVC Coolmax Kháng Khuẩn Cao Cấp (Form Chuẩn Châu Á)';
+    const productSku = product?.sku || (product?.id ? `SP-${product.id}` : 'POLO-CVC-01');
+    const productImage = product?.image || heroImg;
+    const basePrice = Number(product?.price) || 185000;
+    const oldPrice = Number(product?.originalPrice || product?.oldPrice) || Math.round(basePrice * 1.2);
+    const rating = product?.rating || 4.9;
+    const soldCount = product?.sold || 1890;
+    const stockCount = product?.stock || 189;
+
+    const discountPercent = oldPrice > basePrice
+        ? Math.round(((oldPrice - basePrice) / oldPrice) * 100)
+        : 0;
+
+    const formatPrice = (value: number) => value.toLocaleString('vi-VN') + 'đ';
+
+    const handleQuantityChange = (delta: number) => {
+        setQuantity((prev) => Math.max(1, Math.min(stockCount, prev + delta)));
+    };
+
+    const relatedProducts = products.filter((item: any) => String(item.id) !== String(product?.id)).slice(0, 3);
+
+    const handleAddToCart = () => {
+        const savedCart = JSON.parse(localStorage.getItem('cart_items') || '[]');
+        const itemId = String(product?.id || '1');
+        const existingIndex = savedCart.findIndex(
+            (i: any) => i.id === itemId && i.size === selectedSize && i.color === selectedColor
+        );
+
+        if (existingIndex >= 0) {
+            savedCart[existingIndex].quantity += quantity;
+        } else {
+            savedCart.push({
+                id: itemId,
+                name: productName,
+                image: productImage,
+                size: selectedSize,
+                color: selectedColor,
+                sku: productSku,
+                price: basePrice,
+                oldPrice: oldPrice,
+                quantity: quantity,
+                selected: true,
+            });
+        }
+
+        localStorage.setItem('cart_items', JSON.stringify(savedCart));
+        navigate('/cart');
+    };
 
     return (
         <main className="home">
-            <Header />
             <div className="product-details-container">
                 <div className="product-main-section">
                     <div className="product-gallery">
                         <div className="main-image-wrapper">
-                            <img src={heroImg} alt="Áo Polo CVC Coolmax" className="main-image" />
+                            <img src={productImage} alt={productName} className="main-image" />
                             <button className="zoom-btn">
                                 <img src={searchIcon} alt="Zoom" className="zoom-icon" />
                             </button>
                         </div>
                         <div className="thumbnail-list">
                             <div className="thumbnail-item active">
-                                <img src={heroImg} alt="Thumb 1" />
+                                <img src={productImage} alt="Thumb 1" />
                             </div>
                             <div className="thumbnail-item">
-                                <img src={heroImg} alt="Thumb 2" />
+                                <img src={productImage} alt="Thumb 2" />
                             </div>
                             <div className="thumbnail-item">
-                                <img src={heroImg} alt="Thumb 3" />
+                                <img src={productImage} alt="Thumb 3" />
                             </div>
                             <div className="thumbnail-item">
-                                <img src={heroImg} alt="Thumb 4" />
+                                <img src={productImage} alt="Thumb 4" />
                             </div>
                         </div>
                         <div className="policy-box">
@@ -48,25 +114,29 @@ export default function ProductDetails() {
 
                     <div className="product-info-summary">
                         <div className="info-header">
-                            <span className="sku-text">Mã SP: POLO-CVC-01</span>
+                            <span className="sku-text">Mã SP: {productSku}</span>
                             <span className="status-badge">Sẵn hàng</span>
                         </div>
-                        <h1 className="product-title-detail">Áo Polo CVC Coolmax Kháng Khuẩn Cao Cấp (Form Chuẩn Châu Á)</h1>
+                        <h1 className="product-title-detail">{productName}</h1>
                         <div className="rating-row">
                             <div className="stars">
-                                <img src={starFillIcon} alt="Star" className="star-icon-img" /> 4.9
+                                <img src={starFillIcon} alt="Star" className="star-icon-img" /> {rating}
                             </div>
                             <span className="divider">•</span>
                             <span className="review-count">148 Đánh giá được duyệt</span>
                             <span className="divider">•</span>
-                            <span className="sold-count">Đã bán 1.890 cái</span>
+                            <span className="sold-count">Đã bán {soldCount.toLocaleString('vi-VN')} cái</span>
                         </div>
 
                         <div className="price-box">
                             <div className="price-detail-row">
-                                <span className="current-price">185.000đ</span>
-                                <span className="original-price">230.000đ</span>
-                                <span className="discount-badge">-20%</span>
+                                <span className="current-price">{formatPrice(basePrice)}</span>
+                                {oldPrice > basePrice && (
+                                    <>
+                                        <span className="original-price">{formatPrice(oldPrice)}</span>
+                                        <span className="discount-badge">-{discountPercent}%</span>
+                                    </>
+                                )}
                             </div>
                             <p className="price-note">Giá chưa bao gồm VAT và chi phí in/thêu logo theo yêu cầu (nếu có)</p>
                         </div>
@@ -77,20 +147,20 @@ export default function ProductDetails() {
                                 <strong>BẢNG CHIẾT KHẤU TỰ ĐỘNG THEO SỐ LƯỢNG</strong>
                             </div>
                             <div className="tier-grid">
-                                <div className="tier-item">
+                                <div className={`tier-item ${quantity >= 20 && quantity <= 49 ? 'active' : ''}`}>
                                     <span className="tier-qty">Từ 20 - 49 cái</span>
                                     <span className="tier-discount">Giảm 5%</span>
-                                    <span className="tier-price">175.750đ / cái</span>
+                                    <span className="tier-price">{formatPrice(Math.round(basePrice * 0.95))} / cái</span>
                                 </div>
-                                <div className="tier-item active">
+                                <div className={`tier-item ${quantity >= 50 && quantity <= 99 ? 'active' : ''}`}>
                                     <span className="tier-qty">Từ 50 - 99 cái</span>
                                     <span className="tier-discount">Giảm 10%</span>
-                                    <span className="tier-price">166.500đ / cái</span>
+                                    <span className="tier-price">{formatPrice(Math.round(basePrice * 0.9))} / cái</span>
                                 </div>
-                                <div className="tier-item">
+                                <div className={`tier-item ${quantity >= 100 ? 'active' : ''}`}>
                                     <span className="tier-qty">Từ 100 cái trở lên</span>
                                     <span className="tier-discount">Giảm 15%</span>
-                                    <span className="tier-price">157.250đ / cái</span>
+                                    <span className="tier-price">{formatPrice(Math.round(basePrice * 0.85))} / cái</span>
                                 </div>
                             </div>
                             <p className="tier-footer">Hệ thống sẽ tự động tính giảm giá ngay khi bạn chọn số lượng phù hợp</p>
@@ -98,15 +168,18 @@ export default function ProductDetails() {
 
                         <div className="option-section">
                             <div className="option-label-row">
-                                <span><strong>Màu Sắc:</strong> Xanh Navy Doanh Nhân</span>
-                                <span className="stock-info">● Còn 189 sản phẩm</span>
+                                <span><strong>Màu Sắc:</strong> {selectedColor}</span>
+                                <span className="stock-info">● Còn {stockCount} sản phẩm</span>
                             </div>
                             <div className="color-options">
-                                <div className="color-circle active navy"></div>
-                                <div className="color-circle white"></div>
-                                <div className="color-circle black"></div>
-                                <div className="color-circle gray"></div>
-                                <div className="color-circle green"></div>
+                                {colors.map((color: string, index: number) => (
+                                    <div
+                                        key={index}
+                                        className={`color-circle ${selectedColor === color ? 'active' : ''}`}
+                                        style={{ backgroundColor: color, borderColor: selectedColor === color ? '#0088FF' : '#D1D5DB' }}
+                                        onClick={() => setSelectedColor(color)}
+                                    ></div>
+                                ))}
                             </div>
                         </div>
 
@@ -118,12 +191,16 @@ export default function ProductDetails() {
                                 </span>
                             </div>
                             <div className="size-options">
-                                <button className="size-btn">S</button>
-                                <button className="size-btn active">M</button>
-                                <button className="size-btn">L</button>
-                                <button className="size-btn">XL</button>
-                                <button className="size-btn">2XL</button>
-                                <button className="size-btn">3XL</button>
+                                {['S', 'M', 'L', 'XL', '2XL', '3XL'].map((size) => (
+                                    <button
+                                        key={size}
+                                        type="button"
+                                        className={`size-btn ${selectedSize === size ? 'active' : ''}`}
+                                        onClick={() => setSelectedSize(size)}
+                                    >
+                                        {size}
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
@@ -131,24 +208,29 @@ export default function ProductDetails() {
                             <span className="quantity-label"><strong>Số Lượng Mua:</strong></span>
                             <div className="quantity-controls">
                                 <div className="quantity-picker">
-                                    <button className="qty-btn">-</button>
-                                    <input type="text" className="qty-input" defaultValue="1" />
-                                    <button className="qty-btn">+</button>
+                                    <button type="button" className="qty-btn" onClick={() => handleQuantityChange(-1)}>-</button>
+                                    <input
+                                        type="text"
+                                        className="qty-input"
+                                        value={quantity}
+                                        onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
+                                    />
+                                    <button type="button" className="qty-btn" onClick={() => handleQuantityChange(1)}>+</button>
                                 </div>
                                 <div className="quick-qty-tags">
-                                    <button className="qty-tag">+5 cái (-5%)</button>
-                                    <button className="qty-tag">+10 cái (-10%)</button>
-                                    <button className="qty-tag">+20 cái (-15%)</button>
+                                    <button type="button" className="qty-tag" onClick={() => handleQuantityChange(5)}>+5 cái (-5%)</button>
+                                    <button type="button" className="qty-tag" onClick={() => handleQuantityChange(10)}>+10 cái (-10%)</button>
+                                    <button type="button" className="qty-tag" onClick={() => handleQuantityChange(20)}>+20 cái (-15%)</button>
                                 </div>
                             </div>
                         </div>
 
                         <div className="action-buttons">
-                            <button className="add-to-cart-btn">
+                            <button type="button" className="add-to-cart-btn" onClick={handleAddToCart}>
                                 <img src={shoppingCartIcon} alt="Cart" className="cart-icon-img" />
                                 THÊM VÀO GIỎ HÀNG
                             </button>
-                            <button className="buy-now-btn">
+                            <button type="button" className="buy-now-btn" onClick={handleAddToCart}>
                                 <img src={lightningIcon} alt="Buy Now" className="buy-now-icon-img" />
                                 MUA NGAY - NHẬN TRONG 24H
                             </button>
@@ -168,7 +250,7 @@ export default function ProductDetails() {
                         <p className="shop-sub">● Đang hoạt động • Kho hàng HÀ NỘI & TP.HCM</p>
                         <div className="shop-actions">
                             <button className="shop-btn outline">Chat Ngay</button>
-                            <button className="shop-btn primary">Xem Shop</button>
+                            <button className="shop-btn primary" onClick={() => navigate('/')}>Xem Shop</button>
                         </div>
                     </div>
                     <div className="shop-metrics">
@@ -359,45 +441,45 @@ export default function ProductDetails() {
                         <a href="#" className="view-all-link">Xem toàn bộ kho hàng có sẵn →</a>
                     </div>
                     <div className="cross-sell-grid">
-                        <div className="cross-sell-card">
-                            <div className="cross-card-img-wrapper">
-                                <img src={heroImg} alt="Quần Tây Nam" />
+                        {relatedProducts.map((item: any) => (
+                            <div
+                                key={item.id}
+                                className="cross-sell-card"
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                    navigate(`/product/${item.id}`);
+                                    window.scrollTo(0, 0);
+                                }}
+                            >
+                                <div className="cross-card-img-wrapper">
+                                    <img src={item.image || heroImg} alt={item.name} />
+                                </div>
+                                <div className="cross-card-info">
+                                    <p className="cross-category">ĐỒNG PHỤC DOANH NGHIỆP</p>
+                                    <h4 className="cross-title">{item.name}</h4>
+                                    <p className="cross-price">
+                                        {Number(item.price).toLocaleString('vi-VN')}đ
+                                        <span className="cross-old-price">
+                                            {Math.round(Number(item.price) * 1.2).toLocaleString('vi-VN')}đ
+                                        </span>
+                                    </p>
+                                    <button
+                                        type="button"
+                                        className="cross-action-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            navigate(`/product/${item.id}`);
+                                            window.scrollTo(0, 0);
+                                        }}
+                                    >
+                                        + Xem Chi Tiết
+                                    </button>
+                                </div>
                             </div>
-                            <div className="cross-card-info">
-                                <p className="cross-category">ĐỒNG PHỤC NAM</p>
-                                <h4 className="cross-title">Quần Tây Áo Công Sở Co Co Dãn Nhẹ (Chống Nhăn 100%)</h4>
-                                <p className="cross-price">245.000đ <span className="cross-old-price">290.000đ</span></p>
-                                <button className="cross-action-btn">+ Thêm Cùng</button>
-                            </div>
-                        </div>
-
-                        <div className="cross-sell-card">
-                            <div className="cross-card-img-wrapper">
-                                <img src={heroImg} alt="Chân Váy Chữ A" />
-                            </div>
-                            <div className="cross-card-info">
-                                <p className="cross-category">THỜI TRANG NỮ</p>
-                                <h4 className="cross-title">Chân Váy Chữ A Công Sở Dáng Lưng Cao Lót Lụa</h4>
-                                <p className="cross-price">195.000đ <span className="cross-old-price">240.000đ</span></p>
-                                <button className="cross-action-btn">+ Thêm Cùng</button>
-                            </div>
-                        </div>
-
-                        <div className="cross-sell-card">
-                            <div className="cross-card-img-wrapper">
-                                <img src={heroImg} alt="Áo Khoác Gió" />
-                            </div>
-                            <div className="cross-card-info">
-                                <p className="cross-category">ĐỒNG PHỤC MÙA ĐÔNG</p>
-                                <h4 className="cross-title">Áo Khoác Gió 2 Lớp Chống Thấm Nước Phối Bo Cổ</h4>
-                                <p className="cross-price">215.000đ <span className="cross-old-price">270.000đ</span></p>
-                                <button className="cross-action-btn">+ Thêm Cùng</button>
-                            </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
             </div>
-            <Footer />
         </main>
     );
 }

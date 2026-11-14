@@ -1,0 +1,102 @@
+.home {
+  font-family: "Be Vietnam Pro", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #1a1c1f;
+  background: #fff;
+}
+
+.sidebar {
+  width: 260px;
+  border: 1px solid #0064e0;
+  border-radius: 8px;
+  padding: 10px;
+}
+.sidebar h3 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.sidebar .text-btn {
+  background: none;
+  border: none;
+  color: #0066ff;
+  cursor: pointer;
+  font-size: 13px;
+}
+.sidebar .filter-group {
+  margin-bottom: 22px;
+}
+.sidebar .filter-group h4 {
+  margin: 0 0 12px;
+  font-size: 14px;
+}
+.sidebar .filter-group label {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  align-items: center;
+}
+.sidebar .filter-group input[type=radio] {
+  accent-color: #0066ff;
+}
+.sidebar .sizes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.sidebar .sizes-grid button {
+  padding: 8px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.sidebar .colors-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sidebar .colors-flex .color-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid #0064e0;
+  cursor: pointer;
+}
+.sidebar .btn-primary, .sidebar .btn-outline {
+  width: 100%;
+  padding: 12px;
+  border-radius: 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  justify-content: center;
+}
+.sidebar .btn-primary {
+  background: #0064e0;
+  color: #fff;
+  border: none;
+}
+.sidebar .btn-outline {
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+.sizes-grid button.active {
+  background: #0066ff;
+  color: #fff;
+  border-color: #0066ff;
+}
+
+.colors-flex .color-dot.active {
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #0066ff;
+  transform: scale(1.1);
+}
+
+/*# sourceMappingURL=SidebarFilter.css.map */
