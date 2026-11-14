@@ -90,10 +90,9 @@ function loadSavedDeliveryAddresses(): SavedDeliveryAddress[] {
     }
 
     const parsedAddresses: unknown = JSON.parse(storedAddresses);
-    const validAddresses = Array.isArray(parsedAddresses)
+    return Array.isArray(parsedAddresses)
       ? parsedAddresses.filter(isSavedDeliveryAddress)
-      : [];
-    return validAddresses.length > 0 ? validAddresses : savedDeliveryAddresses;
+      : savedDeliveryAddresses;
   } catch {
     return savedDeliveryAddresses;
   }
@@ -1132,57 +1131,77 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
             </header>
 
             <div className="address-dialog-list">
-              {savedAddresses.map((address) => (
-                <article className="saved-address-card" key={address.id}>
-                  <div className="saved-address-heading">
-                    <div>
-                      <span className={`saved-address-type ${address.customerType}`}>
-                        {address.customerType === 'personal' ? 'Cá nhân' : 'Doanh nghiệp'}
-                      </span>
-                      <h3>{address.label}</h3>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setPendingAddress(address);
-                        setCustomerType(address.customerType);
-                        setIsAddressDialogOpen(false);
-                      }}
-                    >
-                      Sử dụng địa chỉ
-                    </button>
-                  </div>
-
-                  <dl className="saved-address-details">
-                    <div>
-                      <dt>{address.customerType === 'personal' ? 'Người nhận' : 'Tên công ty'}</dt>
-                      <dd>
-                        {address.customerType === 'personal'
-                          ? address.recipientName
-                          : address.companyName}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt>Số điện thoại</dt>
-                      <dd>{address.phone}</dd>
-                    </div>
-                    {address.customerType === 'business' && (
+              {savedAddresses.length === 0 ? (
+                <p className="saved-address-empty">Chưa có địa chỉ nào được lưu.</p>
+              ) : (
+                savedAddresses.map((address) => (
+                  <article className="saved-address-card" key={address.id}>
+                    <div className="saved-address-heading">
                       <div>
-                        <dt>Mã số thuế</dt>
-                        <dd>{address.taxCode}</dd>
+                        <span className={`saved-address-type ${address.customerType}`}>
+                          {address.customerType === 'personal' ? 'Cá nhân' : 'Doanh nghiệp'}
+                        </span>
+                        <h3>{address.label}</h3>
                       </div>
-                    )}
-                    <div>
-                      <dt>Email</dt>
-                      <dd>{address.email}</dd>
+                      <div className="saved-address-actions">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setPendingAddress(address);
+                            setCustomerType(address.customerType);
+                            setIsAddressDialogOpen(false);
+                          }}
+                        >
+                          Sử dụng
+                        </button>
+                        <button
+                          className="saved-address-delete"
+                          type="button"
+                          aria-label={`Xóa địa chỉ ${address.label}`}
+                          onClick={() =>
+                            setSavedAddresses((currentAddresses) =>
+                              currentAddresses.filter((item) => item.id !== address.id),
+                            )
+                          }
+                        >
+                          Xóa
+                        </button>
+                      </div>
                     </div>
-                    <div className="saved-address-full-width">
-                      <dt>Địa chỉ</dt>
-                      <dd>{address.address}</dd>
-                    </div>
-                  </dl>
-                </article>
-              ))}
+
+                    <dl className="saved-address-details">
+                      <div>
+                        <dt>
+                          {address.customerType === 'personal' ? 'Người nhận' : 'Tên công ty'}
+                        </dt>
+                        <dd>
+                          {address.customerType === 'personal'
+                            ? address.recipientName
+                            : address.companyName}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt>Số điện thoại</dt>
+                        <dd>{address.phone}</dd>
+                      </div>
+                      {address.customerType === 'business' && (
+                        <div>
+                          <dt>Mã số thuế</dt>
+                          <dd>{address.taxCode}</dd>
+                        </div>
+                      )}
+                      <div>
+                        <dt>Email</dt>
+                        <dd>{address.email}</dd>
+                      </div>
+                      <div className="saved-address-full-width">
+                        <dt>Địa chỉ</dt>
+                        <dd>{address.address}</dd>
+                      </div>
+                    </dl>
+                  </article>
+                ))
+              )}
             </div>
 
             <footer className="address-dialog-footer">
