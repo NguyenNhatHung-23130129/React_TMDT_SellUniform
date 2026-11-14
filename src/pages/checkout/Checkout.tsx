@@ -531,6 +531,8 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
   const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false);
   const [isAddAddressDialogOpen, setIsAddAddressDialogOpen] = useState(false);
   const [newAddressType, setNewAddressType] = useState<CustomerType>('personal');
+  const [isEditingDelivery, setIsEditingDelivery] = useState(false);
+  const [deliverySaveMessage, setDeliverySaveMessage] = useState('');
   const [savedAddresses, setSavedAddresses] = useState<SavedDeliveryAddress[]>(
     loadSavedDeliveryAddresses,
   );
@@ -667,6 +669,85 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
   const vat = isBusiness ? 435_000 : 0;
   const total = subtotal - productDiscount - couponDiscount + shippingCost + vat;
 
+  const handleSaveDeliveryInfo = () => {
+    const form = deliveryFormRef.current;
+    if (!form?.reportValidity()) {
+      return;
+    }
+
+    const formData = new FormData(form);
+    const getValue = (name: string) => String(formData.get(name) ?? '').trim();
+    let savedAddress: SavedDeliveryAddress;
+
+    if (isBusiness) {
+      const companyName = getValue('companyName');
+      savedAddress = {
+        id: `business-${Date.now()}`,
+        label: companyName,
+        customerType: 'business',
+        companyName,
+        phone: getValue('companyPhone'),
+        taxCode: getValue('companyTaxCode'),
+        email: getValue('invoiceEmail'),
+        address: getValue('companyAddress'),
+      };
+    } else {
+      const selectedProvinceCode = getValue('provinceCode');
+      const selectedWardCode = getValue('wardCode');
+      const formProvince = provinces.find(
+        (item) => String(item.code) === selectedProvinceCode,
+      );
+      const formWard = formProvince?.wards?.find(
+        (item) => String(item.code) === selectedWardCode,
+      );
+      const recipientName = getValue('recipientName');
+      const streetAddress = getValue('address');
+
+      savedAddress = {
+        id: `personal-${Date.now()}`,
+        label: `Địa chỉ của ${recipientName}`,
+        customerType: 'personal',
+        recipientName,
+        phone: getValue('recipientPhone'),
+        email: getValue('recipientEmail'),
+        address: [streetAddress, formWard?.name, formProvince?.name].filter(Boolean).join(', '),
+        provinceCode: selectedProvinceCode,
+        wardName: formWard?.name ?? '',
+        streetAddress,
+        deliveryNote: getValue('deliveryNote'),
+      };
+    }
+
+    setSavedAddresses((currentAddresses) => [
+      savedAddress,
+      ...currentAddresses.filter((address) => {
+        if (address.customerType !== savedAddress.customerType) {
+          return true;
+        }
+
+        if (address.customerType === 'personal' && savedAddress.customerType === 'personal') {
+          return !(
+            address.recipientName === savedAddress.recipientName &&
+            address.phone === savedAddress.phone &&
+            address.streetAddress === savedAddress.streetAddress
+          );
+        }
+
+        if (address.customerType === 'business' && savedAddress.customerType === 'business') {
+          return !(
+            address.companyName === savedAddress.companyName &&
+            address.taxCode === savedAddress.taxCode &&
+            address.address === savedAddress.address
+          );
+        }
+
+        return true;
+      }),
+    ]);
+    setIsEditingDelivery(false);
+    setDeliverySaveMessage('Đã lưu thông tin nhận hàng.');
+  };
+
   const handleCompleteOrder = () => {
     const form = deliveryFormRef.current;
 
@@ -738,15 +819,29 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                   </p>
                 </div>
               </div>
-              <button
-                className="address-change-button"
-                type="button"
-                aria-haspopup="dialog"
-                aria-expanded={isAddressDialogOpen}
-                onClick={() => setIsAddressDialogOpen(true)}
-              >
-                Đổi địa chỉ
-              </button>
+              <div className="delivery-heading-actions">
+                {!isEditingDelivery && (
+                  <button
+                    className="delivery-edit-button"
+                    type="button"
+                    onClick={() => {
+                      setDeliverySaveMessage('');
+                      setIsEditingDelivery(true);
+                    }}
+                  >
+                    Chỉnh sửa thông tin
+                  </button>
+                )}
+                <button
+                  className="address-change-button"
+                  type="button"
+                  aria-haspopup="dialog"
+                  aria-expanded={isAddressDialogOpen}
+                  onClick={() => setIsAddressDialogOpen(true)}
+                >
+                  Đổi địa chỉ
+                </button>
+              </div>
             </div>
 
             <div className="checkout-customer-tabs" role="tablist" aria-label="Loại khách hàng">
@@ -798,6 +893,24 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                   }}
                   onWardChange={setWardCode}
                 />
+              )}
+              {(isEditingDelivery || deliverySaveMessage) && (
+                <div className="delivery-form-actions">
+                  {deliverySaveMessage && (
+                    <p className="delivery-save-message" role="status">
+                      {deliverySaveMessage}
+                    </p>
+                  )}
+                  {isEditingDelivery && (
+                    <button
+                      className="delivery-save-button"
+                      type="button"
+                      onClick={handleSaveDeliveryInfo}
+                    >
+                      Lưu thông tin
+                    </button>
+                  )}
+                </div>
               )}
             </form>
           </section>
@@ -1149,6 +1262,8 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                           onClick={() => {
                             setPendingAddress(address);
                             setCustomerType(address.customerType);
+                          setDeliverySaveMessage('');
+                          setIsEditingDelivery(true);
                             setIsAddressDialogOpen(false);
                           }}
                         >
