@@ -1021,6 +1021,17 @@
   background: #fff;
 }
 
+.saved-address-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 30px 18px;
+  border: 1px dashed #d4dde7;
+  border-radius: 14px;
+  color: #6e7b89;
+  font-size: 14px;
+  text-align: center;
+}
+
 .saved-address-heading {
   display: flex;
   align-items: flex-start;
@@ -1032,6 +1043,13 @@
 
 .saved-address-heading > div {
   min-width: 0;
+}
+
+.saved-address-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
 }
 
 .saved-address-type {
@@ -1074,6 +1092,17 @@
 
 .saved-address-heading button:hover {
   background: #0754bd;
+}
+
+.saved-address-heading .saved-address-delete {
+  border: 1px solid #f0c6cb;
+  background: #fff;
+  color: #bd3343;
+}
+
+.saved-address-heading .saved-address-delete:hover {
+  border-color: #e99da6;
+  background: #fff2f3;
 }
 
 .saved-address-details {
