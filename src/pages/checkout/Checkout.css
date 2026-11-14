@@ -177,6 +177,29 @@
   font-weight: 600;
 }
 
+.delivery-cancel-button {
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid #d5dfe9;
+  border-radius: 999px;
+  background: #fff;
+  color: #46596d;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.delivery-cancel-button:hover {
+  border-color: #a9c9ef;
+  background: #f5f9ff;
+  color: #075bc2;
+}
+
 .delivery-save-button {
   min-height: 44px;
   padding: 0 20px;
@@ -199,7 +222,8 @@
 }
 
 .delivery-save-button:focus-visible,
-.delivery-edit-button:focus-visible {
+.delivery-edit-button:focus-visible,
+.delivery-cancel-button:focus-visible {
   outline: 3px solid rgb(18 97 216 / 28%);
   outline-offset: 2px;
 }
