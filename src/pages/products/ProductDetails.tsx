@@ -52,6 +52,34 @@ export default function ProductDetails() {
 
     const relatedProducts = products.filter((item: any) => String(item.id) !== String(product?.id)).slice(0, 3);
 
+    const handleAddToCart = () => {
+        const savedCart = JSON.parse(localStorage.getItem('cart_items') || '[]');
+        const itemId = String(product?.id || '1');
+        const existingIndex = savedCart.findIndex(
+            (i: any) => i.id === itemId && i.size === selectedSize && i.color === selectedColor
+        );
+
+        if (existingIndex >= 0) {
+            savedCart[existingIndex].quantity += quantity;
+        } else {
+            savedCart.push({
+                id: itemId,
+                name: productName,
+                image: productImage,
+                size: selectedSize,
+                color: selectedColor,
+                sku: productSku,
+                price: basePrice,
+                oldPrice: oldPrice,
+                quantity: quantity,
+                selected: true,
+            });
+        }
+
+        localStorage.setItem('cart_items', JSON.stringify(savedCart));
+        navigate('/cart');
+    };
+
     return (
         <main className="home">
             <div className="product-details-container">
@@ -198,11 +226,11 @@ export default function ProductDetails() {
                         </div>
 
                         <div className="action-buttons">
-                            <button type="button" className="add-to-cart-btn" onClick={() => navigate('/cart')}>
+                            <button type="button" className="add-to-cart-btn" onClick={handleAddToCart}>
                                 <img src={shoppingCartIcon} alt="Cart" className="cart-icon-img" />
                                 THÊM VÀO GIỎ HÀNG
                             </button>
-                            <button type="button" className="buy-now-btn" onClick={() => navigate('/cart')}>
+                            <button type="button" className="buy-now-btn" onClick={handleAddToCart}>
                                 <img src={lightningIcon} alt="Buy Now" className="buy-now-icon-img" />
                                 MUA NGAY - NHẬN TRONG 24H
                             </button>
