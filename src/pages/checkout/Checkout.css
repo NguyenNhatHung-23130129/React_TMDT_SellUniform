@@ -965,6 +965,11 @@
   padding: 21px 25px 24px;
 }
 
+.address-entry-type-tabs {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
 .address-entry-delivery .delivery-form {
   padding-top: 0;
 }

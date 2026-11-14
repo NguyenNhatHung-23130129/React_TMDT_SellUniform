@@ -320,19 +320,35 @@ function PersonalDeliveryFields({
   );
 }
 
-function BusinessDetailsFields() {
+type BusinessDetailsFieldsProps = {
+  idPrefix?: string;
+  initialValues?: Partial<{
+    companyName: string;
+    companyPhone: string;
+    companyTaxCode: string;
+    invoiceEmail: string;
+    companyAddress: string;
+  }>;
+};
+
+function BusinessDetailsFields({ idPrefix = '', initialValues }: BusinessDetailsFieldsProps) {
+  const fieldId = (name: string) => (idPrefix ? `${idPrefix}-${name}` : name);
+
   return (
     <div className="delivery-fields">
       <div className="business-info-fields">
         <div className="delivery-field delivery-field-wide">
-          <label htmlFor="company-name">
+          <label htmlFor={fieldId('company-name')}>
             Tên công ty đầy đủ theo ĐKKD <span>*</span>
           </label>
           <input
-            id="company-name"
+            id={fieldId('company-name')}
             name="companyName"
             type="text"
-            defaultValue="CÔNG TY CỔ PHẦN CÔNG NGHỆ VÀ TRUYỀN THÔNG VINA TECH"
+            defaultValue={
+              initialValues?.companyName ??
+              'CÔNG TY CỔ PHẦN CÔNG NGHỆ VÀ TRUYỀN THÔNG VINA TECH'
+            }
             autoComplete="organization"
             minLength={3}
             maxLength={160}
@@ -341,13 +357,14 @@ function BusinessDetailsFields() {
         </div>
 
         <div className="delivery-field delivery-field-wide">
-          <label htmlFor="company-phone">
+          <label htmlFor={fieldId('company-phone')}>
             Số điện thoại doanh nghiệp <span>*</span>
           </label>
           <input
-            id="company-phone"
+            id={fieldId('company-phone')}
             name="companyPhone"
             type="tel"
+            defaultValue={initialValues?.companyPhone ?? ''}
             autoComplete="tel"
             inputMode="tel"
             placeholder="Ví dụ: 02873008899"
@@ -357,15 +374,15 @@ function BusinessDetailsFields() {
         </div>
 
         <div className="delivery-field">
-          <label htmlFor="company-tax-code">
+          <label htmlFor={fieldId('company-tax-code')}>
             Mã số thuế (MST) <span>*</span>
           </label>
           <input
-            id="company-tax-code"
+            id={fieldId('company-tax-code')}
             name="companyTaxCode"
             type="text"
             inputMode="numeric"
-            defaultValue="0315998822"
+            defaultValue={initialValues?.companyTaxCode ?? '0315998822'}
             pattern="[0-9]{10}([0-9]{3})?"
             title="Mã số thuế gồm 10 hoặc 13 chữ số."
             maxLength={13}
@@ -374,14 +391,14 @@ function BusinessDetailsFields() {
         </div>
 
         <div className="delivery-field">
-          <label htmlFor="invoice-email">
+          <label htmlFor={fieldId('invoice-email')}>
             Email nhận hóa đơn (File XML/PDF) <span>*</span>
           </label>
           <input
-            id="invoice-email"
+            id={fieldId('invoice-email')}
             name="invoiceEmail"
             type="email"
-            defaultValue="ketoan@vinacorp.vn"
+            defaultValue={initialValues?.invoiceEmail ?? 'ketoan@vinacorp.vn'}
             autoComplete="email"
             maxLength={254}
             required
@@ -390,14 +407,17 @@ function BusinessDetailsFields() {
         </div>
 
         <div className="delivery-field delivery-field-wide">
-          <label htmlFor="company-address">
+          <label htmlFor={fieldId('company-address')}>
             Địa chỉ đăng ký kinh doanh chính thức <span>*</span>
           </label>
           <input
-            id="company-address"
+            id={fieldId('company-address')}
             name="companyAddress"
             type="text"
-            defaultValue="Tầng 12, Bitexco Financial Tower, Số 2 Hải Triều, P. Bến Nghé, Quận 1, TP. Hồ Chí Minh"
+            defaultValue={
+              initialValues?.companyAddress ??
+              'Tầng 12, Bitexco Financial Tower, Số 2 Hải Triều, P. Bến Nghé, Quận 1, TP. Hồ Chí Minh'
+            }
             autoComplete="street-address"
             minLength={10}
             maxLength={255}
@@ -511,6 +531,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
   const [customerType, setCustomerType] = useState<CustomerType>('personal');
   const [isAddressDialogOpen, setIsAddressDialogOpen] = useState(false);
   const [isAddAddressDialogOpen, setIsAddAddressDialogOpen] = useState(false);
+  const [newAddressType, setNewAddressType] = useState<CustomerType>('personal');
   const [savedAddresses, setSavedAddresses] = useState<SavedDeliveryAddress[]>(
     loadSavedDeliveryAddresses,
   );
@@ -1190,9 +1211,11 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
           >
             <header className="address-dialog-header">
               <div>
-                <span className="saved-address-type personal">Cá nhân</span>
-                <h2 id="address-entry-title">Thêm địa chỉ cá nhân</h2>
-                <p>Nhập thông tin người nhận và địa chỉ giao hàng.</p>
+                <span className={`saved-address-type ${newAddressType}`}>
+                  {newAddressType === 'personal' ? 'Cá nhân' : 'Doanh nghiệp'}
+                </span>
+                <h2 id="address-entry-title">Thêm địa chỉ mới</h2>
+                <p>Nhập thông tin nhận hàng tương ứng với loại địa chỉ.</p>
               </div>
               <button
                 className="address-dialog-close"
@@ -1205,9 +1228,41 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
             </header>
 
             <div className="address-entry-body">
+              <div
+                className="checkout-customer-tabs address-entry-type-tabs"
+                role="tablist"
+                aria-label="Loại địa chỉ cần thêm"
+              >
+                <button
+                  id="new-address-tab-personal"
+                  className={newAddressType === 'personal' ? 'is-active' : ''}
+                  type="button"
+                  role="tab"
+                  aria-selected={newAddressType === 'personal'}
+                  aria-controls="address-entry-panel"
+                  onClick={() => setNewAddressType('personal')}
+                >
+                  Cá nhân
+                </button>
+                <button
+                  id="new-address-tab-business"
+                  className={newAddressType === 'business' ? 'is-active' : ''}
+                  type="button"
+                  role="tab"
+                  aria-selected={newAddressType === 'business'}
+                  aria-controls="address-entry-panel"
+                  onClick={() => setNewAddressType('business')}
+                >
+                  Doanh nghiệp
+                </button>
+              </div>
+
               <div className="checkout-delivery address-entry-delivery">
                 <form
+                  id="address-entry-panel"
                   className="delivery-form address-entry-form"
+                  role="tabpanel"
+                  aria-labelledby={`new-address-tab-${newAddressType}`}
                   onSubmit={(event) => {
                     event.preventDefault();
                     const form = event.currentTarget;
@@ -1217,54 +1272,83 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
 
                     const formData = new FormData(form);
                     const getValue = (name: string) => String(formData.get(name) ?? '').trim();
-                    const province = newAddressProvince;
-                    const ward = newAddressWards.find(
-                      (item) => String(item.code) === newAddressWardCode,
-                    );
-                    const streetAddress = getValue('address');
-                    const recipientName = getValue('recipientName');
+                    let newAddress: SavedDeliveryAddress;
 
-                    const newAddress: SavedDeliveryAddress = {
-                      id: `personal-${Date.now()}`,
-                      label: `Địa chỉ của ${recipientName}`,
-                      customerType: 'personal',
-                      recipientName,
-                      phone: getValue('recipientPhone'),
-                      email: getValue('recipientEmail'),
-                      address: [streetAddress, ward?.name, province?.name]
-                        .filter(Boolean)
-                        .join(', '),
-                      provinceCode: newAddressProvinceCode,
-                      wardName: ward?.name ?? '',
-                      streetAddress,
-                      deliveryNote: getValue('deliveryNote'),
-                    };
+                    if (newAddressType === 'personal') {
+                      const province = newAddressProvince;
+                      const ward = newAddressWards.find(
+                        (item) => String(item.code) === newAddressWardCode,
+                      );
+                      const streetAddress = getValue('address');
+                      const recipientName = getValue('recipientName');
+
+                      newAddress = {
+                        id: `personal-${Date.now()}`,
+                        label: `Địa chỉ của ${recipientName}`,
+                        customerType: 'personal',
+                        recipientName,
+                        phone: getValue('recipientPhone'),
+                        email: getValue('recipientEmail'),
+                        address: [streetAddress, ward?.name, province?.name]
+                          .filter(Boolean)
+                          .join(', '),
+                        provinceCode: newAddressProvinceCode,
+                        wardName: ward?.name ?? '',
+                        streetAddress,
+                        deliveryNote: getValue('deliveryNote'),
+                      };
+                    } else {
+                      const companyName = getValue('companyName');
+                      newAddress = {
+                        id: `business-${Date.now()}`,
+                        label: companyName,
+                        customerType: 'business',
+                        companyName,
+                        phone: getValue('companyPhone'),
+                        taxCode: getValue('companyTaxCode'),
+                        email: getValue('invoiceEmail'),
+                        address: getValue('companyAddress'),
+                      };
+                    }
 
                     setSavedAddresses((currentAddresses) => [newAddress, ...currentAddresses]);
                     setIsAddAddressDialogOpen(false);
                   }}
                 >
-                  <PersonalDeliveryFields
-                    idPrefix="new-address"
-                    initialValues={{
-                      recipientName: '',
-                      recipientPhone: '',
-                      recipientEmail: '',
-                      address: '',
-                      deliveryNote: '',
-                    }}
-                    provinces={provinces}
-                    wards={newAddressWards}
-                    provinceCode={newAddressProvinceCode}
-                    wardCode={newAddressWardCode}
-                    isLoadingLocations={isLoadingLocations}
-                    locationLoadError={locationLoadError}
-                    onProvinceChange={(value) => {
-                      setNewAddressProvinceCode(value);
-                      setNewAddressWardCode('');
-                    }}
-                    onWardChange={setNewAddressWardCode}
-                  />
+                  {newAddressType === 'personal' ? (
+                    <PersonalDeliveryFields
+                      idPrefix="new-address"
+                      initialValues={{
+                        recipientName: '',
+                        recipientPhone: '',
+                        recipientEmail: '',
+                        address: '',
+                        deliveryNote: '',
+                      }}
+                      provinces={provinces}
+                      wards={newAddressWards}
+                      provinceCode={newAddressProvinceCode}
+                      wardCode={newAddressWardCode}
+                      isLoadingLocations={isLoadingLocations}
+                      locationLoadError={locationLoadError}
+                      onProvinceChange={(value) => {
+                        setNewAddressProvinceCode(value);
+                        setNewAddressWardCode('');
+                      }}
+                      onWardChange={setNewAddressWardCode}
+                    />
+                  ) : (
+                    <BusinessDetailsFields
+                      idPrefix="new-business-address"
+                      initialValues={{
+                        companyName: '',
+                        companyPhone: '',
+                        companyTaxCode: '',
+                        invoiceEmail: '',
+                        companyAddress: '',
+                      }}
+                    />
+                  )}
                   <div className="address-entry-actions">
                     <button
                       className="address-entry-cancel"
