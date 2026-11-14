@@ -56,7 +56,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(5, 1fr);
   gap: 24px;
 }
 
@@ -109,45 +109,36 @@
 .colors {
   display: flex;
   gap: 8px;
-  margin-top: 12px;
   align-items: center;
-  justify-content: space-between;
+  margin-top: auto;
 }
 
 .swatch {
-  width: 28px;
-  height: 28px;
-  border-radius: 24px;
-  border: 2px solid transparent;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
   cursor: pointer;
 }
-
 .swatch.selected {
-  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0064e0;
-}
-
-.swatch.more {
-  font-size: 12px;
-  color: #5d6c7b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: default;
-  border: none;
-  background: none;
+  border: 2px solid #0064e0;
 }
 
 .save {
-  width: 36px;
-  height: 36px;
-  background: #0064e0;
-  border-radius: 24px;
-  color: #fff;
+  width: 32px;
+  height: 32px;
+  background: #f1f4f7;
+  border-radius: 50%;
+  color: #5d6c7b;
   border: none;
   cursor: pointer;
+  margin-left: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.save:hover {
+  color: #f0284a;
 }
 
 .price {
@@ -160,7 +151,7 @@
 }
 
 .label {
-  font-size: 12px;
+  font-size: 18px;
   color: #5d6c7b;
   margin: 0;
 }
@@ -170,7 +161,7 @@
   font-weight: 700;
   font-size: 22px;
   line-height: 28px;
-  color: #1a1c1f;
+  color: #0064e0;
   margin: 0;
 }
 
