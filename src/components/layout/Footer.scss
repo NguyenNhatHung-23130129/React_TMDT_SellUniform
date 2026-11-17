@@ -7,34 +7,35 @@ $c-border: #dee3e9;
   border-top: 1px solid $c-border;
   font-family: 'Be Vietnam Pro', sans-serif;
   max-width: 100%;
-  margin: 0 auto;
-  padding: 40px 48px;
+  margin: 0;
+  padding: 40px;
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4,  1fr);
     gap: 32px;
   }
 
-  .brand {
-    grid-column: 1 / span 2;
+  .brand-footer {
     display: flex;
     flex-direction: column;
     gap: 16px;
+
 
     h2 {
       font-family: 'Montserrat', sans-serif;
       font-size: 20px;
       color: $c-primary;
       margin: 0;
+
     }
 
     p {
+    width: 50%;
       font-size: 14px;
       color: $c-text;
       line-height: 20px;
       margin: 0;
-      max-width: 384px;
     }
   }
 

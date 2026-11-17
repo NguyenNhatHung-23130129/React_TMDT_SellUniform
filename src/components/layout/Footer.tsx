@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <footer className="footer container">
       <div className="grid">
-        <div className="brand">
+        <div className="brand-footer">
           <h2>VIETUNIFORM</h2>
           <p>
             Hệ sinh thái kho tổng đồng phục may sẵn phục vụ doanh nghiệp, bệnh viện, nhà hàng và

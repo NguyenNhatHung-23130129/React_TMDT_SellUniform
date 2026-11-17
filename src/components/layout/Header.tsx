@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router';
+import { SearchAutocomplete } from '../../utils/SearchAutocomplete';
 import './Header.scss';
 
 type HeaderProps = {
@@ -10,29 +10,17 @@ type HeaderProps = {
 export default function Header({ isOrderHistory = false }: HeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [keyword, setKeyword] = useState('');
-
-  const handleSearch = () => {
-    const q = keyword.trim();
-    navigate(q ? `/search?q=${encodeURIComponent(q)}` : '/search');
-  };
 
   return (
       <header className="header container">
-        <div className="brand-search">
+        <div className="brand">
           <Link to="/" className="brand" aria-label="Trang chủ">VIETUNIFORM</Link>
-          <div className="search">
-            <input type="text" placeholder="Tìm sản phẩm..."
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}/>
-            <img src="/src/assets/icons/search-icon.svg" alt="Search"
-                style={{ cursor: 'pointer' }}
-                onClick={handleSearch}/>
-          </div>
-        </div>
 
-        <nav className="nav">
+        </div>
+          <div className="search">
+              <SearchAutocomplete />
+          </div>
+          <nav className="nav">
           <Link to="/shop" className={location.pathname === '/shop' ? 'active' : undefined}>Cửa hàng</Link>
           <Link to="/search" className={location.pathname === '/search' ? 'active' : undefined}>Sản phẩm</Link>
           <Link to="/orders" className={isOrderHistory ? 'active' : undefined}>Đơn hàng</Link>
