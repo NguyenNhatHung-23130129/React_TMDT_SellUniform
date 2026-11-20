@@ -31,15 +31,14 @@ export default function ProductDetails() {
 
     const [activeTab, setActiveTab] = useState<'specs' | 'size' | 'policy'>('specs');
     const [selectedSize, setSelectedSize] = useState('M');
-    const [selectedColor, setSelectedColor] = useState(colors[0]);
+    const [selectedColor, setSelectedColor] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [showToast, setShowToast] = useState(false);
 
+    const activeColor = colors.includes(selectedColor) ? selectedColor : colors[0];
+
     useEffect(() => {
         window.scrollTo(0, 0);
-        if (colors.length > 0) {
-            setSelectedColor(colors[0]);
-        }
     }, [id]);
 
     useEffect(() => {
@@ -78,7 +77,7 @@ export default function ProductDetails() {
         const itemId = String(product?.id || '1');
         const existingIndex = savedCart.findIndex(
             (i: { id: string; size: string; color: string }) =>
-                i.id === itemId && i.size === selectedSize && i.color === selectedColor
+                i.id === itemId && i.size === selectedSize && i.color === activeColor
         );
 
         if (existingIndex >= 0) {
@@ -89,7 +88,7 @@ export default function ProductDetails() {
                 name: productName,
                 image: productImage,
                 size: selectedSize,
-                color: selectedColor,
+                color: activeColor,
                 sku: productSku,
                 price: basePrice,
                 oldPrice: oldPrice,
@@ -206,15 +205,15 @@ export default function ProductDetails() {
 
                         <div className="option-section">
                             <div className="option-label-row">
-                                <span><strong>Màu Sắc:</strong> {selectedColor}</span>
+                                <span><strong>Màu Sắc:</strong> {activeColor}</span>
                                 <span className="stock-info">● Còn {stockCount} sản phẩm</span>
                             </div>
                             <div className="color-options">
                                 {colors.map((color: string, index: number) => (
                                     <div
                                         key={index}
-                                        className={`color-circle ${selectedColor === color ? 'active' : ''}`}
-                                        style={{ backgroundColor: color, borderColor: selectedColor === color ? '#0088FF' : '#D1D5DB' }}
+                                        className={`color-circle ${activeColor === color ? 'active' : ''}`}
+                                        style={{ backgroundColor: color, borderColor: activeColor === color ? '#0088FF' : '#D1D5DB' }}
                                         onClick={() => setSelectedColor(color)}
                                     ></div>
                                 ))}
