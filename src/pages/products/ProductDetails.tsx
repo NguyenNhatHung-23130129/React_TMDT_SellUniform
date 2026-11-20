@@ -262,29 +262,6 @@ export default function ProductDetails() {
                     </div>
                 </div>
 
-                <div className="shop-info-banner">
-                    <div className="shop-avatar">
-                        <span>VU</span>
-                    </div>
-                    <div className="shop-details">
-                        <div className="shop-name-row">
-                            <h3>VIETUNIFORM Official Hub</h3>
-                            <span className="official-badge">✓ Thương hiệu chính hãng</span>
-                        </div>
-                        <p className="shop-sub">● Đang hoạt động • Kho hàng HÀ NỘI & TP.HCM</p>
-                        <div className="shop-actions">
-                            <button className="shop-btn outline">Chat Ngay</button>
-                            <button className="shop-btn primary" onClick={() => navigate('/')}>Xem Shop</button>
-                        </div>
-                    </div>
-                    <div className="shop-metrics">
-                        <div className="metric-item">
-                            <span className="metric-label">Đánh giá</span>
-                            <span className="metric-value">4.9 / 5</span>
-                        </div>
-                    </div>
-                </div>
-
                 <div className="product-tabs-section">
                     <div className="tab-header">
                         <button
