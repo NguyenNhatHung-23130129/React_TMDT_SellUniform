@@ -1,6 +1,6 @@
 .login-page {
     width: 100%;
-    min-height: calc(100vh - 80px);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: #f8fafd;
@@ -15,6 +15,51 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+.auth-top-bar {
+    width: 100%;
+    background-color: #ffffff;
+    border-bottom: 1px solid #eef1f5;
+    padding: 18px 24px;
+}
+
+.auth-top-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.back-home-btn {
+    background: transparent;
+    border: none;
+    color: #566065;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.back-home-btn:hover {
+    color: #0064e0;
+}
+
+.auth-top-divider {
+    width: 1px;
+    height: 18px;
+    background-color: #e2e8f0;
+}
+
+.auth-brand-logo {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0064e0;
+    letter-spacing: 0.3px;
+    cursor: pointer;
 }
 
 .login-page .main-content {
