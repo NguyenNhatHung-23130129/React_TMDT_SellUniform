@@ -1,5 +1,5 @@
 import { createBrowserRouter, Outlet, useNavigate, useLocation } from 'react-router';
-import { store, load, loadProducts } from '../store/store';
+import { store } from '../store/store';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import Home from '../pages/home/Home';
@@ -16,23 +16,6 @@ import Auth from '../pages/auth/Auth';
 import { demoOrderHistory, toOrderHistoryRecord } from '../pages/orders/orderHistoryTypes';
 
 const API_URL = 'http://localhost:3001';
-export const dataLoader = async () => {
-    let products = [];
-    const response = await fetch(`${API_URL}/products`);
-    if (response.ok) {
-        products = await response.json();
-        store.dispatch(loadProducts(products));
-    }
-
-    const catRes = await fetch(`${API_URL}/categories`);
-    const categories = catRes.ok ? await catRes.json() : [];
-
-    const orderRes = await fetch(`${API_URL}/orders`).catch(() => null);
-    const orders = orderRes && orderRes.ok ? await orderRes.json() : demoOrderHistory;
-
-    store.dispatch(load({ categories, products, orders }));
-    return true;
-};
 
 export function Layout() {
     const location = useLocation();
@@ -99,7 +82,6 @@ export const router = createBrowserRouter([
     {
         path: '/',
         element: <Layout />,
-        loader: dataLoader,
         children: [
             { index: true, element: <HomePage /> },
             { path: 'shop', element: <ShopDetail /> },

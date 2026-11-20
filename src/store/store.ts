@@ -12,40 +12,51 @@ export interface Product {
     sizes: string[];
 }
 
-const productsSlice = createSlice({
-    name: 'products',
-    initialState: { items: [] as Product[] },
-    reducers: {
-        loadProducts: (state, action) => {
-            state.items = action.payload;
-        }
-    }
-});
+export interface Category {
+    id: number;
+    title: string;
+    desc: string;
+    image: string;
+}
 
 const dataSlice = createSlice({
     name: 'data',
     initialState: {
-        categories: [] as any[],
+        categories: [] as Category[],
         products: [] as Product[],
-        orders: [] as any[]
+        orders: [] as any[],
+        loading: true,
+        error: null as string | null,
     },
     reducers: {
         load: (state, action) => {
-            state.categories = action.payload.categories;
-            state.products = action.payload.products;
-            state.orders = action.payload.orders || [];
-        }
-    }
+            if (action.payload.categories) {
+                state.categories = action.payload.categories;
+            }
+            if (action.payload.products) {
+                state.products = action.payload.products;
+            }
+            if (action.payload.orders) {
+                state.orders = action.payload.orders;
+            }
+            state.loading = false;
+        },
+        setLoading: (state, action) => {
+            state.loading = action.payload;
+        },
+        setError: (state, action) => {
+            state.error = action.payload;
+            state.loading = false;
+        },
+    },
 });
 
-export const { loadProducts } = productsSlice.actions;
-export const { load } = dataSlice.actions;
+export const { load, setLoading, setError } = dataSlice.actions;
 
 export const store = configureStore({
     reducer: {
-        products: productsSlice.reducer,
-        data: dataSlice.reducer
-    }
+        data: dataSlice.reducer,
+    },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

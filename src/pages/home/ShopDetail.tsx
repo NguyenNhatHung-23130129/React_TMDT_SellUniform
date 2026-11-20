@@ -1,18 +1,29 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
+import { type RootState } from '../../store/store';
 import { ProductCard } from '../../components/product/ProductCard';
 import { SidebarFilter } from '../../components/shop/SidebarFilter';
 import { tabs } from '../../data/mockProducts';
 import './ShopDetail.scss';
-
+const LIMIT = 20;
 export const ShopDetail = () => {
     const products = useSelector((state: RootState) => state.data.products);
+    const loading = useSelector((state: RootState) => state.data.loading);
+    const error = useSelector((state: RootState) => state.data.error);
 
     const [selectedTab, setSelectedTab] = useState<number>(0);
     const [selectedCat, setSelectedCat] = useState<number>(0);
     const [selectedSize, setSelectedSize] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
+    const [page, setPage] = useState(1);
+
+    if (loading && products.length === 0) {
+        return <p style={{ textAlign: 'center', padding: '40px' }}>Đang tải sản phẩm...</p>;
+    }
+    if (error && products.length === 0) {
+        return <p style={{ textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>;
+    }
+
 
     const list = products.filter((p) =>
         (!selectedCat || Number(p.categoryId) === selectedCat) &&
@@ -20,6 +31,9 @@ export const ShopDetail = () => {
         (!selectedSize || (p.sizes && p.sizes.includes(selectedSize))) &&
         (!selectedColor || (p.colors && p.colors.includes(selectedColor)))
     );
+
+    const totalPages = Math.ceil(list.length / LIMIT);
+    const paginatedList = list.slice((page - 1) * LIMIT, page * LIMIT);
 
     const handleReset = () => {
         setSelectedCat(0);
@@ -69,8 +83,18 @@ export const ShopDetail = () => {
                         <span>Hiển thị <strong>{list.length}</strong> sản phẩm may sẵn</span>
                     </div>
                     <div className="product-grid">
-                        {list.map((p) => <ProductCard key={p.id} product={p} />)}
+                        {paginatedList.map((p) => <ProductCard key={p.id} product={p} />)}
                     </div>
+                    {totalPages > 1 && (
+                        <div className="pagination">
+                            <div className="pages">
+                                {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
+                                    <button key={num} className={page === num ? 'active' : ''}
+                                            onClick={() => setPage(num)}>{num}</button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

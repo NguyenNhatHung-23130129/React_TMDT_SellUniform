@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store/store';
-import { filterOpts } from '../../data/mockProducts';
+import { tabs,sizes,colors } from '../../data/mockProducts';
 import './SidebarFilter.scss';
 
 export const SidebarFilter = ({
@@ -8,14 +8,14 @@ export const SidebarFilter = ({
                                   onChangeCat, onChangeTab, onChangeSize, onChangeColor, onReset
                               }: any) => {
     const apiCategories = useSelector((state: RootState) => state.data.categories);
-    const categories = apiCategories.length > 0 ? apiCategories : filterOpts.categories;
+
 
     return (
         <aside className="sidebar">
             <h3>Bộ lọc</h3>
             <div className="filter-group">
                 <h4>Danh mục ngành nghề</h4>
-                {categories.map((c: any) => (
+                {apiCategories.map((c: any) => (
                     <label key={c.id}>
                         <input
                             type="radio"
@@ -29,7 +29,7 @@ export const SidebarFilter = ({
             </div>
             <div className="filter-group">
                 <h4>Loại trang phục</h4>
-                {filterOpts.tabs.slice(1).map(t => (
+                {tabs.slice(1).map(t => (
                     <label key={t.id}>
                         <input
                             type="radio"
@@ -44,7 +44,7 @@ export const SidebarFilter = ({
             <div className="filter-group">
                 <h4>Kích thước sẵn</h4>
                 <div className="sizes-grid">
-                    {filterOpts.sizes.map(s => (
+                    {sizes.map(s => (
                         <button
                             key={s}
                             className={selectedSize === s ? 'active' : ''}
@@ -58,7 +58,7 @@ export const SidebarFilter = ({
             <div className="filter-group">
                 <h4>Màu sắc</h4>
                 <div className="colors-flex">
-                    {filterOpts.colors.map(c => (
+                    {colors.map(c => (
                         <span
                             key={c}
                             style={{ backgroundColor: c }}
