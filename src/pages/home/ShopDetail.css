@@ -7,14 +7,13 @@
 }
 
 .main-layout {
-  margin: 20px;
-  display: flex;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  gap: 10px;
   align-items: flex-start;
-  padding: 0 16px;
 }
 .main-layout .sidebar {
-  width: 260px;
+  width: 100%;
 }
 .main-layout .content {
   min-width: 0;
