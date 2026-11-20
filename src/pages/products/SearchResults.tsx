@@ -20,6 +20,9 @@ export const SearchResults = () => {
     const [tab, setTab] = useState<number>(0);
     const [selectedSize, setSelectedSize] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
+    const [minPrice, setMinPrice] = useState('');
+    const [maxPrice, setMaxPrice] = useState('');
+    const [sort, setSort] = useState('default');
 
     if (loading && products.length === 0) {
         return <p style={{ textAlign: 'center', padding: '40px' }}>Đang tải sản phẩm...</p>;
@@ -28,12 +31,20 @@ export const SearchResults = () => {
         return <p style={{ textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>;
     }
     const list = products.filter(p =>
-        (!keyword || p.name.toLowerCase().includes(keyword)) &&
-        (!cat || Number(p.categoryId) === cat) &&
-        (!tab || Number(p.tabId) === tab) &&
-        (!selectedSize || p.sizes?.includes(selectedSize)) &&
-        (!selectedColor || p.colors?.includes(selectedColor))
-    );
+            (!keyword || p.name.toLowerCase().includes(keyword)) &&
+            (!cat || Number(p.categoryId) === cat) &&
+            (!tab || Number(p.tabId) === tab) &&
+            (!selectedSize || p.sizes?.includes(selectedSize)) &&
+            (!minPrice || Number(p.price) >= Number(minPrice)) &&
+            (!maxPrice || Number(p.price) <= Number(maxPrice))
+        )
+        .slice()
+        .sort((a: any, b: any) => {
+            if (sort === 'price-asc') return Number(a.price) - Number(b.price);
+            if (sort === 'price-desc') return Number(b.price) - Number(a.price);
+            if (sort === 'name') return String(a.name).localeCompare(String(b.name));
+            return 0;
+        });
     const totalPages = Math.ceil(list.length / LIMIT);
     const paginatedList = list.slice((page - 1) * LIMIT, page * LIMIT);
 
@@ -41,16 +52,20 @@ export const SearchResults = () => {
         setCat(0);
         setTab(0);
         setSelectedSize('');
-        setSelectedColor('');
+        setMinPrice('');
+        setMaxPrice('');
+        setSort('default');
         setSearchParams({});
     };
+
+    const hasFilters = cat || tab || selectedSize || minPrice || maxPrice || sort !== 'default';
 
     return (
         <div className="search-page">
 
                 <h2 className="search-title">
                     Đang lọc: <strong>
-                    {[keyword && `"${keyword}"`, cat && `Danh mục ${cat}`, tab && `Loại ${tab}`, selectedSize, selectedColor].filter(Boolean).join(' - ') || 'Tất cả'}
+                    {[keyword && `"${keyword}"`, cat && `Danh mục ${cat}`, tab && `Loại ${tab}`, selectedSize, (minPrice || maxPrice) && `${minPrice || 0}đ - ${maxPrice || '∞'}`].filter(Boolean).join(' - ') || 'Tất cả'}
                 </strong> ({list.length} sản phẩm)
                 </h2>
                 <div className="main-layout">
@@ -61,6 +76,28 @@ export const SearchResults = () => {
                         onReset={handleReset}
                     />
                     <div className="content">
+                        <div className="filter-toolbar">
+                            <label>
+                                Sắp xếp:
+                                <select value={sort} onChange={(e) => setSort(e.target.value)}>
+                                    <option value="default">Mặc định</option>
+                                    <option value="price-asc">Giá tăng dần</option>
+                                    <option value="price-desc">Giá giảm dần</option>
+                                    <option value="name">Tên A-Z</option>
+                                </select>
+                            </label>
+                            <label>
+                                Giá từ:
+                                <input type="number" min={0} value={minPrice} onChange={(e) => setMinPrice(e.target.value)} placeholder="0" />
+                            </label>
+                            <label>
+                                đến:
+                                <input type="number" min={0} value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} placeholder="∞" />
+                            </label>
+                            {hasFilters && (
+                                <button type="button" className="clear-filters-btn" onClick={handleReset}>Xóa bộ lọc</button>
+                            )}
+                        </div>
                         <div className="product-grid">
                             {paginatedList.map(p => <ProductCard key={p.id} product={p}/>)}
                         </div>
