@@ -4,49 +4,49 @@
       "id": 1,
       "title": "Công sở / Doanh nghiệp",
       "desc": "Sơ mi, quần âu, chân váy, vest công sở",
-      "image": "/src/assets/images/figma/product_2.jpeg"
+      "image": "https://salt.tikicdn.com/cache/280x280/ts/product/88/cc/e7/4a7756b994077689dab6febe39df9f55.jpg"
     },
     {
       "id": 2,
       "title": "Áo Polo & Sự kiện",
       "desc": "Polo CVC, Pique mắt chim, team building",
-      "image": "/src/assets/images/figma/product_1.jpeg"
+      "image": "https://salt.tikicdn.com/cache/280x280/ts/product/1a/22/8d/2486bb4e902aa8592795361412e79339.jpg"
     },
     {
       "id": 3,
       "title": "Y tế & Spa",
       "desc": "Bộ Scrub co giãn 4 chiều, áo Blouse",
-      "image": "/src/assets/images/figma/product_3.jpeg"
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mo9n1ra6p5vv4a"
     },
     {
       "id": 4,
       "title": "Nhà hàng & F&B",
       "desc": "Áo bếp thoáng khí, tạp dề canvas",
-      "image": "/src/assets/images/figma/product_5.jpeg"
+      "image": "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mn5fxr9qnuh495"
     },
     {
       "id": 5,
       "title": "Bảo hộ & Kỹ thuật",
       "desc": "Quần áo kaki Pangrim, áo phản quang",
-      "image": "/src/assets/images/figma/product_6.jpeg"
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mthyf0yhf4zse8"
     },
     {
       "id": 6,
       "title": "Học sinh - Sinh viên",
       "desc": "Sơ mi trắng, áo khoác gió đồng phục",
-      "image": "/src/assets/images/figma/product_7.jpeg"
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mhj3of4t0eteae"
     },
     {
       "id": 7,
       "title": "Đồng phục Thể thao",
       "desc": "Áo thun thể thao, đồ giải chạy",
-      "image": "/src/assets/images/figma/product_9.jpeg"
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m2q5y10vtf3uc2"
     },
     {
       "id": 8,
       "title": "Phụ kiện Đồng phục",
       "desc": "Tạp dề, nón kết, cà vạt, bảng tên",
-      "image": "/src/assets/images/figma/product_4.jpeg"
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mjqw9wdwa8zmf7"
     }
   ],
   "products": [
