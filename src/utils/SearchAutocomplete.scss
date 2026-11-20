@@ -1,0 +1,29 @@
+.search-autocomplete-wrapper {
+  position: relative;
+  max-width: 100%;
+
+
+  .search-popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #eee;
+    margin-top: 4px;
+    padding: 0;
+    z-index: 1000;
+    max-height: 600px;
+    overflow-y: auto;
+  }
+
+  .search-item {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid #f5f5f5;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+  }
+}
