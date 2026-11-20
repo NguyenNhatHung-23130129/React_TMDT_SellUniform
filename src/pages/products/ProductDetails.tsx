@@ -33,6 +33,7 @@ export default function ProductDetails() {
     const [selectedSize, setSelectedSize] = useState('M');
     const [selectedColor, setSelectedColor] = useState(colors[0]);
     const [quantity, setQuantity] = useState(1);
+    const [showToast, setShowToast] = useState(false);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -40,6 +41,12 @@ export default function ProductDetails() {
             setSelectedColor(colors[0]);
         }
     }, [id]);
+
+    useEffect(() => {
+        if (!showToast) return;
+        const timer = setTimeout(() => setShowToast(false), 1000);
+        return () => clearTimeout(timer);
+    }, [showToast]);
 
     if (loading && products.length === 0) {
         return <main className="home"><p style={{ textAlign: 'center', padding: '40px' }}>Đang tải dữ liệu...</p></main>;
@@ -96,7 +103,7 @@ export default function ProductDetails() {
 
     const handleAddToCart = () => {
         saveItemToCart();
-        alert(`Đã thêm ${quantity} "${productName}" vào giỏ hàng thành công!`);
+        setShowToast(true);
     };
 
     const handleBuyNow = () => {
@@ -106,6 +113,13 @@ export default function ProductDetails() {
 
     return (
         <main className="home">
+            {showToast && (
+                <div className="cart-toast-popup">
+                    <span className="toast-check-icon">✓</span>
+                    <span>Đã thêm vào giỏ hàng!</span>
+                </div>
+            )}
+
             <div className="product-details-container">
                 <div className="product-main-section">
                     <div className="product-gallery">
