@@ -43,6 +43,18 @@ export const Auth: React.FC = () => {
 
     return (
         <div className="login-page">
+            <header className="auth-top-bar">
+                <div className="auth-top-container">
+                    <button type="button" className="back-home-btn" onClick={() => navigate('/')}>
+                        <i className="fa-solid fa-arrow-left"></i> Quay lại trang chủ
+                    </button>
+                    <span className="auth-top-divider"></span>
+                    <span className="auth-brand-logo" onClick={() => navigate('/')}>
+                        VIETUNIFORM
+                    </span>
+                </div>
+            </header>
+
             <main className="main-content">
                 <div className={`login-card ${!isLogin ? 'register-card' : ''}`}>
                     {/* Tab Switch */}
