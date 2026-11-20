@@ -16,6 +16,12 @@ export default function ProductDetails() {
     const navigate = useNavigate();
 
     const products = useSelector((state: RootState) => state.data.products);
+    const loading = useSelector((state: RootState) => state.data.loading);
+
+    if (loading && products.length === 0) {
+        return <main className="home"><p style={{ textAlign: 'center', padding: '40px' }}>Đang tải dữ liệu...</p></main>;
+    }
+
     const product: any = products.find((item: any) => String(item.id) === String(id)) || products[0];
 
     const colors: string[] = product?.colors?.length ? product.colors : ['#1E3A8A', '#FFFFFF', '#111827', '#6B7280', '#059669'];
