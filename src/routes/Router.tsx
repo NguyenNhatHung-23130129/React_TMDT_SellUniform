@@ -14,11 +14,15 @@ import OrderHistory from '../pages/orders/OrderHistory';
 import OrderDetail from '../pages/orders/OrderDetail';
 import Auth from '../pages/auth/Auth';
 import { demoOrderHistory, toOrderHistoryRecord } from '../pages/orders/orderHistoryTypes';
+import {useEffect} from "react";
 
 const API_URL = 'http://localhost:3001';
 
 export function Layout() {
     const location = useLocation();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname, location.search]);
     return (
         <>
             <Header isOrderHistory={location.pathname.startsWith('/orders')} />
