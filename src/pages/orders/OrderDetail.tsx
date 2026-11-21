@@ -36,6 +36,239 @@ const trackingSteps = [
 
 const formatCurrency = (amount: number) => `${amount.toLocaleString('vi-VN')} đ`;
 
+const numberWords = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+
+function readThreeDigits(value: number, padded: boolean) {
+  const hundreds = Math.floor(value / 100);
+  const remainder = value % 100;
+  const tens = Math.floor(remainder / 10);
+  const units = remainder % 10;
+  const words: string[] = [];
+
+  if (hundreds > 0 || padded) {
+    words.push(numberWords[hundreds], 'trăm');
+  }
+
+  if (tens > 1) {
+    words.push(numberWords[tens], 'mươi');
+    if (units === 1) words.push('mốt');
+    else if (units === 5) words.push('lăm');
+    else if (units > 0) words.push(numberWords[units]);
+  } else if (tens === 1) {
+    words.push('mười');
+    if (units === 5) words.push('lăm');
+    else if (units > 0) words.push(numberWords[units]);
+  } else if (units > 0) {
+    if (hundreds > 0 || padded) words.push('lẻ');
+    words.push(numberWords[units]);
+  }
+
+  return words.join(' ');
+}
+
+function amountInVietnameseWords(amount: number) {
+  const normalized = Math.max(0, Math.floor(amount));
+  if (normalized === 0) return 'Không đồng';
+
+  const scales = ['', 'nghìn', 'triệu', 'tỷ', 'nghìn tỷ'];
+  const groups: number[] = [];
+  let remaining = normalized;
+
+  while (remaining > 0) {
+    groups.push(remaining % 1000);
+    remaining = Math.floor(remaining / 1000);
+  }
+
+  const parts: string[] = [];
+  for (let index = groups.length - 1; index >= 0; index -= 1) {
+    if (groups[index] === 0) continue;
+    const part = readThreeDigits(groups[index], parts.length > 0 && groups[index] < 100);
+    parts.push([part, scales[index] ?? ''].filter(Boolean).join(' '));
+  }
+
+  return `${parts.join(' ')} đồng`;
+}
+
+function getQuantityValue(quantity: string) {
+  return Number(quantity.match(/\d+(?:[.,]\d+)?/)?.[0]?.replace(',', '.') ?? 1) || 1;
+}
+
+function InvoicePrintout({ order }: { order: OrderHistoryRecord }) {
+  const itemSubtotal = order.subtotal ?? order.items.reduce((sum, item) => sum + item.price, 0);
+  const productDiscount = order.productDiscount ?? 0;
+  const couponDiscount = order.couponDiscount ?? 0;
+  const shippingCost = order.shippingCost ?? 0;
+  const vat = order.vat ?? 0;
+
+  return (
+    <section className="order-invoice-print" aria-hidden="true">
+      <div className="invoice-paper">
+        <header className="invoice-seller-header">
+          <div className="invoice-brand-mark" aria-hidden="true">
+            V
+          </div>
+          <div className="invoice-seller-copy">
+            <h2>VIETUNIFORM</h2>
+            <p>Đồng phục doanh nghiệp, y tế, nhà hàng và trường học</p>
+            <p>Email: 23130129@st.hcmuaf.edu.vn</p>
+          </div>
+          <div className="invoice-number-block">
+            <span>Ký hiệu (Serial): SU</span>
+            <span>
+              Số (No.): <strong>{order.orderNumber}</strong>
+            </span>
+          </div>
+        </header>
+
+        <div className="invoice-title-block">
+          <h1>HÓA ĐƠN BÁN HÀNG</h1>
+          <p>(ORDER INVOICE)</p>
+          <span>Ngày lập (Date): {order.orderedAt}</span>
+        </div>
+
+        <section className="invoice-buyer-block" aria-label="Thông tin người mua">
+          <p>
+            Họ tên người mua hàng (Buyer): <strong>{order.customerName}</strong>
+          </p>
+          {order.customerType === 'business' && (
+            <p>
+              Tên đơn vị (Company&apos;s name): <strong>{order.customerName}</strong>
+            </p>
+          )}
+          {order.companyTaxCode && <p>Mã số thuế (Tax code): {order.companyTaxCode}</p>}
+          <p>Địa chỉ (Address): {order.address}</p>
+          <div className="invoice-buyer-contact">
+            <span>Điện thoại (Phone): {order.customerPhone}</span>
+            <span>Email: {order.customerEmail || '—'}</span>
+          </div>
+          <p>Hình thức thanh toán (Payment method): {order.paymentLabel}</p>
+        </section>
+
+        <table className="invoice-items-table">
+          <thead>
+            <tr>
+              <th>
+                STT
+                <br />
+                <span>(No.)</span>
+              </th>
+              <th>
+                Tên hàng hóa, dịch vụ
+                <br />
+                <span>(Name of goods and services)</span>
+              </th>
+              <th>
+                Đơn vị tính
+                <br />
+                <span>(Unit)</span>
+              </th>
+              <th>
+                Số lượng
+                <br />
+                <span>(Quantity)</span>
+              </th>
+              <th>
+                Đơn giá
+                <br />
+                <span>(Unit price)</span>
+              </th>
+              <th>
+                Thành tiền
+                <br />
+                <span>(Amount)</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {order.items.map((item, index) => {
+              const quantity = getQuantityValue(item.quantity);
+              const unit = item.quantity.replace(/^\s*\d+(?:[.,]\d+)?\s*/, '') || 'cái';
+              return (
+                <tr key={`${item.name}-${index}`}>
+                  <td className="invoice-center">{index + 1}</td>
+                  <td>
+                    <strong>{item.name}</strong>
+                    {item.options && <small>{item.options}</small>}
+                  </td>
+                  <td className="invoice-center">{unit}</td>
+                  <td className="invoice-center">{quantity.toLocaleString('vi-VN')}</td>
+                  <td className="invoice-number">{formatCurrency(item.price / quantity)}</td>
+                  <td className="invoice-number">{formatCurrency(item.price)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={5}>Cộng tiền hàng (Total amount excl. VAT):</td>
+              <td className="invoice-number">{formatCurrency(itemSubtotal)}</td>
+            </tr>
+            {productDiscount > 0 && (
+              <tr>
+                <td colSpan={5}>Chiết khấu trực tiếp:</td>
+                <td className="invoice-number">- {formatCurrency(productDiscount)}</td>
+              </tr>
+            )}
+            {couponDiscount > 0 && (
+              <tr>
+                <td colSpan={5}>
+                  Ưu đãi {order.couponCode ? `(${order.couponCode})` : 'mã giảm giá'}:
+                </td>
+                <td className="invoice-number">- {formatCurrency(couponDiscount)}</td>
+              </tr>
+            )}
+            {shippingCost > 0 && (
+              <tr>
+                <td colSpan={5}>Phí vận chuyển:</td>
+                <td className="invoice-number">{formatCurrency(shippingCost)}</td>
+              </tr>
+            )}
+            {vat > 0 && (
+              <tr>
+                <td colSpan={5}>Thuế GTGT (VAT 8%):</td>
+                <td className="invoice-number">{formatCurrency(vat)}</td>
+              </tr>
+            )}
+            <tr className="invoice-total-row">
+              <td colSpan={5}>Tổng tiền thanh toán (Total amount):</td>
+              <td className="invoice-number">{formatCurrency(order.total)}</td>
+            </tr>
+            <tr>
+              <td colSpan={6}>
+                Số tiền viết bằng chữ (Total amount in words):{' '}
+                <strong>{amountInVietnameseWords(order.total)}</strong>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div className="invoice-signatures">
+          <div>
+            <strong>Người mua hàng (Buyer)</strong>
+            <span>(Ký, ghi rõ họ tên nếu có)</span>
+            <span>(Digital signature if any)</span>
+          </div>
+          <div>
+            <strong>Đại diện VIETUNIFORM (Seller)</strong>
+            <span>(Ký và ghi rõ họ tên)</span>
+            <span>(Seller signature)</span>
+          </div>
+        </div>
+
+        <footer className="invoice-footnote">
+          <p>
+            Mã đơn hàng: <strong>{order.orderNumber}</strong> · Hỗ trợ: 23130129@st.hcmuaf.edu.vn
+          </p>
+          <p>
+            Phiếu in từ hệ thống VIETUNIFORM; không thay thế hóa đơn điện tử hợp lệ có mã hoặc chữ
+            ký số.
+          </p>
+        </footer>
+      </div>
+    </section>
+  );
+}
+
 function StepIcon({ index }: { index: number }) {
   if (index === 0 || index === 3) {
     return (
@@ -131,7 +364,6 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
         : order.status === 'cancelled'
           ? 'Đơn hàng này đã được hủy. Liên hệ với chúng tôi nếu bạn cần hỗ trợ.'
           : 'Cửa hàng đã nhận đơn và sẽ sớm liên hệ để xác nhận.';
-
   return (
     <div className="order-detail-page">
       <nav className="order-detail-breadcrumb" aria-label="Điều hướng">
@@ -154,9 +386,15 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
       <article className="order-detail-card">
         <header className="order-detail-card-heading">
           <h2>Đơn hàng {order.orderNumber}</h2>
-          <button type="button" onClick={() => window.print()}>
-            <span aria-hidden="true">▣</span> In đơn hàng
-          </button>
+          <div className="order-detail-actions">
+            <button
+              type="button"
+              className="order-detail-print-button"
+              onClick={() => window.print()}
+            >
+              <span aria-hidden="true">▣</span> In hóa đơn
+            </button>
+          </div>
         </header>
 
         <section className="order-tracking" aria-labelledby="order-tracking-title">
@@ -339,6 +577,8 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
           </aside>
         </div>
       </article>
+
+      <InvoicePrintout order={order} />
     </div>
   );
 }
