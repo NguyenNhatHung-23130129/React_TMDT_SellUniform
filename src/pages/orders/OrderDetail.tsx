@@ -1,5 +1,6 @@
-import { useState, type CSSProperties } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import type { OrderHistoryRecord, OrderHistoryStatus } from './orderHistoryTypes';
+import { saveOrderStatusOverride } from './orderHistoryTypes';
 import './OrderDetail.css';
 
 type OrderDetailProps = {
@@ -14,6 +15,15 @@ const statusLabels: Record<OrderHistoryStatus, string> = {
   completed: 'Đã giao thành công',
   cancelled: 'Đã hủy',
 };
+
+const cancellationReasons = [
+  'Tôi muốn thay đổi sản phẩm hoặc kích cỡ',
+  'Tôi đặt nhầm đơn hàng',
+  'Thông tin giao hàng chưa chính xác',
+  'Thời gian giao hàng dự kiến quá lâu',
+  'Tôi không còn nhu cầu mua',
+  'Lý do khác',
+];
 
 const trackingSteps = [
   {
@@ -333,8 +343,16 @@ function OrderThumbnail({ tone }: { tone: string }) {
   );
 }
 
-function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
+function OrderDetail({ order: initialOrder, onBack, onContinueShopping }: OrderDetailProps) {
+  const [order, setOrder] = useState(initialOrder);
   const [isEmailPreviewOpen, setIsEmailPreviewOpen] = useState(false);
+  const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
+  const [selectedCancelReason, setSelectedCancelReason] = useState('');
+  const [otherCancelReason, setOtherCancelReason] = useState('');
+
+  useEffect(() => {
+    setOrder(initialOrder);
+  }, [initialOrder]);
   const itemSubtotal = order.items.reduce((sum, item) => sum + item.price, 0);
   const subtotal = order.subtotal ?? itemSubtotal;
   const productDiscount = order.productDiscount ?? 0;
@@ -363,8 +381,11 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
       : order.status === 'completed'
         ? 'Đơn hàng đã được giao thành công. Cảm ơn bạn đã mua sắm tại VIETUNIFORM.'
         : order.status === 'cancelled'
-          ? 'Đơn hàng này đã được hủy. Liên hệ với chúng tôi nếu bạn cần hỗ trợ.'
+          ? order.cancellationReason
+            ? `Đơn hàng đã được hủy. Lý do: ${order.cancellationReason}`
+            : 'Đơn hàng này đã được hủy. Liên hệ với chúng tôi nếu bạn cần hỗ trợ.'
           : 'Cửa hàng đã nhận đơn và sẽ sớm liên hệ để xác nhận.';
+  const canCancelOrder = order.status === 'waiting';
   const recipientEmail = order.customerEmail?.trim() ?? '';
   const emailSubject = 'VIETUNIFORM gửi thông tin hóa đơn đơn hàng ' + order.orderNumber;
   const invoiceLookupUrl =
@@ -417,6 +438,37 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
       encodeURIComponent(emailBody)
     : '';
 
+  const closeCancelDialog = () => {
+    setIsCancelDialogOpen(false);
+    setSelectedCancelReason('');
+    setOtherCancelReason('');
+  };
+
+  const confirmCancelOrder = () => {
+    const reason =
+      selectedCancelReason === 'Lý do khác' ? otherCancelReason.trim() : selectedCancelReason;
+    if (!canCancelOrder || !reason) return;
+
+    const cancelledOrder: OrderHistoryRecord = {
+      ...order,
+      status: 'cancelled',
+      cancellationReason: reason,
+    };
+    setOrder(cancelledOrder);
+    saveOrderStatusOverride(order.orderNumber, {
+      status: 'cancelled',
+      cancellationReason: reason,
+    });
+    localStorage.setItem('selectedOrder', JSON.stringify(cancelledOrder));
+
+    const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || 'null');
+    if (lastOrder?.orderNumber === order.orderNumber) {
+      localStorage.setItem('lastOrder', JSON.stringify(cancelledOrder));
+    }
+
+    closeCancelDialog();
+  };
+
   return (
     <div className="order-detail-page">
       <nav className="order-detail-breadcrumb" aria-label="Điều hướng">
@@ -459,6 +511,23 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
               }
             >
               <span aria-hidden="true">✉</span> Gửi hóa đơn
+            </button>
+            <button
+              type="button"
+              className="order-detail-cancel-button"
+              onClick={() => setIsCancelDialogOpen(true)}
+              disabled={!canCancelOrder}
+              title={
+                canCancelOrder
+                  ? 'Hủy đơn hàng đang chờ xác nhận'
+                  : order.status === 'cancelled'
+                    ? 'Đơn hàng đã được hủy'
+                    : 'Chỉ có thể hủy đơn hàng khi đang chờ xác nhận'
+              }
+              aria-haspopup="dialog"
+            >
+              <span aria-hidden="true">×</span>{' '}
+              {order.status === 'cancelled' ? 'Đã hủy đơn hàng' : 'Hủy đơn hàng'}
             </button>
           </div>
         </header>
@@ -614,7 +683,13 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
               <div className="order-detail-payment-method">
                 <span aria-hidden="true">✓</span>
                 <strong>{order.paymentLabel}</strong>
-                <small>{order.status === 'waiting' ? 'Chờ xác nhận' : 'Đã ghi nhận'}</small>
+                <small>
+                  {order.status === 'cancelled'
+                    ? 'Đã hủy'
+                    : order.status === 'waiting'
+                      ? 'Chờ xác nhận'
+                      : 'Đã ghi nhận'}
+                </small>
               </div>
               <div className="order-detail-payment-reference">
                 Mã đơn: <strong>{order.orderNumber}</strong>
@@ -737,6 +812,98 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
                 Mở ứng dụng email
               </a>
             </div>
+          </section>
+        </div>
+      )}
+
+      {isCancelDialogOpen && (
+        <div
+          className="cancel-order-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeCancelDialog();
+          }}
+        >
+          <section
+            className="cancel-order-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cancel-order-title"
+          >
+            <header className="cancel-order-heading">
+              <div className="cancel-order-icon" aria-hidden="true">
+                ×
+              </div>
+              <div>
+                <h2 id="cancel-order-title">Hủy đơn hàng</h2>
+                <p>Đơn hàng {order.orderNumber}</p>
+              </div>
+              <button type="button" aria-label="Đóng" onClick={closeCancelDialog}>
+                ×
+              </button>
+            </header>
+
+            <div className="cancel-order-content">
+              <p className="cancel-order-question">
+                Bạn cho VIETUNIFORM biết lý do muốn hủy đơn hàng nhé.
+              </p>
+              <fieldset className="cancel-order-reasons">
+                <legend>Chọn lý do hủy</legend>
+                {cancellationReasons.map((reason) => (
+                  <label
+                    className={selectedCancelReason === reason ? 'is-selected' : ''}
+                    key={reason}
+                  >
+                    <input
+                      type="radio"
+                      name="order-cancellation-reason"
+                      value={reason}
+                      checked={selectedCancelReason === reason}
+                      onChange={() => setSelectedCancelReason(reason)}
+                    />
+                    <span>{reason}</span>
+                  </label>
+                ))}
+              </fieldset>
+
+              {selectedCancelReason === 'Lý do khác' && (
+                <label className="cancel-order-other-reason">
+                  Ghi rõ lý do
+                  <textarea
+                    rows={3}
+                    maxLength={300}
+                    value={otherCancelReason}
+                    onChange={(event) => setOtherCancelReason(event.target.value)}
+                    placeholder="Nhập lý do hủy đơn hàng"
+                    autoFocus
+                  />
+                </label>
+              )}
+
+              <p className="cancel-order-warning" role="note">
+                Sau khi xác nhận, đơn hàng sẽ được chuyển sang trạng thái đã hủy.
+              </p>
+            </div>
+
+            <footer className="cancel-order-footer">
+              <button
+                type="button"
+                className="cancel-order-keep-button"
+                onClick={closeCancelDialog}
+              >
+                Giữ đơn hàng
+              </button>
+              <button
+                type="button"
+                className="cancel-order-confirm-button"
+                onClick={confirmCancelOrder}
+                disabled={
+                  !selectedCancelReason ||
+                  (selectedCancelReason === 'Lý do khác' && !otherCancelReason.trim())
+                }
+              >
+                Xác nhận hủy
+              </button>
+            </footer>
           </section>
         </div>
       )}
