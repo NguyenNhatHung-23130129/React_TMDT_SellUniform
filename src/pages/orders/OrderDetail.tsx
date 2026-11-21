@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import type { OrderHistoryRecord, OrderHistoryStatus } from './orderHistoryTypes';
 import './OrderDetail.css';
 
@@ -334,6 +334,7 @@ function OrderThumbnail({ tone }: { tone: string }) {
 }
 
 function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
+  const [isEmailPreviewOpen, setIsEmailPreviewOpen] = useState(false);
   const itemSubtotal = order.items.reduce((sum, item) => sum + item.price, 0);
   const subtotal = order.subtotal ?? itemSubtotal;
   const productDiscount = order.productDiscount ?? 0;
@@ -364,6 +365,58 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
         : order.status === 'cancelled'
           ? 'Đơn hàng này đã được hủy. Liên hệ với chúng tôi nếu bạn cần hỗ trợ.'
           : 'Cửa hàng đã nhận đơn và sẽ sớm liên hệ để xác nhận.';
+  const recipientEmail = order.customerEmail?.trim() ?? '';
+  const emailSubject = 'VIETUNIFORM gửi thông tin hóa đơn đơn hàng ' + order.orderNumber;
+  const invoiceLookupUrl =
+    window.location.origin + '/orders/' + encodeURIComponent(order.orderNumber);
+  const emailBody = [
+    'Kính gửi: ' + order.customerName,
+    '',
+    'VIETUNIFORM gửi Quý khách thông tin hóa đơn cho đơn hàng ' + order.orderNumber + '.',
+    'Ký hiệu hóa đơn: SU',
+    'Ngày đặt hàng: ' + order.orderedAt,
+    'Người mua: ' + order.customerName,
+    order.companyTaxCode ? 'Mã số thuế: ' + order.companyTaxCode : '',
+    'Địa chỉ: ' + order.address,
+    '',
+    'CHI TIẾT HÀNG HÓA',
+    ...order.items.map(
+      (item, index) =>
+        index +
+        1 +
+        '. ' +
+        item.name +
+        ' (' +
+        item.options +
+        ') · ' +
+        item.quantity +
+        ': ' +
+        formatCurrency(item.price),
+    ),
+    '',
+    'Tạm tính: ' + formatCurrency(subtotal),
+    productDiscount > 0 ? 'Chiết khấu trực tiếp: - ' + formatCurrency(productDiscount) : '',
+    couponDiscount > 0 ? 'Ưu đãi: - ' + formatCurrency(couponDiscount) : '',
+    'Phí vận chuyển: ' + (shippingCost === 0 ? 'Miễn phí' : formatCurrency(shippingCost)),
+    vat > 0 ? 'Thuế GTGT (VAT 8%): ' + formatCurrency(vat) : '',
+    'TỔNG THANH TOÁN: ' + formatCurrency(order.total),
+    '',
+    'Tra cứu đơn hàng: ' + invoiceLookupUrl,
+    '',
+    'Quý khách vui lòng kiểm tra thông tin trên. Email được gửi tự động từ hệ thống VIETUNIFORM.',
+    'VIETUNIFORM · 23130129@st.hcmuaf.edu.vn',
+  ]
+    .filter(Boolean)
+    .join('\n');
+  const emailDraftHref = recipientEmail
+    ? 'mailto:' +
+      recipientEmail +
+      '?subject=' +
+      encodeURIComponent(emailSubject) +
+      '&body=' +
+      encodeURIComponent(emailBody)
+    : '';
+
   return (
     <div className="order-detail-page">
       <nav className="order-detail-breadcrumb" aria-label="Điều hướng">
@@ -393,6 +446,19 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
               onClick={() => window.print()}
             >
               <span aria-hidden="true">▣</span> In hóa đơn
+            </button>
+            <button
+              type="button"
+              className="order-detail-email-button"
+              onClick={() => setIsEmailPreviewOpen(true)}
+              disabled={!recipientEmail}
+              title={
+                recipientEmail
+                  ? 'Xem nội dung email hóa đơn'
+                  : 'Đơn hàng chưa có email nhận hóa đơn'
+              }
+            >
+              <span aria-hidden="true">✉</span> Gửi hóa đơn
             </button>
           </div>
         </header>
@@ -579,6 +645,101 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
       </article>
 
       <InvoicePrintout order={order} />
+
+      {isEmailPreviewOpen && (
+        <div
+          className="invoice-email-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setIsEmailPreviewOpen(false);
+          }}
+        >
+          <section
+            className="invoice-email-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="invoice-email-title"
+          >
+            <header className="invoice-email-dialog-heading">
+              <div>
+                <h2 id="invoice-email-title">Gửi hóa đơn qua email</h2>
+                <p>
+                  Người nhận: <strong>{recipientEmail}</strong>
+                </p>
+              </div>
+              <button type="button" aria-label="Đóng" onClick={() => setIsEmailPreviewOpen(false)}>
+                ×
+              </button>
+            </header>
+
+            <div className="invoice-email-preview">
+              <div className="invoice-email-banner">
+                VIETUNIFORM thông báo gửi hóa đơn cho đơn hàng {order.orderNumber}
+              </div>
+              <p className="invoice-email-automated-note">
+                Chú ý: Đây là email tự động từ hệ thống, vui lòng không phản hồi (reply) email này.
+              </p>
+              <div className="invoice-email-copy">
+                <strong>Kính gửi: {order.customerName}</strong>
+                <p>VIETUNIFORM gửi Quý khách thông tin hóa đơn với các thông tin như sau:</p>
+              </div>
+              <dl className="invoice-email-facts">
+                <div>
+                  <dt>Số đơn hàng:</dt>
+                  <dd>{order.orderNumber}</dd>
+                </div>
+                <div>
+                  <dt>Ký hiệu:</dt>
+                  <dd>SU</dd>
+                </div>
+                <div>
+                  <dt>Ngày:</dt>
+                  <dd>{order.orderedAt}</dd>
+                </div>
+                {order.companyTaxCode && (
+                  <div>
+                    <dt>Mã số thuế:</dt>
+                    <dd>{order.companyTaxCode}</dd>
+                  </div>
+                )}
+                <div>
+                  <dt>Tổng thanh toán:</dt>
+                  <dd>{formatCurrency(order.total)}</dd>
+                </div>
+              </dl>
+              <p className="invoice-email-lookup-copy">
+                Để xem chi tiết đơn hàng, vui lòng nhấn nút:
+              </p>
+              <a
+                className="invoice-email-lookup-button"
+                href={invoiceLookupUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                TRA CỨU ĐƠN HÀNG
+              </a>
+              <p className="invoice-email-footer-copy">
+                Email nhận hóa đơn: {recipientEmail}
+                <br />
+                Quý khách vui lòng kiểm tra thông tin trên hóa đơn.
+              </p>
+            </div>
+
+            <div className="invoice-email-dialog-footer">
+              <p>Ứng dụng email sẽ mở bản nháp; hãy kiểm tra và nhấn Gửi để hoàn tất.</p>
+              <button
+                type="button"
+                className="invoice-email-close-button"
+                onClick={() => setIsEmailPreviewOpen(false)}
+              >
+                Đóng
+              </button>
+              <a className="invoice-email-send-button" href={emailDraftHref}>
+                Mở ứng dụng email
+              </a>
+            </div>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

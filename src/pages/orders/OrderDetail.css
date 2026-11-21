@@ -122,8 +122,217 @@
   gap: 8px;
 }
 
+.order-detail-card-heading .order-detail-email-button {
+  border-color: #b9d7fa;
+  background: #f2f7ff;
+  color: #075bc2;
+}
+
+.order-detail-card-heading .order-detail-email-button:hover {
+  border-color: #075bc2;
+  background: #e8f1ff;
+}
+
+.order-detail-card-heading button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .order-invoice-print {
   display: none;
+}
+
+.invoice-email-backdrop {
+  position: fixed;
+  z-index: 1200;
+  inset: 0;
+  display: grid;
+  overflow-y: auto;
+  padding: 24px;
+  place-items: center;
+  background: rgb(19 31 46 / 55%);
+}
+
+.invoice-email-dialog {
+  width: min(100%, 760px);
+  max-height: min(90vh, 900px);
+  overflow: auto;
+  border: 1px solid #dfe5ed;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgb(10 24 40 / 28%);
+}
+
+.invoice-email-dialog-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid #e5eaf0;
+}
+
+.invoice-email-dialog-heading h2 {
+  margin: 0 0 6px;
+  color: #253341;
+  font-size: 19px;
+}
+
+.invoice-email-dialog-heading p {
+  margin: 0;
+  color: #667789;
+  font-size: 13px;
+}
+
+.invoice-email-dialog-heading > button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #f2f5f8;
+  color: #5a6877;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.invoice-email-preview {
+  margin: 20px 22px;
+  border: 1px solid #dce4ed;
+  background: #fafafa;
+  color: #26323e;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.invoice-email-banner {
+  padding: 16px 18px;
+  background: #1597e5;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.invoice-email-automated-note {
+  margin: 14px 18px;
+  color: #e53935;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.invoice-email-copy {
+  padding: 0 18px 12px;
+  line-height: 1.55;
+}
+
+.invoice-email-copy p,
+.invoice-email-lookup-copy,
+.invoice-email-footer-copy {
+  margin: 8px 0 0;
+}
+
+.invoice-email-facts {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 16px 32px;
+  background: #e3f0fc;
+}
+
+.invoice-email-facts > div {
+  display: grid;
+  grid-template-columns: minmax(118px, 165px) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.invoice-email-facts dt,
+.invoice-email-facts dd {
+  margin: 0;
+}
+
+.invoice-email-facts dd {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.invoice-email-lookup-copy,
+.invoice-email-footer-copy {
+  padding: 0 18px;
+  line-height: 1.55;
+}
+
+.invoice-email-lookup-button {
+  display: inline-flex;
+  min-width: 150px;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  margin: 14px 18px;
+  border-radius: 5px;
+  background: #ff7900;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.invoice-email-lookup-button:hover {
+  background: #e56c00;
+}
+
+.invoice-email-footer-copy {
+  padding-bottom: 18px;
+}
+
+.invoice-email-dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 22px 18px;
+  border-top: 1px solid #e5eaf0;
+}
+
+.invoice-email-dialog-footer p {
+  flex: 1;
+  margin: 0;
+  color: #738191;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.invoice-email-close-button,
+.invoice-email-send-button {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border: 1px solid #d5dde6;
+  border-radius: 8px;
+  background: #fff;
+  color: #425263;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.invoice-email-send-button {
+  border-color: #075bc2;
+  background: #075bc2;
+  color: #fff;
+}
+
+.invoice-email-send-button:hover {
+  background: #064da5;
+  color: #fff;
 }
 
 .order-tracking {
@@ -948,6 +1157,9 @@
     margin: 1mm 0;
   }
 
+  .invoice-email-backdrop {
+    display: none !important;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1002,6 +1214,37 @@
   .order-detail-actions {
     width: 100%;
     justify-content: flex-start;
+  }
+
+  .invoice-email-backdrop {
+    padding: 12px;
+  }
+
+  .invoice-email-dialog-heading,
+  .invoice-email-dialog-footer {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .invoice-email-preview {
+    margin: 14px;
+  }
+
+  .invoice-email-facts {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .invoice-email-facts > div {
+    grid-template-columns: minmax(100px, 120px) minmax(0, 1fr);
+  }
+
+  .invoice-email-dialog-footer {
+    flex-wrap: wrap;
+  }
+
+  .invoice-email-dialog-footer p {
+    flex-basis: 100%;
   }
 
   .order-tracking-timeline {
