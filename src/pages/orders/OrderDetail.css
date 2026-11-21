@@ -1,8 +1,9 @@
 .order-detail-page {
-  width: min(calc(100% - 36px), 1180px);
+  width: min(calc(100% - var(--order-flow-page-gutter)), var(--order-flow-container-max-width));
   margin: 24px auto 38px;
   color: #293541;
   font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+  font-size: var(--order-flow-body-size);
 }
 
 .order-detail-breadcrumb {
@@ -11,7 +12,7 @@
   gap: 8px;
   margin-bottom: 8px;
   color: #8190a0;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .order-detail-breadcrumb button {
@@ -38,7 +39,7 @@
 .order-detail-title-row h1 {
   margin: 0;
   color: #202b37;
-  font-size: clamp(26px, 3vw, 36px);
+  font-size: var(--order-flow-page-title-size);
   line-height: 1.25;
 }
 
@@ -47,7 +48,7 @@
   align-items: center;
   gap: 7px;
   color: #d29319;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -89,7 +90,7 @@
 .order-detail-card-heading h2 {
   margin: 0;
   color: #26323e;
-  font-size: 18px;
+  font-size: var(--order-flow-section-title-size);
 }
 
 .order-detail-card-heading button {
@@ -104,7 +105,7 @@
   background: #fff;
   color: #4d5d6d;
   font: inherit;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   font-weight: 600;
   cursor: pointer;
 }
@@ -187,13 +188,13 @@
 .invoice-email-dialog-heading h2 {
   margin: 0 0 6px;
   color: #253341;
-  font-size: 19px;
+  font-size: var(--order-flow-section-title-size);
 }
 
 .invoice-email-dialog-heading p {
   margin: 0;
   color: #667789;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .invoice-email-dialog-heading > button {
@@ -217,7 +218,7 @@
   background: #fafafa;
   color: #26323e;
   font-family: Arial, sans-serif;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
 }
 
 .invoice-email-banner {
@@ -232,7 +233,7 @@
 .invoice-email-automated-note {
   margin: 14px 18px;
   color: #e53935;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   font-style: italic;
 }
 
@@ -287,7 +288,7 @@
   border-radius: 5px;
   background: #ff7900;
   color: #fff;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
   text-decoration: none;
 }
@@ -313,7 +314,7 @@
   flex: 1;
   margin: 0;
   color: #738191;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.45;
 }
 
@@ -329,7 +330,7 @@
   background: #fff;
   color: #425263;
   font: inherit;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
@@ -392,13 +393,13 @@
 .cancel-order-heading h2 {
   margin: 0;
   color: #26323e;
-  font-size: 20px;
+  font-size: var(--order-flow-section-title-size);
 }
 
 .cancel-order-heading p {
   margin: 4px 0 0;
   color: #728091;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .cancel-order-heading > button {
@@ -423,7 +424,7 @@
 .cancel-order-question {
   margin: 0 0 14px;
   color: #4b5968;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.5;
 }
 
@@ -438,7 +439,7 @@
 .cancel-order-reasons legend {
   margin-bottom: 9px;
   color: #344251;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
 }
 
@@ -451,7 +452,7 @@
   border: 1px solid #e1e7ef;
   border-radius: 9px;
   color: #4b5968;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.45;
   cursor: pointer;
 }
@@ -475,7 +476,7 @@
   gap: 7px;
   margin-top: 14px;
   color: #344251;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
 }
 
@@ -502,7 +503,7 @@
   border-radius: 8px;
   background: #fff8eb;
   color: #79551a;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.5;
 }
 
@@ -522,7 +523,7 @@
   background: #fff;
   color: #455465;
   font: inherit;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
   cursor: pointer;
 }
@@ -551,7 +552,7 @@
 .order-tracking > h3 {
   margin: 0 0 20px;
   color: #526171;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
   letter-spacing: 0.035em;
   text-transform: uppercase;
@@ -623,7 +624,7 @@
   display: block;
   margin-bottom: 4px;
   color: #536171;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.45;
 }
 
@@ -637,7 +638,7 @@
   display: block;
   margin: 0;
   color: #8793a0;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.5;
 }
 
@@ -647,7 +648,7 @@
   border-radius: 8px;
   background: #f1f7ff;
   color: #41658c;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.5;
 }
 
@@ -711,13 +712,13 @@
 
 .order-detail-recipient-copy strong {
   color: #2e3b48;
-  font-size: 15px;
+  font-size: var(--order-flow-body-size);
 }
 
 .order-detail-recipient-copy span {
   overflow: hidden;
   color: #748292;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -729,7 +730,7 @@
   border: 1px solid #d9e2ec;
   border-radius: 999px;
   color: #344658;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
   text-decoration: none;
 }
@@ -756,7 +757,7 @@
 .order-detail-section-heading p {
   margin: 4px 0 0;
   color: #84909d;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
 }
 
 .order-detail-section-heading > span {
@@ -765,7 +766,7 @@
   border-radius: 999px;
   background: #f1f4f7;
   color: #677584;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
 }
 
@@ -819,7 +820,7 @@
   display: block;
   margin-bottom: 2px;
   color: #8895a3;
-  font-size: 10px;
+  font-size: var(--order-flow-meta-size);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -828,7 +829,7 @@
   overflow: hidden;
   margin: 0;
   color: #2d3a47;
-  font-size: 15px;
+  font-size: var(--order-flow-body-size);
   line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -840,7 +841,7 @@
   overflow: hidden;
   margin: 3px 0 0;
   color: #7f8b98;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -855,13 +856,13 @@
 
 .order-detail-product-price strong {
   color: #293541;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
   white-space: nowrap;
 }
 
 .order-detail-product-price small {
   color: #8793a0;
-  font-size: 11px;
+  font-size: var(--order-flow-caption-size);
   white-space: nowrap;
 }
 
@@ -872,7 +873,7 @@
   padding: 14px 0 0;
   border-top: 1px solid #e9edf2;
   color: #697785;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .order-detail-totals > div {
@@ -934,7 +935,7 @@
   padding-bottom: 11px;
   border-bottom: 1px solid #edf0f4;
   color: #344251;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
   text-transform: uppercase;
 }
 
@@ -953,13 +954,13 @@
   display: block;
   margin-bottom: 5px;
   color: #344251;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
 }
 
 .order-detail-side-card > p {
   margin: 4px 0 0;
   color: #667483;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.6;
 }
 
@@ -971,7 +972,7 @@
   border-radius: 999px;
   background: #edf4ff;
   color: #075bc2;
-  font-size: 10px;
+  font-size: var(--order-flow-meta-size);
   font-weight: 700;
 }
 
@@ -999,17 +1000,17 @@
   border-radius: 7px;
   background: #eaf2ff;
   color: #075bc2;
-  font-size: 15px;
+  font-size: var(--order-flow-body-size);
   font-weight: 700;
 }
 
 .order-detail-payment-method strong {
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .order-detail-payment-method small {
   color: #299451;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
 }
 
 .order-detail-payment-reference {
@@ -1017,7 +1018,7 @@
   padding-top: 9px;
   border-top: 1px solid #edf0f4;
   color: #82909e;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
 }
 
 .order-detail-payment-reference strong {
@@ -1052,13 +1053,13 @@
 .order-detail-help-card h3 {
   margin: 0;
   color: #314357;
-  font-size: 15px;
+  font-size: var(--order-flow-body-size);
 }
 
 .order-detail-help-card > p {
   margin: 6px 0 13px;
   color: #738294;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.6;
 }
 
@@ -1075,17 +1076,17 @@
   display: grid;
   gap: 3px;
   color: #8290a0;
-  font-size: 11px;
+  font-size: var(--order-flow-caption-size);
 }
 
 .order-detail-help-contact strong {
   color: #075bc2;
-  font-size: 15px;
+  font-size: var(--order-flow-body-size);
 }
 
 .order-detail-help-contact strong small {
   color: #83909e;
-  font-size: 10px;
+  font-size: var(--order-flow-meta-size);
   font-weight: 400;
 }
 
@@ -1095,7 +1096,7 @@
   border: 1px solid #075bc2;
   border-radius: 999px;
   color: #075bc2;
-  font-size: 11px;
+  font-size: var(--order-flow-caption-size);
   font-weight: 700;
   text-align: center;
   text-decoration: none;
@@ -1395,7 +1396,10 @@
 
 @media (max-width: 620px) {
   .order-detail-page {
-    width: min(calc(100% - 24px), 480px);
+    width: min(
+      calc(100% - var(--order-flow-mobile-page-gutter)),
+      var(--order-flow-mobile-container-max-width)
+    );
     margin-top: 16px;
   }
 
@@ -1405,7 +1409,7 @@
   }
 
   .order-detail-status {
-    font-size: 13px;
+    font-size: var(--order-flow-text-size);
   }
 
   .order-detail-card {
@@ -1421,6 +1425,12 @@
   .order-detail-card-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .order-detail-card-heading h2,
+  .invoice-email-dialog-heading h2,
+  .cancel-order-heading h2 {
+    font-size: var(--order-flow-mobile-section-title-size);
   }
 
   .order-detail-actions {
@@ -1507,7 +1517,7 @@
   }
 
   .order-detail-section-heading h3 {
-    font-size: 15px;
+    font-size: var(--order-flow-body-size);
   }
 
   .order-detail-product {
