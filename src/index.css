@@ -1,4 +1,15 @@
 :root {
+  --order-flow-container-max-width: 1280px;
+  --order-flow-page-gutter: 32px;
+  --order-flow-mobile-container-max-width: 480px;
+  --order-flow-mobile-page-gutter: 24px;
+  --order-flow-page-title-size: clamp(28px, 3vw, 36px);
+  --order-flow-section-title-size: 20px;
+  --order-flow-mobile-section-title-size: 18px;
+  --order-flow-body-size: 15px;
+  --order-flow-text-size: 14px;
+  --order-flow-caption-size: 13px;
+  --order-flow-meta-size: 12px;
   font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;

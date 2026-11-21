@@ -1,8 +1,9 @@
 .order-history-page {
-  width: min(calc(100% - 36px), 1280px);
+  width: min(calc(100% - var(--order-flow-page-gutter)), var(--order-flow-container-max-width));
   margin: 18px auto 24px;
   color: #293541;
   font-family: 'Be Vietnam Pro', 'Segoe UI', Arial, sans-serif;
+  font-size: var(--order-flow-body-size);
 }
 
 .order-history-breadcrumb {
@@ -11,7 +12,7 @@
   gap: 8px;
   margin-bottom: 12px;
   color: #83909e;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .order-history-breadcrumb button {
@@ -39,14 +40,14 @@
 .order-history-title-row h1 {
   margin: 0;
   color: #202b37;
-  font-size: clamp(26px, 3vw, 36px);
+  font-size: var(--order-flow-page-title-size);
   line-height: 1.2;
 }
 
 .order-history-title-row p {
   margin: 5px 0 0;
   color: #758290;
-  font-size: 15px;
+  font-size: var(--order-flow-body-size);
   line-height: 1.5;
 }
 
@@ -63,7 +64,7 @@
   background: #075bc2;
   color: #fff;
   font: inherit;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
@@ -159,7 +160,7 @@
 .history-metric-card > div > span {
   overflow: hidden;
   color: #667482;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -174,7 +175,7 @@
   grid-column: 1 / -1;
   margin-top: 4px;
   color: #929daa;
-  font-size: 11px;
+  font-size: var(--order-flow-caption-size);
 }
 
 .history-filter-panel {
@@ -197,7 +198,7 @@
   min-width: 0;
   gap: 7px;
   color: #4a5663;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
 }
 
@@ -236,7 +237,7 @@
   background: transparent;
   color: #2c3743;
   font: inherit;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-search-box input::placeholder {
@@ -247,7 +248,7 @@
   width: 100%;
   color: #53606e;
   font: inherit;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-search-button {
@@ -270,7 +271,7 @@
   background: #f7f9fb;
   color: #687583;
   font: inherit;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   cursor: pointer;
 }
 
@@ -291,7 +292,7 @@
 .history-list-toolbar p {
   margin: 0;
   color: #7b8794;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-list-toolbar p strong {
@@ -303,7 +304,7 @@
   align-items: center;
   gap: 5px;
   color: #87929f;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-list-toolbar select {
@@ -312,7 +313,7 @@
   background: transparent;
   color: #52606e;
   font: inherit;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-order-list {
@@ -336,12 +337,12 @@
   padding: 9px 16px;
   background: #f1f4f7;
   color: #778391;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-order-heading strong {
   color: #3c4854;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-status-badge {
@@ -349,7 +350,7 @@
   align-items: center;
   justify-self: end;
   gap: 5px;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -435,7 +436,7 @@
   overflow: hidden;
   margin: 0 0 3px;
   color: #35414d;
-  font-size: 14px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -445,7 +446,7 @@
   overflow: hidden;
   margin: 0;
   color: #85909d;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.45;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -453,7 +454,7 @@
 
 .history-item-quantity {
   color: #64717f;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   text-align: center;
 }
 
@@ -469,7 +470,7 @@
 .history-order-total span,
 .history-order-total small {
   color: #8b96a2;
-  font-size: 11px;
+  font-size: var(--order-flow-caption-size);
 }
 
 .history-order-total strong {
@@ -492,7 +493,7 @@
   gap: 6px;
   margin: 0;
   color: #6e7b88;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   line-height: 1.5;
 }
 
@@ -514,7 +515,7 @@
   background: #fff;
   color: #506071;
   font: inherit;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   font-weight: 700;
   cursor: pointer;
 }
@@ -550,7 +551,7 @@
 .history-empty-state p {
   margin: 0;
   color: #8a95a1;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-pagination {
@@ -569,7 +570,7 @@
   background: #fff;
   color: #64717e;
   font: inherit;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
   cursor: pointer;
 }
 
@@ -614,21 +615,21 @@
 
 .history-help-card strong {
   color: #35485b;
-  font-size: 13px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-help-card p,
 .history-help-card small {
   margin: 0;
   color: #788a9d;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-phone-button,
 .history-support-button {
   min-height: 36px;
   padding: 0 14px;
-  font-size: 12px;
+  font-size: var(--order-flow-text-size);
 }
 
 .history-phone-button {
@@ -658,7 +659,10 @@
 
 @media (max-width: 620px) {
   .order-history-page {
-    width: min(calc(100% - 24px), 480px);
+    width: min(
+      calc(100% - var(--order-flow-mobile-page-gutter)),
+      var(--order-flow-mobile-container-max-width)
+    );
     margin-top: 14px;
   }
 
@@ -686,7 +690,7 @@
   }
 
   .history-metric-card > div > span {
-    font-size: 11px;
+    font-size: var(--order-flow-caption-size);
   }
 
   .history-metric-card strong {
@@ -765,7 +769,7 @@
   .history-order-actions button {
     min-height: 38px;
     padding: 0 14px;
-    font-size: 13px;
+    font-size: var(--order-flow-text-size);
   }
 
   .history-help-card {
