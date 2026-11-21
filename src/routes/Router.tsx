@@ -13,7 +13,11 @@ import OrderSuccess from '../pages/checkout/OrderSuccess';
 import OrderHistory from '../pages/orders/OrderHistory';
 import OrderDetail from '../pages/orders/OrderDetail';
 import Auth from '../pages/auth/Auth';
-import { demoOrderHistory, toOrderHistoryRecord } from '../pages/orders/orderHistoryTypes';
+import {
+    applyOrderStatusOverride,
+    demoOrderHistory,
+    toOrderHistoryRecord,
+} from '../pages/orders/orderHistoryTypes';
 import {useEffect} from "react";
 
 const API_URL = 'http://localhost:3001';
@@ -63,10 +67,13 @@ function OrderSuccessPage() {
 
 function OrderHistoryPage() {
     const navigate = useNavigate();
-    const orders = store.getState().data.orders;
+    const orders = (
+        store.getState().data.orders.length ? store.getState().data.orders : demoOrderHistory
+    )
+        .map(applyOrderStatusOverride);
     return (
         <OrderHistory
-            orders={orders.length ? orders : demoOrderHistory}
+            orders={orders}
             onContinueShopping={() => navigate('/')}
             onSelectOrder={(order) => {
                 localStorage.setItem('selectedOrder', JSON.stringify(order));
@@ -78,7 +85,9 @@ function OrderHistoryPage() {
 
 function OrderDetailPage() {
     const navigate = useNavigate();
-    const saved = JSON.parse(localStorage.getItem('selectedOrder') || 'null') || demoOrderHistory[0];
+    const saved = applyOrderStatusOverride(
+        JSON.parse(localStorage.getItem('selectedOrder') || 'null') || demoOrderHistory[0]
+    );
     return <OrderDetail order={saved} onBack={() => navigate('/orders')} onContinueShopping={() => navigate('/')} />;
 }
 
