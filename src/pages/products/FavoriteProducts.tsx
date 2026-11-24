@@ -1,5 +1,3 @@
-import Header from '../../components/layout/Header.tsx';
-import Footer from '../../components/layout/Footer.tsx';
 import heroImg from '../../assets/hero.png';
 import heartIcon from '../../assets/icons/heart-icon.svg';
 import shoppingCartIcon from '../../assets/icons/shopping-cart-icon.svg';
@@ -8,7 +6,6 @@ import './FavoriteProducts.css';
 export default function FavoriteProducts() {
     return (
         <main className="home">
-            <Header />
             <div className="favorite-container">
                 <h2 className="favorite-title">Danh sách sản phẩm yêu thích của bạn (6 món)</h2>
 
@@ -305,7 +302,6 @@ export default function FavoriteProducts() {
                     </div>
                 </div>
             </div>
-            <Footer />
         </main>
     );
 }

@@ -1,5 +1,6 @@
-import type { CSSProperties } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import type { OrderHistoryRecord, OrderHistoryStatus } from './orderHistoryTypes';
+import { saveOrderStatusOverride } from './orderHistoryTypes';
 import './OrderDetail.css';
 
 type OrderDetailProps = {
@@ -14,6 +15,15 @@ const statusLabels: Record<OrderHistoryStatus, string> = {
   completed: 'Đã giao thành công',
   cancelled: 'Đã hủy',
 };
+
+const cancellationReasons = [
+  'Tôi muốn thay đổi sản phẩm hoặc kích cỡ',
+  'Tôi đặt nhầm đơn hàng',
+  'Thông tin giao hàng chưa chính xác',
+  'Thời gian giao hàng dự kiến quá lâu',
+  'Tôi không còn nhu cầu mua',
+  'Lý do khác',
+];
 
 const trackingSteps = [
   {
@@ -35,6 +45,239 @@ const trackingSteps = [
 ];
 
 const formatCurrency = (amount: number) => `${amount.toLocaleString('vi-VN')} đ`;
+
+const numberWords = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+
+function readThreeDigits(value: number, padded: boolean) {
+  const hundreds = Math.floor(value / 100);
+  const remainder = value % 100;
+  const tens = Math.floor(remainder / 10);
+  const units = remainder % 10;
+  const words: string[] = [];
+
+  if (hundreds > 0 || padded) {
+    words.push(numberWords[hundreds], 'trăm');
+  }
+
+  if (tens > 1) {
+    words.push(numberWords[tens], 'mươi');
+    if (units === 1) words.push('mốt');
+    else if (units === 5) words.push('lăm');
+    else if (units > 0) words.push(numberWords[units]);
+  } else if (tens === 1) {
+    words.push('mười');
+    if (units === 5) words.push('lăm');
+    else if (units > 0) words.push(numberWords[units]);
+  } else if (units > 0) {
+    if (hundreds > 0 || padded) words.push('lẻ');
+    words.push(numberWords[units]);
+  }
+
+  return words.join(' ');
+}
+
+function amountInVietnameseWords(amount: number) {
+  const normalized = Math.max(0, Math.floor(amount));
+  if (normalized === 0) return 'Không đồng';
+
+  const scales = ['', 'nghìn', 'triệu', 'tỷ', 'nghìn tỷ'];
+  const groups: number[] = [];
+  let remaining = normalized;
+
+  while (remaining > 0) {
+    groups.push(remaining % 1000);
+    remaining = Math.floor(remaining / 1000);
+  }
+
+  const parts: string[] = [];
+  for (let index = groups.length - 1; index >= 0; index -= 1) {
+    if (groups[index] === 0) continue;
+    const part = readThreeDigits(groups[index], parts.length > 0 && groups[index] < 100);
+    parts.push([part, scales[index] ?? ''].filter(Boolean).join(' '));
+  }
+
+  return `${parts.join(' ')} đồng`;
+}
+
+function getQuantityValue(quantity: string) {
+  return Number(quantity.match(/\d+(?:[.,]\d+)?/)?.[0]?.replace(',', '.') ?? 1) || 1;
+}
+
+function InvoicePrintout({ order }: { order: OrderHistoryRecord }) {
+  const itemSubtotal = order.subtotal ?? order.items.reduce((sum, item) => sum + item.price, 0);
+  const productDiscount = order.productDiscount ?? 0;
+  const couponDiscount = order.couponDiscount ?? 0;
+  const shippingCost = order.shippingCost ?? 0;
+  const vat = order.vat ?? 0;
+
+  return (
+    <section className="order-invoice-print" aria-hidden="true">
+      <div className="invoice-paper">
+        <header className="invoice-seller-header">
+          <div className="invoice-brand-mark" aria-hidden="true">
+            V
+          </div>
+          <div className="invoice-seller-copy">
+            <h2>VIETUNIFORM</h2>
+            <p>Đồng phục doanh nghiệp, y tế, nhà hàng và trường học</p>
+            <p>Email: 23130129@st.hcmuaf.edu.vn</p>
+          </div>
+          <div className="invoice-number-block">
+            <span>Ký hiệu (Serial): SU</span>
+            <span>
+              Số (No.): <strong>{order.orderNumber}</strong>
+            </span>
+          </div>
+        </header>
+
+        <div className="invoice-title-block">
+          <h1>HÓA ĐƠN BÁN HÀNG</h1>
+          <p>(ORDER INVOICE)</p>
+          <span>Ngày lập (Date): {order.orderedAt}</span>
+        </div>
+
+        <section className="invoice-buyer-block" aria-label="Thông tin người mua">
+          <p>
+            Họ tên người mua hàng (Buyer): <strong>{order.customerName}</strong>
+          </p>
+          {order.customerType === 'business' && (
+            <p>
+              Tên đơn vị (Company&apos;s name): <strong>{order.customerName}</strong>
+            </p>
+          )}
+          {order.companyTaxCode && <p>Mã số thuế (Tax code): {order.companyTaxCode}</p>}
+          <p>Địa chỉ (Address): {order.address}</p>
+          <div className="invoice-buyer-contact">
+            <span>Điện thoại (Phone): {order.customerPhone}</span>
+            <span>Email: {order.customerEmail || '—'}</span>
+          </div>
+          <p>Hình thức thanh toán (Payment method): {order.paymentLabel}</p>
+        </section>
+
+        <table className="invoice-items-table">
+          <thead>
+            <tr>
+              <th>
+                STT
+                <br />
+                <span>(No.)</span>
+              </th>
+              <th>
+                Tên hàng hóa, dịch vụ
+                <br />
+                <span>(Name of goods and services)</span>
+              </th>
+              <th>
+                Đơn vị tính
+                <br />
+                <span>(Unit)</span>
+              </th>
+              <th>
+                Số lượng
+                <br />
+                <span>(Quantity)</span>
+              </th>
+              <th>
+                Đơn giá
+                <br />
+                <span>(Unit price)</span>
+              </th>
+              <th>
+                Thành tiền
+                <br />
+                <span>(Amount)</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {order.items.map((item, index) => {
+              const quantity = getQuantityValue(item.quantity);
+              const unit = item.quantity.replace(/^\s*\d+(?:[.,]\d+)?\s*/, '') || 'cái';
+              return (
+                <tr key={`${item.name}-${index}`}>
+                  <td className="invoice-center">{index + 1}</td>
+                  <td>
+                    <strong>{item.name}</strong>
+                    {item.options && <small>{item.options}</small>}
+                  </td>
+                  <td className="invoice-center">{unit}</td>
+                  <td className="invoice-center">{quantity.toLocaleString('vi-VN')}</td>
+                  <td className="invoice-number">{formatCurrency(item.price / quantity)}</td>
+                  <td className="invoice-number">{formatCurrency(item.price)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colSpan={5}>Cộng tiền hàng (Total amount excl. VAT):</td>
+              <td className="invoice-number">{formatCurrency(itemSubtotal)}</td>
+            </tr>
+            {productDiscount > 0 && (
+              <tr>
+                <td colSpan={5}>Chiết khấu trực tiếp:</td>
+                <td className="invoice-number">- {formatCurrency(productDiscount)}</td>
+              </tr>
+            )}
+            {couponDiscount > 0 && (
+              <tr>
+                <td colSpan={5}>
+                  Ưu đãi {order.couponCode ? `(${order.couponCode})` : 'mã giảm giá'}:
+                </td>
+                <td className="invoice-number">- {formatCurrency(couponDiscount)}</td>
+              </tr>
+            )}
+            {shippingCost > 0 && (
+              <tr>
+                <td colSpan={5}>Phí vận chuyển:</td>
+                <td className="invoice-number">{formatCurrency(shippingCost)}</td>
+              </tr>
+            )}
+            {vat > 0 && (
+              <tr>
+                <td colSpan={5}>Thuế GTGT (VAT 8%):</td>
+                <td className="invoice-number">{formatCurrency(vat)}</td>
+              </tr>
+            )}
+            <tr className="invoice-total-row">
+              <td colSpan={5}>Tổng tiền thanh toán (Total amount):</td>
+              <td className="invoice-number">{formatCurrency(order.total)}</td>
+            </tr>
+            <tr>
+              <td colSpan={6}>
+                Số tiền viết bằng chữ (Total amount in words):{' '}
+                <strong>{amountInVietnameseWords(order.total)}</strong>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div className="invoice-signatures">
+          <div>
+            <strong>Người mua hàng (Buyer)</strong>
+            <span>(Ký, ghi rõ họ tên nếu có)</span>
+            <span>(Digital signature if any)</span>
+          </div>
+          <div>
+            <strong>Đại diện VIETUNIFORM (Seller)</strong>
+            <span>(Ký và ghi rõ họ tên)</span>
+            <span>(Seller signature)</span>
+          </div>
+        </div>
+
+        <footer className="invoice-footnote">
+          <p>
+            Mã đơn hàng: <strong>{order.orderNumber}</strong> · Hỗ trợ: 23130129@st.hcmuaf.edu.vn
+          </p>
+          <p>
+            Phiếu in từ hệ thống VIETUNIFORM; không thay thế hóa đơn điện tử hợp lệ có mã hoặc chữ
+            ký số.
+          </p>
+        </footer>
+      </div>
+    </section>
+  );
+}
 
 function StepIcon({ index }: { index: number }) {
   if (index === 0 || index === 3) {
@@ -100,7 +343,16 @@ function OrderThumbnail({ tone }: { tone: string }) {
   );
 }
 
-function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
+function OrderDetail({ order: initialOrder, onBack, onContinueShopping }: OrderDetailProps) {
+  const [order, setOrder] = useState(initialOrder);
+  const [isEmailPreviewOpen, setIsEmailPreviewOpen] = useState(false);
+  const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
+  const [selectedCancelReason, setSelectedCancelReason] = useState('');
+  const [otherCancelReason, setOtherCancelReason] = useState('');
+
+  useEffect(() => {
+    setOrder(initialOrder);
+  }, [initialOrder]);
   const itemSubtotal = order.items.reduce((sum, item) => sum + item.price, 0);
   const subtotal = order.subtotal ?? itemSubtotal;
   const productDiscount = order.productDiscount ?? 0;
@@ -129,8 +381,93 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
       : order.status === 'completed'
         ? 'Đơn hàng đã được giao thành công. Cảm ơn bạn đã mua sắm tại VIETUNIFORM.'
         : order.status === 'cancelled'
-          ? 'Đơn hàng này đã được hủy. Liên hệ với chúng tôi nếu bạn cần hỗ trợ.'
+          ? order.cancellationReason
+            ? `Đơn hàng đã được hủy. Lý do: ${order.cancellationReason}`
+            : 'Đơn hàng này đã được hủy. Liên hệ với chúng tôi nếu bạn cần hỗ trợ.'
           : 'Cửa hàng đã nhận đơn và sẽ sớm liên hệ để xác nhận.';
+  const canCancelOrder = order.status === 'waiting';
+  const recipientEmail = order.customerEmail?.trim() ?? '';
+  const emailSubject = 'VIETUNIFORM gửi thông tin hóa đơn đơn hàng ' + order.orderNumber;
+  const invoiceLookupUrl =
+    window.location.origin + '/orders/' + encodeURIComponent(order.orderNumber);
+  const emailBody = [
+    'Kính gửi: ' + order.customerName,
+    '',
+    'VIETUNIFORM gửi Quý khách thông tin hóa đơn cho đơn hàng ' + order.orderNumber + '.',
+    'Ký hiệu hóa đơn: SU',
+    'Ngày đặt hàng: ' + order.orderedAt,
+    'Người mua: ' + order.customerName,
+    order.companyTaxCode ? 'Mã số thuế: ' + order.companyTaxCode : '',
+    'Địa chỉ: ' + order.address,
+    '',
+    'CHI TIẾT HÀNG HÓA',
+    ...order.items.map(
+      (item, index) =>
+        index +
+        1 +
+        '. ' +
+        item.name +
+        ' (' +
+        item.options +
+        ') · ' +
+        item.quantity +
+        ': ' +
+        formatCurrency(item.price),
+    ),
+    '',
+    'Tạm tính: ' + formatCurrency(subtotal),
+    productDiscount > 0 ? 'Chiết khấu trực tiếp: - ' + formatCurrency(productDiscount) : '',
+    couponDiscount > 0 ? 'Ưu đãi: - ' + formatCurrency(couponDiscount) : '',
+    'Phí vận chuyển: ' + (shippingCost === 0 ? 'Miễn phí' : formatCurrency(shippingCost)),
+    vat > 0 ? 'Thuế GTGT (VAT 8%): ' + formatCurrency(vat) : '',
+    'TỔNG THANH TOÁN: ' + formatCurrency(order.total),
+    '',
+    'Tra cứu đơn hàng: ' + invoiceLookupUrl,
+    '',
+    'Quý khách vui lòng kiểm tra thông tin trên. Email được gửi tự động từ hệ thống VIETUNIFORM.',
+    'VIETUNIFORM · 23130129@st.hcmuaf.edu.vn',
+  ]
+    .filter(Boolean)
+    .join('\n');
+  const emailDraftHref = recipientEmail
+    ? 'mailto:' +
+      recipientEmail +
+      '?subject=' +
+      encodeURIComponent(emailSubject) +
+      '&body=' +
+      encodeURIComponent(emailBody)
+    : '';
+
+  const closeCancelDialog = () => {
+    setIsCancelDialogOpen(false);
+    setSelectedCancelReason('');
+    setOtherCancelReason('');
+  };
+
+  const confirmCancelOrder = () => {
+    const reason =
+      selectedCancelReason === 'Lý do khác' ? otherCancelReason.trim() : selectedCancelReason;
+    if (!canCancelOrder || !reason) return;
+
+    const cancelledOrder: OrderHistoryRecord = {
+      ...order,
+      status: 'cancelled',
+      cancellationReason: reason,
+    };
+    setOrder(cancelledOrder);
+    saveOrderStatusOverride(order.orderNumber, {
+      status: 'cancelled',
+      cancellationReason: reason,
+    });
+    localStorage.setItem('selectedOrder', JSON.stringify(cancelledOrder));
+
+    const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || 'null');
+    if (lastOrder?.orderNumber === order.orderNumber) {
+      localStorage.setItem('lastOrder', JSON.stringify(cancelledOrder));
+    }
+
+    closeCancelDialog();
+  };
 
   return (
     <div className="order-detail-page">
@@ -154,9 +491,45 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
       <article className="order-detail-card">
         <header className="order-detail-card-heading">
           <h2>Đơn hàng {order.orderNumber}</h2>
-          <button type="button" onClick={() => window.print()}>
-            <span aria-hidden="true">▣</span> In đơn hàng
-          </button>
+          <div className="order-detail-actions">
+            <button
+              type="button"
+              className="order-detail-print-button"
+              onClick={() => window.print()}
+            >
+              <span aria-hidden="true">▣</span> In hóa đơn
+            </button>
+            <button
+              type="button"
+              className="order-detail-email-button"
+              onClick={() => setIsEmailPreviewOpen(true)}
+              disabled={!recipientEmail}
+              title={
+                recipientEmail
+                  ? 'Xem nội dung email hóa đơn'
+                  : 'Đơn hàng chưa có email nhận hóa đơn'
+              }
+            >
+              <span aria-hidden="true">✉</span> Gửi hóa đơn
+            </button>
+            <button
+              type="button"
+              className="order-detail-cancel-button"
+              onClick={() => setIsCancelDialogOpen(true)}
+              disabled={!canCancelOrder}
+              title={
+                canCancelOrder
+                  ? 'Hủy đơn hàng đang chờ xác nhận'
+                  : order.status === 'cancelled'
+                    ? 'Đơn hàng đã được hủy'
+                    : 'Chỉ có thể hủy đơn hàng khi đang chờ xác nhận'
+              }
+              aria-haspopup="dialog"
+            >
+              <span aria-hidden="true">×</span>{' '}
+              {order.status === 'cancelled' ? 'Đã hủy đơn hàng' : 'Hủy đơn hàng'}
+            </button>
+          </div>
         </header>
 
         <section className="order-tracking" aria-labelledby="order-tracking-title">
@@ -310,7 +683,13 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
               <div className="order-detail-payment-method">
                 <span aria-hidden="true">✓</span>
                 <strong>{order.paymentLabel}</strong>
-                <small>{order.status === 'waiting' ? 'Chờ xác nhận' : 'Đã ghi nhận'}</small>
+                <small>
+                  {order.status === 'cancelled'
+                    ? 'Đã hủy'
+                    : order.status === 'waiting'
+                      ? 'Chờ xác nhận'
+                      : 'Đã ghi nhận'}
+                </small>
               </div>
               <div className="order-detail-payment-reference">
                 Mã đơn: <strong>{order.orderNumber}</strong>
@@ -339,6 +718,195 @@ function OrderDetail({ order, onBack, onContinueShopping }: OrderDetailProps) {
           </aside>
         </div>
       </article>
+
+      <InvoicePrintout order={order} />
+
+      {isEmailPreviewOpen && (
+        <div
+          className="invoice-email-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setIsEmailPreviewOpen(false);
+          }}
+        >
+          <section
+            className="invoice-email-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="invoice-email-title"
+          >
+            <header className="invoice-email-dialog-heading">
+              <div>
+                <h2 id="invoice-email-title">Gửi hóa đơn qua email</h2>
+                <p>
+                  Người nhận: <strong>{recipientEmail}</strong>
+                </p>
+              </div>
+              <button type="button" aria-label="Đóng" onClick={() => setIsEmailPreviewOpen(false)}>
+                ×
+              </button>
+            </header>
+
+            <div className="invoice-email-preview">
+              <div className="invoice-email-banner">
+                VIETUNIFORM thông báo gửi hóa đơn cho đơn hàng {order.orderNumber}
+              </div>
+              <p className="invoice-email-automated-note">
+                Chú ý: Đây là email tự động từ hệ thống, vui lòng không phản hồi (reply) email này.
+              </p>
+              <div className="invoice-email-copy">
+                <strong>Kính gửi: {order.customerName}</strong>
+                <p>VIETUNIFORM gửi Quý khách thông tin hóa đơn với các thông tin như sau:</p>
+              </div>
+              <dl className="invoice-email-facts">
+                <div>
+                  <dt>Số đơn hàng:</dt>
+                  <dd>{order.orderNumber}</dd>
+                </div>
+                <div>
+                  <dt>Ký hiệu:</dt>
+                  <dd>SU</dd>
+                </div>
+                <div>
+                  <dt>Ngày:</dt>
+                  <dd>{order.orderedAt}</dd>
+                </div>
+                {order.companyTaxCode && (
+                  <div>
+                    <dt>Mã số thuế:</dt>
+                    <dd>{order.companyTaxCode}</dd>
+                  </div>
+                )}
+                <div>
+                  <dt>Tổng thanh toán:</dt>
+                  <dd>{formatCurrency(order.total)}</dd>
+                </div>
+              </dl>
+              <p className="invoice-email-lookup-copy">
+                Để xem chi tiết đơn hàng, vui lòng nhấn nút:
+              </p>
+              <a
+                className="invoice-email-lookup-button"
+                href={invoiceLookupUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                TRA CỨU ĐƠN HÀNG
+              </a>
+              <p className="invoice-email-footer-copy">
+                Email nhận hóa đơn: {recipientEmail}
+                <br />
+                Quý khách vui lòng kiểm tra thông tin trên hóa đơn.
+              </p>
+            </div>
+
+            <div className="invoice-email-dialog-footer">
+              <p>Ứng dụng email sẽ mở bản nháp; hãy kiểm tra và nhấn Gửi để hoàn tất.</p>
+              <button
+                type="button"
+                className="invoice-email-close-button"
+                onClick={() => setIsEmailPreviewOpen(false)}
+              >
+                Đóng
+              </button>
+              <a className="invoice-email-send-button" href={emailDraftHref}>
+                Mở ứng dụng email
+              </a>
+            </div>
+          </section>
+        </div>
+      )}
+
+      {isCancelDialogOpen && (
+        <div
+          className="cancel-order-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeCancelDialog();
+          }}
+        >
+          <section
+            className="cancel-order-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cancel-order-title"
+          >
+            <header className="cancel-order-heading">
+              <div className="cancel-order-icon" aria-hidden="true">
+                ×
+              </div>
+              <div>
+                <h2 id="cancel-order-title">Hủy đơn hàng</h2>
+                <p>Đơn hàng {order.orderNumber}</p>
+              </div>
+              <button type="button" aria-label="Đóng" onClick={closeCancelDialog}>
+                ×
+              </button>
+            </header>
+
+            <div className="cancel-order-content">
+              <p className="cancel-order-question">
+                Bạn cho VIETUNIFORM biết lý do muốn hủy đơn hàng nhé.
+              </p>
+              <fieldset className="cancel-order-reasons">
+                <legend>Chọn lý do hủy</legend>
+                {cancellationReasons.map((reason) => (
+                  <label
+                    className={selectedCancelReason === reason ? 'is-selected' : ''}
+                    key={reason}
+                  >
+                    <input
+                      type="radio"
+                      name="order-cancellation-reason"
+                      value={reason}
+                      checked={selectedCancelReason === reason}
+                      onChange={() => setSelectedCancelReason(reason)}
+                    />
+                    <span>{reason}</span>
+                  </label>
+                ))}
+              </fieldset>
+
+              {selectedCancelReason === 'Lý do khác' && (
+                <label className="cancel-order-other-reason">
+                  Ghi rõ lý do
+                  <textarea
+                    rows={3}
+                    maxLength={300}
+                    value={otherCancelReason}
+                    onChange={(event) => setOtherCancelReason(event.target.value)}
+                    placeholder="Nhập lý do hủy đơn hàng"
+                    autoFocus
+                  />
+                </label>
+              )}
+
+              <p className="cancel-order-warning" role="note">
+                Sau khi xác nhận, đơn hàng sẽ được chuyển sang trạng thái đã hủy.
+              </p>
+            </div>
+
+            <footer className="cancel-order-footer">
+              <button
+                type="button"
+                className="cancel-order-keep-button"
+                onClick={closeCancelDialog}
+              >
+                Giữ đơn hàng
+              </button>
+              <button
+                type="button"
+                className="cancel-order-confirm-button"
+                onClick={confirmCancelOrder}
+                disabled={
+                  !selectedCancelReason ||
+                  (selectedCancelReason === 'Lý do khác' && !otherCancelReason.trim())
+                }
+              >
+                Xác nhận hủy
+              </button>
+            </footer>
+          </section>
+        </div>
+      )}
     </div>
   );
 }

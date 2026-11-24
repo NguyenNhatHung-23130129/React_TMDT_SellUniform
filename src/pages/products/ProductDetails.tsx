@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
+import type { RootState, Product } from '../../store/store';
 import heroImg from '../../assets/hero.png';
 import shoppingCartIcon from '../../assets/icons/shopping-cart-icon.svg';
 import searchIcon from '../../assets/icons/search-icon.svg';
@@ -11,31 +11,45 @@ import rulerIcon from '../../assets/icons/ruler-icon.svg';
 import lightningIcon from '../../assets/icons/lightning-icon.svg';
 import './ProductDetails.css';
 
+interface ProductDetailItem extends Product {
+    sku?: string;
+    originalPrice?: number;
+    rating?: number;
+    sold?: number;
+    stock?: number;
+}
+
 export default function ProductDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const products = useSelector((state: RootState) => state.data.products);
+    const products = useSelector((state: RootState) => state.data.products) as ProductDetailItem[];
     const loading = useSelector((state: RootState) => state.data.loading);
+
+    const product = products.find((item) => String(item.id) === String(id)) || products[0];
+    const colors = product?.colors?.length ? product.colors : ['#1E3A8A', '#FFFFFF', '#111827', '#6B7280', '#059669'];
+
+    const [activeTab, setActiveTab] = useState<'specs' | 'size' | 'policy'>('specs');
+    const [selectedSize, setSelectedSize] = useState('M');
+    const [selectedColor, setSelectedColor] = useState('');
+    const [quantity, setQuantity] = useState(1);
+    const [showToast, setShowToast] = useState(false);
+
+    const activeColor = colors.includes(selectedColor) ? selectedColor : colors[0];
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [id]);
+
+    useEffect(() => {
+        if (!showToast) return;
+        const timer = setTimeout(() => setShowToast(false), 1000);
+        return () => clearTimeout(timer);
+    }, [showToast]);
 
     if (loading && products.length === 0) {
         return <main className="home"><p style={{ textAlign: 'center', padding: '40px' }}>Đang tải dữ liệu...</p></main>;
     }
-
-    const product: any = products.find((item: any) => String(item.id) === String(id)) || products[0];
-
-    const colors: string[] = product?.colors?.length ? product.colors : ['#1E3A8A', '#FFFFFF', '#111827', '#6B7280', '#059669'];
-
-    const [activeTab, setActiveTab] = useState<'specs' | 'size' | 'policy'>('specs');
-    const [selectedSize, setSelectedSize] = useState('M');
-    const [selectedColor, setSelectedColor] = useState(colors[0]);
-    const [quantity, setQuantity] = useState(1);
-
-    useEffect(() => {
-        if (colors.length > 0) {
-            setSelectedColor(colors[0]);
-        }
-    }, [id]);
 
     const productName = product?.name || 'Áo Polo CVC Coolmax Kháng Khuẩn Cao Cấp (Form Chuẩn Châu Á)';
     const productSku = product?.sku || (product?.id ? `SP-${product.id}` : 'POLO-CVC-01');
@@ -56,13 +70,14 @@ export default function ProductDetails() {
         setQuantity((prev) => Math.max(1, Math.min(stockCount, prev + delta)));
     };
 
-    const relatedProducts = products.filter((item: any) => String(item.id) !== String(product?.id)).slice(0, 3);
+    const relatedProducts = products.filter((item) => String(item.id) !== String(product?.id)).slice(0, 3);
 
-    const handleAddToCart = () => {
+    const saveItemToCart = () => {
         const savedCart = JSON.parse(localStorage.getItem('cart_items') || '[]');
         const itemId = String(product?.id || '1');
         const existingIndex = savedCart.findIndex(
-            (i: any) => i.id === itemId && i.size === selectedSize && i.color === selectedColor
+            (i: { id: string; size: string; color: string }) =>
+                i.id === itemId && i.size === selectedSize && i.color === activeColor
         );
 
         if (existingIndex >= 0) {
@@ -73,7 +88,7 @@ export default function ProductDetails() {
                 name: productName,
                 image: productImage,
                 size: selectedSize,
-                color: selectedColor,
+                color: activeColor,
                 sku: productSku,
                 price: basePrice,
                 oldPrice: oldPrice,
@@ -83,11 +98,27 @@ export default function ProductDetails() {
         }
 
         localStorage.setItem('cart_items', JSON.stringify(savedCart));
+    };
+
+    const handleAddToCart = () => {
+        saveItemToCart();
+        setShowToast(true);
+    };
+
+    const handleBuyNow = () => {
+        saveItemToCart();
         navigate('/cart');
     };
 
     return (
         <main className="home">
+            {showToast && (
+                <div className="cart-toast-popup">
+                    <span className="toast-check-icon">✓</span>
+                    <span>Đã thêm vào giỏ hàng!</span>
+                </div>
+            )}
+
             <div className="product-details-container">
                 <div className="product-main-section">
                     <div className="product-gallery">
@@ -174,15 +205,15 @@ export default function ProductDetails() {
 
                         <div className="option-section">
                             <div className="option-label-row">
-                                <span><strong>Màu Sắc:</strong> {selectedColor}</span>
+                                <span><strong>Màu Sắc:</strong> {activeColor}</span>
                                 <span className="stock-info">● Còn {stockCount} sản phẩm</span>
                             </div>
                             <div className="color-options">
                                 {colors.map((color: string, index: number) => (
                                     <div
                                         key={index}
-                                        className={`color-circle ${selectedColor === color ? 'active' : ''}`}
-                                        style={{ backgroundColor: color, borderColor: selectedColor === color ? '#0088FF' : '#D1D5DB' }}
+                                        className={`color-circle ${activeColor === color ? 'active' : ''}`}
+                                        style={{ backgroundColor: color, borderColor: activeColor === color ? '#0088FF' : '#D1D5DB' }}
                                         onClick={() => setSelectedColor(color)}
                                     ></div>
                                 ))}
@@ -236,33 +267,10 @@ export default function ProductDetails() {
                                 <img src={shoppingCartIcon} alt="Cart" className="cart-icon-img" />
                                 THÊM VÀO GIỎ HÀNG
                             </button>
-                            <button type="button" className="buy-now-btn" onClick={handleAddToCart}>
+                            <button type="button" className="buy-now-btn" onClick={handleBuyNow}>
                                 <img src={lightningIcon} alt="Buy Now" className="buy-now-icon-img" />
                                 MUA NGAY - NHẬN TRONG 24H
                             </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="shop-info-banner">
-                    <div className="shop-avatar">
-                        <span>VU</span>
-                    </div>
-                    <div className="shop-details">
-                        <div className="shop-name-row">
-                            <h3>VIETUNIFORM Official Hub</h3>
-                            <span className="official-badge">✓ Thương hiệu chính hãng</span>
-                        </div>
-                        <p className="shop-sub">● Đang hoạt động • Kho hàng HÀ NỘI & TP.HCM</p>
-                        <div className="shop-actions">
-                            <button className="shop-btn outline">Chat Ngay</button>
-                            <button className="shop-btn primary" onClick={() => navigate('/')}>Xem Shop</button>
-                        </div>
-                    </div>
-                    <div className="shop-metrics">
-                        <div className="metric-item">
-                            <span className="metric-label">Đánh giá</span>
-                            <span className="metric-value">4.9 / 5</span>
                         </div>
                     </div>
                 </div>
@@ -447,7 +455,7 @@ export default function ProductDetails() {
                         <a href="#" className="view-all-link">Xem toàn bộ kho hàng có sẵn →</a>
                     </div>
                     <div className="cross-sell-grid">
-                        {relatedProducts.map((item: any) => (
+                        {relatedProducts.map((item) => (
                             <div
                                 key={item.id}
                                 className="cross-sell-card"

@@ -3,32 +3,31 @@
   border-top: 1px solid #dee3e9;
   font-family: "Be Vietnam Pro", sans-serif;
   max-width: 100%;
-  margin: 0 auto;
-  padding: 40px 48px;
+  margin: 0;
+  padding: 40px;
 }
 .footer .grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 32px;
 }
-.footer .brand {
-  grid-column: 1/span 2;
+.footer .brand-footer {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-.footer .brand h2 {
+.footer .brand-footer h2 {
   font-family: "Montserrat", sans-serif;
   font-size: 20px;
   color: #004db0;
   margin: 0;
 }
-.footer .brand p {
+.footer .brand-footer p {
+  width: 50%;
   font-size: 14px;
   color: #566065;
   line-height: 20px;
   margin: 0;
-  max-width: 384px;
 }
 .footer .links {
   display: flex;

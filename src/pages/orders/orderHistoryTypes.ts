@@ -26,7 +26,30 @@ export type OrderHistoryRecord = Pick<
   couponCode?: OrderConfirmation['couponCode'];
   createdAt: number;
   status: OrderHistoryStatus;
+  cancellationReason?: string;
 };
+
+type OrderStatusOverride = Partial<Pick<OrderHistoryRecord, 'status' | 'cancellationReason'>>;
+const ORDER_STATUS_OVERRIDES_KEY = 'orderStatusOverrides';
+
+export function readOrderStatusOverrides(): Record<string, OrderStatusOverride> {
+  try {
+    return JSON.parse(localStorage.getItem(ORDER_STATUS_OVERRIDES_KEY) || '{}');
+  } catch {
+    return {};
+  }
+}
+
+export function saveOrderStatusOverride(orderNumber: string, override: OrderStatusOverride) {
+  const overrides = readOrderStatusOverrides();
+  overrides[orderNumber] = { ...overrides[orderNumber], ...override };
+  localStorage.setItem(ORDER_STATUS_OVERRIDES_KEY, JSON.stringify(overrides));
+}
+
+export function applyOrderStatusOverride(order: OrderHistoryRecord): OrderHistoryRecord {
+  const override = readOrderStatusOverrides()[order.orderNumber];
+  return override ? { ...order, ...override } : order;
+}
 
 export function toOrderHistoryRecord(order: OrderConfirmation): OrderHistoryRecord {
   return {
