@@ -10,21 +10,22 @@ export default function DataLoader() {
     const { data: products, loading: loadingProd, error: errProd } = useFetch(`${API_URL}/products`);
     const { data: categories, loading: loadingCat, error: errCat } = useFetch(`${API_URL}/categories`);
 
-    useEffect(() => {
-        if (products) dispatch(load({ products }));
+     useEffect(() => {
+        if (products) dispatch(load({ products } as any));
     }, [products, dispatch]);
 
     useEffect(() => {
-        if (categories) dispatch(load({ categories }));
+        if (categories) dispatch(load({ categories } as any));
     }, [categories, dispatch]);
 
+
     useEffect(() => {
-        dispatch(setLoading(loadingProd || loadingCat));
+        dispatch(setLoading((loadingProd || loadingCat) as any));
     }, [loadingProd, loadingCat, dispatch]);
 
     useEffect(() => {
         const err = errProd || errCat;
-        if (err) dispatch(setError(err));
+        if (err) dispatch(setError(err as any));
     }, [errProd, errCat, dispatch]);
 
     return null;

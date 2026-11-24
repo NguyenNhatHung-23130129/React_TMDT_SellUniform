@@ -37,7 +37,7 @@ export const SearchAutocomplete = () => {
 
             {results.length > 0 && (
                 <ul className="search-popup">
-                    {results.map(item => (
+                    {results.map((item: any) => (
                         <li key={item.id} className="search-item"
                             onMouseDown={() => {navigate(`/product/${item.id}`);setInputValue('');
                             }}>{item.name}</li>

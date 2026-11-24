@@ -30,7 +30,7 @@ export const SearchResults = () => {
     if (error && products.length === 0) {
         return <p style={{ textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>;
     }
-    const list = products.filter(p =>
+    const list = products.filter((p: any) =>
             (!keyword || p.name.toLowerCase().includes(keyword)) &&
             (!cat || Number(p.categoryId) === cat) &&
             (!tab || Number(p.tabId) === tab) &&
