@@ -50,22 +50,15 @@ export const SearchAutocomplete = () => {
         className="search-input"
       />
 
-      {results.length > 0 && (
-        <ul className="search-popup">
-          {results.map((item) => (
-            <li
-              key={item.id}
-              className="search-item"
-              onMouseDown={() => {
-                navigate(`/product/${item.id}`);
-                setInputValue('');
-              }}
-            >
-              {item.name}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
+            {results.length > 0 && (
+                <ul className="search-popup">
+                    {results.map((item: any) => (
+                        <li key={item.id} className="search-item"
+                            onMouseDown={() => {navigate(`/product/${item.id}`);setInputValue('');
+                            }}>{item.name}</li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
 };

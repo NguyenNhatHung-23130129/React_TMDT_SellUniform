@@ -25,7 +25,7 @@ export const ShopDetail = () => {
     }
 
 
-    const list = products.filter((p) =>
+    const list = products.filter((p: any) =>
         (!selectedCat || Number(p.categoryId) === selectedCat) &&
         (!selectedTab || Number(p.tabId) === selectedTab) &&
         (!selectedSize || (p.sizes && p.sizes.includes(selectedSize))) &&

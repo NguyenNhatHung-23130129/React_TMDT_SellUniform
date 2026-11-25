@@ -29,7 +29,7 @@ const dataSlice = createSlice({
         error: null as string | null,
     },
     reducers: {
-        load: (state, action) => {
+        load: (state: any, action: any) => {
             if (action.payload.categories) {
                 state.categories = action.payload.categories;
             }
@@ -41,10 +41,10 @@ const dataSlice = createSlice({
             }
             state.loading = false;
         },
-        setLoading: (state, action) => {
+        setLoading: (state: any, action: any) => {
             state.loading = action.payload;
         },
-        setError: (state, action) => {
+        setError: (state: any, action: any) => {
             state.error = action.payload;
             state.loading = false;
         },

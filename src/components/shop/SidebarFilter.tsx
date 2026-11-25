@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store/store';
-import { tabs,sizes,colors } from '../../data/mockProducts';
+import { tabs, sizes } from '../../data/mockProducts';
 import './SidebarFilter.scss';
 
 export const SidebarFilter = ({
-                                  selectedCat = 0, selectedTab = 0, selectedSize = '', selectedColor = '',
-                                  onChangeCat, onChangeTab, onChangeSize, onChangeColor, onReset
+                                  selectedCat = 0, selectedTab = 0, selectedSize = '',
+                                  onChangeCat, onChangeTab, onChangeSize, onReset
                               }: any) => {
     const apiCategories = useSelector((state: RootState) => state.data.categories);
 
@@ -35,9 +35,7 @@ export const SidebarFilter = ({
                             type="radio"
                             name="loai"
                             checked={selectedTab === t.id}
-                            onChange={() => onChangeTab?.(t.id)}
-                        />
-                        {t.title}
+                            onChange={() => onChangeTab?.(t.id)}/>{t.title}
                     </label>
                 ))}
             </div>
@@ -48,26 +46,12 @@ export const SidebarFilter = ({
                         <button
                             key={s}
                             className={selectedSize === s ? 'active' : ''}
-                            onClick={() => onChangeSize?.(s === selectedSize ? '' : s)}
-                        >
-                            {s}
+                            onClick={() => onChangeSize?.(s === selectedSize ? '' : s)}>{s}
                         </button>
                     ))}
                 </div>
             </div>
-            <div className="filter-group">
-                <h4>Màu sắc</h4>
-                <div className="colors-flex">
-                    {colors.map(c => (
-                        <span
-                            key={c}
-                            style={{ backgroundColor: c }}
-                            className={`color-dot ${selectedColor === c ? 'active' : ''}`}
-                            onClick={() => onChangeColor?.(c === selectedColor ? '' : c)}
-                        />
-                    ))}
-                </div>
-            </div>
+
             <button className="btn-outline" onClick={onReset}>Xóa bộ lọc</button>
         </aside>
     );
