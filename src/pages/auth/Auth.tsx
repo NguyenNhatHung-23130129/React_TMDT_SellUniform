@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router';
 import './Login.css';
 import './Register.css';
 
+const API_URL = 'http://localhost:3001';
+
 export const Auth: React.FC = () => {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
@@ -30,15 +32,54 @@ export const Auth: React.FC = () => {
         navigate('/');
     };
 
-    const handleRegisterSubmit = (e: React.FormEvent) => {
+    const handleRegisterSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (regPassword.length < 8) {
+            alert('Mật khẩu phải có tối thiểu 8 ký tự!');
+            return;
+        }
         if (regPassword !== confirmPassword) {
             alert('Mật khẩu xác nhận không khớp!');
             return;
         }
-        setIsLogin(true);
-        setLoginEmail(regEmail);
-        setLoginPassword('');
+
+        try {
+            const checkRes = await fetch(`${API_URL}/users?email=${encodeURIComponent(regEmail.trim())}`);
+            const existingUsers = await checkRes.json();
+
+            if (existingUsers.length > 0) {
+                alert('Email này đã được đăng ký!');
+                return;
+            }
+
+            const res = await fetch(`${API_URL}/users`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: Math.random().toString(36).substring(2, 10),
+                    fullName: fullName.trim(),
+                    email: regEmail.trim(),
+                    phone: phone.trim(),
+                    password: regPassword,
+                }),
+            });
+
+            if (!res.ok) {
+                alert('Đăng ký thất bại, vui lòng thử lại!');
+                return;
+            }
+
+            alert('Đăng ký tài khoản thành công!');
+            setFullName('');
+            setPhone('');
+            setRegPassword('');
+            setConfirmPassword('');
+            setIsLogin(true);
+            setLoginEmail(regEmail);
+            setLoginPassword('');
+        } catch {
+            alert('Không thể kết nối đến máy chủ!');
+        }
     };
 
     return (
