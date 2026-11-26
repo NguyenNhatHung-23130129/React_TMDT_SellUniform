@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router';
 import './Login.css';
 import './Register.css';
 
+const API_URL = 'http://localhost:3001';
+
 export const Auth: React.FC = () => {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
@@ -23,22 +25,87 @@ export const Auth: React.FC = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [agreeTerms, setAgreeTerms] = useState(true);
 
-    const handleLoginSubmit = (e: React.FormEvent) => {
+    const handleLoginSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!loginEmail || !loginPassword) return;
-        localStorage.setItem('user', JSON.stringify({ email: loginEmail, rememberMe }));
-        navigate('/');
+
+        try {
+            const res = await fetch(`${API_URL}/users?email=${encodeURIComponent(loginEmail.trim())}`);
+            const users = await res.json();
+
+            const matchedUser = users.find(
+                (u: { email: string; password: string }) =>
+                    u.email.toLowerCase() === loginEmail.trim().toLowerCase() && u.password === loginPassword
+            );
+
+            if (!matchedUser) {
+                alert('Email hoặc mật khẩu không chính xác!');
+                return;
+            }
+
+            const sessionUser = {
+                id: matchedUser.id,
+                fullName: matchedUser.fullName,
+                email: matchedUser.email,
+                phone: matchedUser.phone,
+                rememberMe,
+            };
+
+            localStorage.setItem('user', JSON.stringify(sessionUser));
+            navigate('/');
+        } catch {
+            alert('Không thể kết nối đến máy chủ!');
+        }
     };
 
-    const handleRegisterSubmit = (e: React.FormEvent) => {
+    const handleRegisterSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (regPassword.length < 8) {
+            alert('Mật khẩu phải có tối thiểu 8 ký tự!');
+            return;
+        }
         if (regPassword !== confirmPassword) {
             alert('Mật khẩu xác nhận không khớp!');
             return;
         }
-        setIsLogin(true);
-        setLoginEmail(regEmail);
-        setLoginPassword('');
+
+        try {
+            const checkRes = await fetch(`${API_URL}/users?email=${encodeURIComponent(regEmail.trim())}`);
+            const existingUsers = await checkRes.json();
+
+            if (existingUsers.length > 0) {
+                alert('Email này đã được đăng ký!');
+                return;
+            }
+
+            const res = await fetch(`${API_URL}/users`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: Math.random().toString(36).substring(2, 10),
+                    fullName: fullName.trim(),
+                    email: regEmail.trim(),
+                    phone: phone.trim(),
+                    password: regPassword,
+                }),
+            });
+
+            if (!res.ok) {
+                alert('Đăng ký thất bại, vui lòng thử lại!');
+                return;
+            }
+
+            alert('Đăng ký tài khoản thành công!');
+            setFullName('');
+            setPhone('');
+            setRegPassword('');
+            setConfirmPassword('');
+            setIsLogin(true);
+            setLoginEmail(regEmail);
+            setLoginPassword('');
+        } catch {
+            alert('Không thể kết nối đến máy chủ!');
+        }
     };
 
     return (
@@ -310,25 +377,6 @@ export const Auth: React.FC = () => {
                             Google
                         </button>
                     </div>
-
-                    {/* Liên kết chuyển đổi dưới cùng */}
-                    <p className="register-prompt">
-                        {isLogin ? (
-                            <>
-                                Chưa có tài khoản?{' '}
-                                <button type="button" className="register-link" onClick={() => setIsLogin(false)}>
-                                    Đăng ký ngay
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                Đã có tài khoản?{' '}
-                                <button type="button" className="register-link" onClick={() => setIsLogin(true)}>
-                                    Đăng nhập ngay
-                                </button>
-                            </>
-                        )}
-                    </p>
 
                     <div className="badge-row">
             <span>
