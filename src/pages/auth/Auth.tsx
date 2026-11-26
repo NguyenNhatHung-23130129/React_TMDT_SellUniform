@@ -25,11 +25,37 @@ export const Auth: React.FC = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [agreeTerms, setAgreeTerms] = useState(true);
 
-    const handleLoginSubmit = (e: React.FormEvent) => {
+    const handleLoginSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!loginEmail || !loginPassword) return;
-        localStorage.setItem('user', JSON.stringify({ email: loginEmail, rememberMe }));
-        navigate('/');
+
+        try {
+            const res = await fetch(`${API_URL}/users?email=${encodeURIComponent(loginEmail.trim())}`);
+            const users = await res.json();
+
+            const matchedUser = users.find(
+                (u: { email: string; password: string }) =>
+                    u.email.toLowerCase() === loginEmail.trim().toLowerCase() && u.password === loginPassword
+            );
+
+            if (!matchedUser) {
+                alert('Email hoặc mật khẩu không chính xác!');
+                return;
+            }
+
+            const sessionUser = {
+                id: matchedUser.id,
+                fullName: matchedUser.fullName,
+                email: matchedUser.email,
+                phone: matchedUser.phone,
+                rememberMe,
+            };
+
+            localStorage.setItem('user', JSON.stringify(sessionUser));
+            navigate('/');
+        } catch {
+            alert('Không thể kết nối đến máy chủ!');
+        }
     };
 
     const handleRegisterSubmit = async (e: React.FormEvent) => {
@@ -351,25 +377,6 @@ export const Auth: React.FC = () => {
                             Google
                         </button>
                     </div>
-
-                    {/* Liên kết chuyển đổi dưới cùng */}
-                    <p className="register-prompt">
-                        {isLogin ? (
-                            <>
-                                Chưa có tài khoản?{' '}
-                                <button type="button" className="register-link" onClick={() => setIsLogin(false)}>
-                                    Đăng ký ngay
-                                </button>
-                            </>
-                        ) : (
-                            <>
-                                Đã có tài khoản?{' '}
-                                <button type="button" className="register-link" onClick={() => setIsLogin(true)}>
-                                    Đăng nhập ngay
-                                </button>
-                            </>
-                        )}
-                    </p>
 
                     <div className="badge-row">
             <span>
