@@ -1,9 +1,19 @@
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router';
+import type { RootState, AppDispatch } from '../../store/store';
+import { toggleFavorite } from '../../store/store';
 import './ProductCard.scss';
 
-export const ProductCard = ({ product }: any) => {
-    const [liked, setLiked] = useState(false);
+export const ProductCard = ({ product }: { product: any }) => {
+    const dispatch = useDispatch<AppDispatch>();
+    const favorites = useSelector((state: RootState) => state.data.favorites);
+    const isLiked = favorites.includes(product.id);
+
+    const handleToggleFavorite = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(toggleFavorite(product.id));
+    };
 
     return (
         <div className="product-card">
@@ -11,13 +21,9 @@ export const ProductCard = ({ product }: any) => {
                 <Link to={`/product/${product.id}`}>
                     <img src={product.image} alt={product.name} />
                 </Link>
-                <button
-                    type="button"
-                    className={`save ${liked ? 'active' : ''}`}
-                    onClick={() => setLiked(!liked)}
-                    aria-label="Yêu thích"
-                >
-                    <i className={`${liked ? 'fa-solid' : 'fa-regular'} fa-heart`}></i>
+                <button type="button" className={`save ${isLiked ? 'active' : ''}`}
+                    onClick={handleToggleFavorite} aria-label={isLiked ? 'Bỏ yêu thích' : 'Yêu thích'}>
+                    <i className={`${isLiked ? 'fa-solid' : 'fa-regular'} fa-heart`}></i>
                 </button>
             </div>
 

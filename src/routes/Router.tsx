@@ -19,8 +19,8 @@ import {
     toOrderHistoryRecord,
 } from '../pages/orders/orderHistoryTypes';
 import {useEffect} from "react";
+import {API_URL} from "../config/api.ts";
 
-const API_URL = 'http://localhost:3001';
 
 export function Layout() {
     const location = useLocation();
