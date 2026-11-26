@@ -1,4 +1,6 @@
 import { Link, useNavigate, useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../store/store';
 import { SearchAutocomplete } from '../../utils/SearchAutocomplete';
 import './Header.scss';
 
@@ -10,6 +12,7 @@ type HeaderProps = {
 export default function Header({ isOrderHistory = false }: HeaderProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const favorites = useSelector((state: RootState) => state.data.favorites);
 
   return (
       <header className="header container">
@@ -30,7 +33,7 @@ export default function Header({ isOrderHistory = false }: HeaderProps) {
         <div className="actions">
           <button aria-label="Yêu thích" onClick={() => navigate('/favorites')}>
             <img src="/src/assets/icons/favorite-icon.svg" alt="Yêu thích" />
-            <span className="badge">6</span>
+            <span className="badge">{favorites.length}</span>
           </button>
           <button aria-label="Giỏ hàng" onClick={() => navigate('/cart')}>
             <img src="/src/assets/icons/cart-icon.svg" alt="Giỏ hàng" />

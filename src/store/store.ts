@@ -19,12 +19,18 @@ export interface Category {
     image: string;
 }
 
+const loadFavoritesFromStorage = (): number[] => {
+        const stored = localStorage.getItem('favoriteProductIds');
+        return stored ? JSON.parse(stored) : [];
+};
+
 const dataSlice = createSlice({
     name: 'data',
     initialState: {
         categories: [] as Category[],
         products: [] as Product[],
         orders: [] as any[],
+        favorites: loadFavoritesFromStorage() as number[],
         loading: true,
         error: null as string | null,
     },
@@ -48,10 +54,24 @@ const dataSlice = createSlice({
             state.error = action.payload;
             state.loading = false;
         },
+        toggleFavorite: (state: any, action:any) => {
+            const productId = action.payload;
+            const index = state.favorites.indexOf(productId);
+            if (index === -1) {
+                state.favorites.push(productId);
+            } else {
+                state.favorites.splice(index, 1);
+            }
+            localStorage.setItem('favoriteProductIds', JSON.stringify(state.favorites));
+        },
+        setFavorites: (state: any, action: any) => {
+            state.favorites = action.payload;
+            localStorage.setItem('favoriteProductIds', JSON.stringify(state.favorites));
+        },
     },
 });
 
-export const { load, setLoading, setError } = dataSlice.actions;
+export const { load, setLoading, setError, toggleFavorite, setFavorites } = dataSlice.actions;
 
 export const store = configureStore({
     reducer: {

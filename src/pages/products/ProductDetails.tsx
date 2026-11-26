@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
-import type { RootState, Product } from '../../store/store';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState, Product, AppDispatch } from '../../store/store';
+import { toggleFavorite } from '../../store/store';
 import heroImg from '../../assets/hero.png';
 import shoppingCartIcon from '../../assets/icons/shopping-cart-icon.svg';
 import searchIcon from '../../assets/icons/search-icon.svg';
@@ -22,11 +23,24 @@ interface ProductDetailItem extends Product {
 export default function ProductDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
 
     const products = useSelector((state: RootState) => state.data.products) as ProductDetailItem[];
+    const favorites = useSelector((state: RootState) => state.data.favorites);
     const loading = useSelector((state: RootState) => state.data.loading);
 
     const product = products.find((item) => String(item.id) === String(id)) || products[0];
+    const productId = product?.id;
+    const isLiked = productId ? favorites.includes(productId) : false;
+
+    const handleToggleFavorite = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (productId !== undefined) {
+            dispatch(toggleFavorite(productId));
+        }
+    };
+
     const colors = product?.colors?.length ? product.colors : ['#1E3A8A', '#FFFFFF', '#111827', '#6B7280', '#059669'];
 
     const [activeTab, setActiveTab] = useState<'specs' | 'size' | 'policy'>('specs');
@@ -124,9 +138,14 @@ export default function ProductDetails() {
                     <div className="product-gallery">
                         <div className="main-image-wrapper">
                             <img src={productImage} alt={productName} className="main-image" />
-                            <button className="zoom-btn">
-                                <img src={searchIcon} alt="Zoom" className="zoom-icon" />
-                            </button>
+                            <div className="image-actions">
+                                <button className={`heart-btn ${isLiked ? 'active' : ''}`} onClick={handleToggleFavorite} aria-label={isLiked ? 'Bỏ yêu thích' : 'Yêu thích'}>
+                                    <i className={`${isLiked ? 'fa-solid' : 'fa-regular'} fa-heart`}></i>
+                                </button>
+                                <button className="zoom-btn">
+                                    <img src={searchIcon} alt="Zoom" className="zoom-icon" />
+                                </button>
+                            </div>
                         </div>
                         <div className="thumbnail-list">
                             <div className="thumbnail-item active">
