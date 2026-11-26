@@ -1,49 +1,49 @@
 {
   "categories": [
     {
-      "id": 1,
+      "id": "1",
       "title": "Công sở / Doanh nghiệp",
       "desc": "Sơ mi, quần âu, chân váy, vest công sở",
       "image": "https://salt.tikicdn.com/cache/280x280/ts/product/88/cc/e7/4a7756b994077689dab6febe39df9f55.jpg"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Áo Polo & Sự kiện",
       "desc": "Polo CVC, Pique mắt chim, team building",
       "image": "https://salt.tikicdn.com/cache/280x280/ts/product/1a/22/8d/2486bb4e902aa8592795361412e79339.jpg"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "Y tế & Spa",
       "desc": "Bộ Scrub co giãn 4 chiều, áo Blouse",
       "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mo9n1ra6p5vv4a"
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Nhà hàng & F&B",
       "desc": "Áo bếp thoáng khí, tạp dề canvas",
       "image": "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mn5fxr9qnuh495"
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "Bảo hộ & Kỹ thuật",
       "desc": "Quần áo kaki Pangrim, áo phản quang",
       "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mthyf0yhf4zse8"
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Học sinh - Sinh viên",
       "desc": "Sơ mi trắng, áo khoác gió đồng phục",
       "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mhj3of4t0eteae"
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Đồng phục Thể thao",
       "desc": "Áo thun thể thao, đồ giải chạy",
       "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m2q5y10vtf3uc2"
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "Phụ kiện Đồng phục",
       "desc": "Tạp dề, nón kết, cà vạt, bảng tên",
       "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mjqw9wdwa8zmf7"
@@ -51,7 +51,7 @@
   ],
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nam Dài Tay Màu Đen Dáng Suông May 10",
@@ -73,7 +73,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nam Form Rộng Tay Dài Chất Lụa Mềm Mịn Ít Nhăn MRD04",
@@ -94,7 +94,7 @@
       ]
     },
     {
-      "id": 3,
+      "id": "3",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Form Rộng Giấu Nút Tay Dài Unisex Vải Lụa Thoáng Mát SMD02",
@@ -113,7 +113,7 @@
       ]
     },
     {
-      "id": 4,
+      "id": "4",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Cổ Điển DETERMINANT Chống Nhăn Dáng Suông Dài Tay DET301",
@@ -134,7 +134,7 @@
       ]
     },
     {
-      "id": 5,
+      "id": "5",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Form Rộng Nam Nữ Tay Dài Unisex Vải Lụa Mềm Mịn MRD02",
@@ -153,7 +153,7 @@
       ]
     },
     {
-      "id": 6,
+      "id": "6",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Trắng Form Rộng Unisex Nam Nữ Tay Dài Cổ Bẻ Vải Lụa SMD01",
@@ -174,7 +174,7 @@
       ]
     },
     {
-      "id": 7,
+      "id": "7",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nam Trơn Công Sở Cao Cấp Mềm Mịn Thoáng Khí MS03",
@@ -194,7 +194,7 @@
       ]
     },
     {
-      "id": 8,
+      "id": "8",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Trắng Cổ Tay Cufflinks Chất Liệu Bamboo Cao Cấp The Suits House",
@@ -214,7 +214,7 @@
       ]
     },
     {
-      "id": 9,
+      "id": "9",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Caro Melange Nam Cotton Chống Nhăn Tự Nhiên Ninomaxx",
@@ -234,7 +234,7 @@
       ]
     },
     {
-      "id": 10,
+      "id": "10",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nam Cổ Trụ Tay Dài 2 Túi Lịch Lãm Americus Gosani",
@@ -254,7 +254,7 @@
       ]
     },
     {
-      "id": 11,
+      "id": "11",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Cổ Tàu Công Sở Thanh Lịch Haint Boutique",
@@ -275,7 +275,7 @@
       ]
     },
     {
-      "id": 12,
+      "id": "12",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Trắng Khuy Ẩn Chất Liệu Bamboo Cao Cấp The Suits House",
@@ -295,7 +295,7 @@
       ]
     },
     {
-      "id": 13,
+      "id": "13",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Trắng Tuxedo Khuy Ẩn Cổ Tay Cufflink Bamboo Cao Cấp",
@@ -313,7 +313,7 @@
       ]
     },
     {
-      "id": 14,
+      "id": "14",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Unisex Dài Tay Có Túi Ngực 360 Boutique STDOL317",
@@ -332,7 +332,7 @@
       ]
     },
     {
-      "id": 15,
+      "id": "15",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Sọc Nam Tay Dài Công Sở Ninomaxx N&M 2011072",
@@ -352,7 +352,7 @@
       ]
     },
     {
-      "id": 16,
+      "id": "16",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nam Dài Tay Cổ Trụ Màu Trơn Premium Cao Cấp MS04",
@@ -373,7 +373,7 @@
       ]
     },
     {
-      "id": 17,
+      "id": "17",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Xanh Trơn Khuy Ẩn Chất Liệu Bamboo Cao Cấp The Suits House",
@@ -393,7 +393,7 @@
       ]
     },
     {
-      "id": 18,
+      "id": "18",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Sọc Nam Melange Cotton Công Sở Ninomaxx 2110016",
@@ -413,7 +413,7 @@
       ]
     },
     {
-      "id": 19,
+      "id": "19",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Trắng Nam Tay Dài Công Sở Thanh Lịch Ninomaxx 2406003",
@@ -433,7 +433,7 @@
       ]
     },
     {
-      "id": 20,
+      "id": "20",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Trơn Form Rộng Tay Dài Unisex Cổ Bẻ Hàn Quốc MRD03",
@@ -453,7 +453,7 @@
       ]
     },
     {
-      "id": 21,
+      "id": "21",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Sọc Tay Dài Công Sở Ninomaxx N&M 2101082",
@@ -473,7 +473,7 @@
       ]
     },
     {
-      "id": 22,
+      "id": "22",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nữ Công Sở Kẻ Sọc Dài Tay Hana",
@@ -493,7 +493,7 @@
       ]
     },
     {
-      "id": 23,
+      "id": "23",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Linen Nam Trơn Cổ Trụ Form Vừa Haint Boutique",
@@ -513,7 +513,7 @@
       ]
     },
     {
-      "id": 24,
+      "id": "24",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nữ Công Sở Tay Dài Trơn Ella",
@@ -533,7 +533,7 @@
       ]
     },
     {
-      "id": 25,
+      "id": "25",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nữ Công Sở Kẻ Sọc Tay Dài Janet",
@@ -552,7 +552,7 @@
       ]
     },
     {
-      "id": 26,
+      "id": "26",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Hàn Quốc Cổ Tàu Đơn Giản Thanh Lịch Haint Boutique",
@@ -572,7 +572,7 @@
       ]
     },
     {
-      "id": 27,
+      "id": "27",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nữ Công Sở Form Dài Thời Trang A518",
@@ -593,7 +593,7 @@
       ]
     },
     {
-      "id": 28,
+      "id": "28",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nữ Công Sở Cổ Trụ Tay Dài Thanh Lịch",
@@ -613,7 +613,7 @@
       ]
     },
     {
-      "id": 29,
+      "id": "29",
       "categoryId": 1,
       "tabId": 2,
       "name": "Áo Sơ Mi Nữ Công Sở Tay Nơ Nana",
@@ -632,7 +632,7 @@
       ]
     },
     {
-      "id": 30,
+      "id": "30",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Đồng Phục Xanh Bích Phối Bo Cổ",
@@ -655,7 +655,7 @@
       ]
     },
     {
-      "id": 31,
+      "id": "31",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Công Sở Novelty 200032N",
@@ -675,7 +675,7 @@
       ]
     },
     {
-      "id": 32,
+      "id": "32",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Coolmax Premium Thanh Lịch MRM Manlywear",
@@ -695,7 +695,7 @@
       ]
     },
     {
-      "id": 33,
+      "id": "33",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Doanh Nghiệp Novelty 191212N",
@@ -714,7 +714,7 @@
       ]
     },
     {
-      "id": 34,
+      "id": "34",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Phối Cổ Novelty 200022N",
@@ -734,7 +734,7 @@
       ]
     },
     {
-      "id": 35,
+      "id": "35",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Lịch Lãm Novelty 200029N",
@@ -753,7 +753,7 @@
       ]
     },
     {
-      "id": 36,
+      "id": "36",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Thể Thao Phiten Nhật Bản Thoáng Khí",
@@ -772,7 +772,7 @@
       ]
     },
     {
-      "id": 37,
+      "id": "37",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cao Cấp Vải Coolmax Co Giãn Tốt POLO-023",
@@ -793,7 +793,7 @@
       ]
     },
     {
-      "id": 38,
+      "id": "38",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Novelty 191227N",
@@ -813,7 +813,7 @@
       ]
     },
     {
-      "id": 39,
+      "id": "39",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Nam Polo Novelty Trơn Màu Cổ Bo 210130N",
@@ -834,7 +834,7 @@
       ]
     },
     {
-      "id": 40,
+      "id": "40",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cao Cấp Vải Coolmax Thoáng Mát POLO-029",
@@ -855,7 +855,7 @@
       ]
     },
     {
-      "id": 41,
+      "id": "41",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cao Cấp Vải Coolmax Co Giãn Nhẹ POLO-022",
@@ -876,7 +876,7 @@
       ]
     },
     {
-      "id": 42,
+      "id": "42",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cao Cấp Vải Coolmax Thoáng Khí POLO-028",
@@ -896,7 +896,7 @@
       ]
     },
     {
-      "id": 43,
+      "id": "43",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cao Cấp Vải Coolmax Co Giãn Tốt POLO-026",
@@ -916,7 +916,7 @@
       ]
     },
     {
-      "id": 44,
+      "id": "44",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Sự Kiện OVERCO In Họa Tiết Trẻ Trung Năng Động",
@@ -936,7 +936,7 @@
       ]
     },
     {
-      "id": 45,
+      "id": "45",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Công Sở Novelty 200033N",
@@ -955,7 +955,7 @@
       ]
     },
     {
-      "id": 46,
+      "id": "46",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cao Cấp Vải Coolmax Mềm Mịn POLO-030",
@@ -976,7 +976,7 @@
       ]
     },
     {
-      "id": 47,
+      "id": "47",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cao Cấp Vải Coolmax Thoáng Mát POLO-027",
@@ -997,7 +997,7 @@
       ]
     },
     {
-      "id": 48,
+      "id": "48",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Doanh Nghiệp Novelty 191162N",
@@ -1016,7 +1016,7 @@
       ]
     },
     {
-      "id": 49,
+      "id": "49",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Phối Sọc Ngang Novelty 191198N",
@@ -1035,7 +1035,7 @@
       ]
     },
     {
-      "id": 50,
+      "id": "50",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cao Cấp Vải Coolmax Co Giãn POLO-024",
@@ -1056,7 +1056,7 @@
       ]
     },
     {
-      "id": 51,
+      "id": "51",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cao Cấp Vải Coolmax Nhẹ Mát POLO-025",
@@ -1077,7 +1077,7 @@
       ]
     },
     {
-      "id": 52,
+      "id": "52",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Đồng Phục Sự Kiện Aligo ALGPLO9",
@@ -1096,7 +1096,7 @@
       ]
     },
     {
-      "id": 53,
+      "id": "53",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Novelty 191204N",
@@ -1116,7 +1116,7 @@
       ]
     },
     {
-      "id": 54,
+      "id": "54",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Nam Polo Vải Cá Sấu Đồng Phục Co Giãn",
@@ -1139,7 +1139,7 @@
       ]
     },
     {
-      "id": 55,
+      "id": "55",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Nam Kiểu Polo Melange Novelty 191207N",
@@ -1158,7 +1158,7 @@
       ]
     },
     {
-      "id": 56,
+      "id": "56",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Nam Polo Phối Viền Chất Vải Poly Mềm Mịn OVERCO",
@@ -1179,7 +1179,7 @@
       ]
     },
     {
-      "id": 57,
+      "id": "57",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Novelty 210097N",
@@ -1198,7 +1198,7 @@
       ]
     },
     {
-      "id": 58,
+      "id": "58",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Màu Xanh Yamaha Có Túi Novelty 181141N",
@@ -1218,7 +1218,7 @@
       ]
     },
     {
-      "id": 59,
+      "id": "59",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Công Sở Novelty 210070",
@@ -1237,7 +1237,7 @@
       ]
     },
     {
-      "id": 60,
+      "id": "60",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam In Họa Tiết Thanh Lịch",
@@ -1257,7 +1257,7 @@
       ]
     },
     {
-      "id": 61,
+      "id": "61",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Nam Polo Basic OVERCO Vải Mềm Mịn Năng Động",
@@ -1278,7 +1278,7 @@
       ]
     },
     {
-      "id": 62,
+      "id": "62",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Thun Polo Nam Novelty 210075",
@@ -1297,7 +1297,7 @@
       ]
     },
     {
-      "id": 63,
+      "id": "63",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Nữ Đồng Phục Vải Cotton Cá Sấu Co Giãn 4 Chiều",
@@ -1320,7 +1320,7 @@
       ]
     },
     {
-      "id": 64,
+      "id": "64",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Cổ Bẻ Ngắn Tay Vải Cá Sấu Cotton Cao Cấp FMPS138",
@@ -1340,7 +1340,7 @@
       ]
     },
     {
-      "id": 65,
+      "id": "65",
       "categoryId": 2,
       "tabId": 1,
       "name": "Áo Polo Nam Novelty Cool Feelings Thoáng Mát Co Giãn ATPOLO0123",
@@ -1361,7 +1361,7 @@
       ]
     },
     {
-      "id": 66,
+      "id": "66",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nam M2 Plus Tay Dài Chất Cotton Không Nhăn Co Giãn Thoáng Mát",
@@ -1382,7 +1382,7 @@
       ]
     },
     {
-      "id": 67,
+      "id": "67",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nam M2 Plus Tay Ngắn Bác Sĩ Thời Trang Y Tế Cao Cấp",
@@ -1403,7 +1403,7 @@
       ]
     },
     {
-      "id": 68,
+      "id": "68",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nữ Dài Tay Cotton Co Giãn Cao Cấp Không Nhăn Xù",
@@ -1424,7 +1424,7 @@
       ]
     },
     {
-      "id": 69,
+      "id": "69",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nữ Tay Ngắn Y Tá Dược Sĩ Vải Cotton Thoáng Mát",
@@ -1444,7 +1444,7 @@
       ]
     },
     {
-      "id": 70,
+      "id": "70",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nữ Tay Ngắn Plus Form Chuẩn Thẩm Mỹ Viện Spa",
@@ -1465,7 +1465,7 @@
       ]
     },
     {
-      "id": 71,
+      "id": "71",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nữ Tay Dài Plus Chất Cotton Co Giãn Cao Cấp HEMed",
@@ -1485,7 +1485,7 @@
       ]
     },
     {
-      "id": 72,
+      "id": "72",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nam Túi Chìm Tay Dài Chất Cotton Cao Cấp Dày Dặn Cho Bác Sĩ",
@@ -1506,7 +1506,7 @@
       ]
     },
     {
-      "id": 73,
+      "id": "73",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nam Túi Chìm Tay Ngắn Vải Cotton Dày Dặn Không Nhăn",
@@ -1526,7 +1526,7 @@
       ]
     },
     {
-      "id": 74,
+      "id": "74",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nữ Tay Dài HEMed Chất Cotton Dày Dặn Không Xù Thoáng Mát",
@@ -1547,7 +1547,7 @@
       ]
     },
     {
-      "id": 75,
+      "id": "75",
       "categoryId": 3,
       "tabId": 2,
       "name": "Áo Blouse Nữ Tay Ngắn HEMed Đồng Phục Y Tế Phòng Khám Spa",
@@ -1567,954 +1567,1082 @@
         "#d9d9d9"
       ]
     },
-  {
-    "id": 76,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "Nhận đồng phục đầu bếp ngắn tay mỏng cho quán cà phê và nhà hàng",
-    "price": 178200,
-    "oldPrice": 356400,
-    "image": "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mn5fxr9qnuh495",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 77,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "Áo Bếp,Đồng Phục Bếp Dài Tay Màu Trắng Đỏ Đen Chuyên Nghiệp Cho Nam Và Nữ",
-    "price": 165000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lk6e31p6ln781d",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 78,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "[CHEFX5] Áo Bếp dài tay cúc bấm có phối lưới co dãn sau lưng - CHEF X Kitchen Uniform",
-    "price": 326600,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lw35dik2svrv72",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 79,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "Plus Áo Khoác Đầu Bếp Tay Ngắn / Dài Chuyên Nghiệp",
-    "price": 111974,
-    "oldPrice": 207360,
-    "image": "https://down-vn.img.susercontent.com/file/97159eb4540ac1d90cb335003db37a4a",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 80,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "Áo Bếp Nam Nữ Cổ Chéo, Áo Đầu Bếp , Đồng Phục Bếp Dài Tay",
-    "price": 240000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lk6eb1cgbv2a3d",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 81,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "Áo Bếp Tay Ngắn Dinos, Cổ Tàu Cho Nam Nữ Nhân Viên Bếp Nhà Hàng, Khách Sạn, Quán Ăn - Nhiều Màu Sắc",
-    "price": 155000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mr743yagdkavb0",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 82,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "Đồng phục bếp ngắn tay,áo bếp trắng đen phù hợp cho nam nữ( hàng sẵn síp nhanh )",
-    "price": 218000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-llulfn06z6qne8",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 83,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "Đồng Phục Áo Bếp Nam Nữ Dinos Vải Kaki Dày Dặn, Màu Đen Sang Trọng Cho Nhà Hàng, Khách Sạn, Quán Ăn",
-    "price": 130000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mr5qhds2hwcl90",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 84,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "Áo Đồng Phục Đầu Bếp Dài Tay Màu Xám Cho Nam Và Nữ",
-    "price": 186678,
-    "oldPrice": 373356,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-22110-o0fh7t9113jve4",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 85,
-    "categoryId": 4,
-    "tabId": 3,
-    "name": "Áo Bếp Ngắn Tay Dinos Vải Kaki 65 Đủ Màu Sắc Cho Nam/Nữ Đầu Bếp, Phụ Bếp Nhà Hàg, Khách Sạn, Quán Ăn",
-    "price": 140000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mr9lz4csq9s199",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 86,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "Áo Bảo Hộ Jumbotec [Vàng] – Dải Phản Quang Siêu Sáng Ban Đêm, An Toàn Khi Lưu Thông, Phù Hợp Khi Di Chuyển",
-    "price": 149000,
-    "oldPrice": 155000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mthyf0yhf4zse8",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 87,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "Áo lao động phản quang cho công trình, Áo lưới lao động phản quang ban đêm giá rẻ",
-    "price": 29000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ltaq2c2v9spl21",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 88,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "( HỎA TỐC - SÀI GÒN ) Áo phản quang vải POLY có nhiều túi khóa dành cho kĩ sư, Sếp, công nhân",
-    "price": 50000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-824i2-mpv1tya6bwni61",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 89,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "Áo Bảo Hộ Phản Quang Đi Phượt Ban Đêm – Nhìn Rõ Từ Xa, Tránh Va Chạm, An Toàn Cho Mỗi Chuyến Đi",
-    "price": 146000,
-    "oldPrice": 155000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mhtco5niylms18",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 90,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "áo phản quang dây thun phượt",
-    "price": 42000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/cc656a85cd9071ecaec37954d88103b6",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 91,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "Áo phản quang khoá kéo lưới dày có túi bảo hộ lao động cho công nhân xây dựng, phượt, công trình",
-    "price": 36720,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lzk7cw5qhhup22",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 92,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "ÁO PHẢN QUANG TÚI HỘP LOẠI TỐT ĐỦ SIZE: M,L,XL,2XL,3XL",
-    "price": 33000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mgg28qfgni8a43",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 93,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "[GL15] Áo ghi lê bảo hộ lao động - Áo lưới Tàu phản quang, có túi - Nhận in logo, đồng phục cho doanh nghiệp, nhà xưởng",
-    "price": 50000,
-    "oldPrice": 64000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mfuw3gm1su17e0",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 94,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "Áo phản quang 3M",
-    "price": 40000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/2bfe1dae5d033f3be2133d0ac71555ae",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 95,
-    "categoryId": 5,
-    "tabId": 4,
-    "name": "Áo Phản Quang Cao Cấp Đi Lại An Toàn - Phản Sáng Mạnh Ban Đêm, Dễ Quan Sát",
-    "price": 36630,
-    "oldPrice": 37000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134201-81ztc-mnav1u1z0b9g79",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 96,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "Áo Khoác Học Sinh Pha Chéo Cánh Dơi 3 Lớp Trầm Bông nhiều màu",
-    "price": 161698,
-    "oldPrice": 250000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mhj3of4t0eteae",
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "colors": ["#000033", "#ffffff", "#800000"]
-  },
-  {
-    "id": 97,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "Áo Khoác Gió Đồng Phục Học Sinh Pha Chéo Cánh Dơi 2 Lớp và 3 lớp form rộng",
-    "price": 130000,
-    "oldPrice": 200000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mtnvzt11ebr9b5",
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "colors": ["#000033", "#ffffff"]
-  },
-  {
-    "id": 98,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "Áo phao trường tiểu học, trung học trần bông 3 lớp 5 màu basic",
-    "price": 135000,
-    "oldPrice": 240000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mj5dfi8s8z5s84",
-    "sizes": ["120", "130", "140", "150", "S", "M", "L", "XL"],
-    "colors": ["#000033", "#ff0000", "#ffa500", "#0000ff", "#ffffff"]
-  },
-  {
-    "id": 99,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "Áo khoác gió đồng phục học sinh, sinh viên với 3 màu phổ biến 2 lớp, 3 lớp lót bông",
-    "price": 133000,
-    "oldPrice": 190000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mu1kb3pygfepfe",
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "colors": ["#0000ff", "#000033", "#ff0000"]
-  },
-  {
-    "id": 100,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "Áo Khoác Gió Học Sinh Pha Chéo Cánh Dơi 3 Lớp Trần Bông",
-    "price": 165000,
-    "oldPrice": 250000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mhj3of4t0eteae",
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "colors": ["#000033", "#ffffff"]
-  },
-  {
-    "id": 101,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "Áo Khoác Gió Đồng cho Học Sinh - Áo Mùa Đông Pha Chéo Cánh Dơi 2 Lớp 3 Lớp",
-    "price": 156200,
-    "oldPrice": 260000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mudpy8eveubn04",
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "colors": ["#000000", "#000080", "#ff0000"]
-  },
-  {
-    "id": 102,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "Áo Khoác Gió Đồng cho Học Sinh - Áo 2 Lớp và 3 lớp Cánh Dơi Mùa Đông",
-    "price": 116400,
-    "oldPrice": 170000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134201-820l4-mg56nerk6bka9e",
-    "sizes": ["S", "M", "L", "XL"],
-    "colors": ["#000033", "#ffffff", "#808080"]
-  },
-  {
-    "id": 103,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "Áo Khoác Gió 2 LỚP LÓT LƯỚI Đồng Phục Học Sinh Mùa Đông Cánh Dơi",
-    "price": 134000,
-    "oldPrice": 200000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mik47uuomlty5f",
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "colors": ["#000033", "#ffffff", "#ff0000", "#808080", "#ffff00"]
-  },
-  {
-    "id": 104,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "[Viền Ngang] Áo Khoác Gió Viền Kẻ Ngang Đồng Phục Học Sinh Mùa Đông",
-    "price": 120000,
-    "oldPrice": 200000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mk3z758ctvd35d",
-    "sizes": ["S", "M", "L", "XL", "XXL"],
-    "colors": ["#000033", "#808080", "#ff0000"]
-  },
-  {
-    "id": 105,
-    "categoryId": 6,
-    "tabId": 6,
-    "name": "Áo khoác nỉ đồng phục Vinschool",
-    "price": 500000,
-    "oldPrice": 500000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m32cdeulagu20a",
-    "sizes": ["S", "M", "L", "XL"],
-    "colors": ["#000080", "#ff0000"]
-  },
-  {
-    "id": 126,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "Áo polo nam nữ đồng phục (in đồng phục theo yêu cầu) - Chất Mè Thể Thao",
-    "price": 89100,
-    "oldPrice": 99000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m2q5y10vtf3uc2",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 106,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "Đồng phục bóng chuyền Baju Lelaki Malaysia 2026 Phong cách mới Chất lượng cao thoáng khí khô ngắn tay Áo thun nam nữ Đồng phục huấn luyện đội thời trang",
-    "price": 95073,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-82586-mshjc9zl3zls4c",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 107,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "Áo thun đồng phục PGbank - Ngân hàng TMCP thịnh vượng, mẫu mới nhất cho sự phát triển bền vững. L75",
-    "price": 138000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134201-820l4-mg6cg24dwjkefd",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 108,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "Áo POLO Thun Thể Thao Polo Cá Sấu Mè Có Cổ Nhiều Màu Nam Nữ Vải Nhẹ Mát",
-    "price": 67500,
-    "oldPrice": 75000,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-23020-8objdngigunv9e",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 109,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "Áo thun thể thao Graphic thun chạy bộ, tập gym chất liệu cao cấp, thấm hút mồ hôi tốt, năng động, trẻ trung",
-    "price": 119000,
-    "oldPrice": 198000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m0r386hwhq0da6",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 110,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "Áo Đồng Bộ Thun Ngân Hà Vietnam VCB Mẫu Thêu Mới 2025 xfctt",
-    "price": 145000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134201-81ztc-mln7squua8lgd9",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 111,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "Áo thun đồng phục ngân hàng La ' House - Màu xanh đen sọc trắng MB chất liệu thoải mái, phong cách chuyên nghiệp. GKD",
-    "price": 128000,
-    "oldPrice": null,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134201-820l4-mg7qq120qya636",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 112,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "Áo Polo Đồng phục Văn phòng ngân hàng VPBank - DHT Sports Áo ngắn tay theo yêu cầu",
-    "price": 129600,
-    "oldPrice": 180000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-muucdu1mu3ntf3",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 113,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "Áo Polo Đồng phục Văn phòng ngân hàng VIB - DHT Sports Áo ngắn tay theo yêu cầu",
-    "price": 129600,
-    "oldPrice": 180000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-muubr9ytknb400",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-  {
-    "id": 114,
-    "categoryId": 7,
-    "tabId": 6,
-    "name": "2026 Aurora Gaming Câu lạc bộ thể thao điện tử Mùa hè Đồng phục nam CS2 ESL Pro League Áo tập luyện Người hâm mộ Người chơi ID Áo thun tùy chỉnh",
-    "price": 220320,
-    "oldPrice": 288360,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-825a2-muq45da238jucb",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL",
-      "2XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#007a78",
-      "#d9d9d9"
-    ]
-  },
-
-  {
-    "id": 116,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "Mũ Lưỡi Trai, Mũ Đồng Phục, Mũ Pha Chế, Đồng Phục Quán Cà Phê, Mũ In Theo Yêu Cầu",
-    "price": 85500,
-    "oldPrice": 95000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mjqw9wdwa8zmf7",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#000000",
-      "#ffffff",
-      "#808080",
-      "#ff0000"
-    ]
-  },
-  {
-    "id": 117,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "Trâm cài lông vũ hoàn toàn tinh tế, ghim đính kim cương giả nam và nữ, ghim ve áo, phụ kiện áo khoác, quà tặng sinh nhật",
-    "price": 159058,
-    "oldPrice": 223710,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-825ag-mu50jlpb1gcn65",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#ffd700",
-      "#c0c0c0"
-    ]
-  },
-  {
-    "id": 118,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "Vòng bít phong cách truyền thống cho Hanfu (quần áo Han truyền thống) — tiện ích kéo tay từ tính cho mùa xuân / mùa hè, mặc hàng ngày",
-    "price": 50292,
-    "oldPrice": 55880,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-8259n-mv5wraz5mk1t9d",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#ffffff",
-      "#000000",
-      "#ffc0cb"
-    ]
-  },
-  {
-    "id": 119,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "Cà vạt nam nữ mẫu thắt sẵn dây thun phi bóng 5cm màu đen 2024 Giangpkc - 35cm ( ĐEN )",
-    "price": 37897,
-    "oldPrice": 37897,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134201-7qukw-lgbp91zlicxj10",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#000000"
-    ]
-  },
-  {
-    "id": 120,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "Phụ kiện việt phục dây chuyền nách xà tích đeo áo ngũ thân nhiều mẫu trong phân loại làm phụ kiện trang sức cổ phục",
-    "price": 25000,
-    "oldPrice": 25000,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-22120-suwdzcpk7kkvc5",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#ffd700",
-      "#c0c0c0"
-    ]
-  },
-  {
-    "id": 121,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "Bộ Cà Vạt + Khăn Choàng Vuông + Khuy Măng Sét + Kẹp Cà Vạt 8cm Kẻ Sọc Đen Lịch Lãm Cho Chú Rể",
-    "price": 135700,
-    "oldPrice": 230000,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-23030-piczxkbzeaovfd",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#000000",
-      "#ffffff",
-      "#808080"
-    ]
-  },
-  {
-    "id": 122,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "Nơ Cài Cổ Áo Đồng Phục Học Sinh Nhật Bản Dành Cho Nam Nữ",
-    "price": 47000,
-    "oldPrice": 47000,
-    "image": "https://down-vn.img.susercontent.com/file/sg-11134201-7rdws-lxk8qdyaapyh12",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#000033",
-      "#ff0000",
-      "#008000"
-    ]
-  },
-  {
-    "id": 123,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "Phụ kiện đồng phục bảo vệ Nhật Dương, Cầu vai bảo vệ, Ve áo, Nón bảo vệ",
-    "price": 150000,
-    "oldPrice": 200000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m3ynml3v13lc24",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#000033",
-      "#ffffff"
-    ]
-  },
-  {
-    "id": 124,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "(Sỉ giá xưởng) Mũ Nón lưỡi trai nhiều màu, nón kết trơn, đồng phục nhiều màu - Polo365",
-    "price": 19260,
-    "oldPrice": 30000,
-    "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6dgpgs6qsjn63",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#000000",
-      "#ffffff",
-      "#ff0000",
-      "#0000ff",
-      "#ffff00"
-    ]
-  },
-  {
-    "id": 125,
-    "categoryId": 8,
-    "tabId": 7,
-    "name": "Cà vạt nơ cổ đen học sinh đi làm đám cưới có khóa kéo tiện dụng",
-    "price": 10111,
-    "oldPrice": 11222,
-    "image": "https://down-vn.img.susercontent.com/file/01f1bb807e63dd286dd1ebc54af98bed",
-    "sizes": [
-      "S",
-      "M",
-      "L",
-      "XL"
-    ],
-    "colors": [
-      "#000000"
-    ]
-  }
-],
+    {
+      "id": "76",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "Nhận đồng phục đầu bếp ngắn tay mỏng cho quán cà phê và nhà hàng",
+      "price": 178200,
+      "oldPrice": 356400,
+      "image": "https://down-vn.img.susercontent.com/file/cn-11134207-820l4-mn5fxr9qnuh495",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "77",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "Áo Bếp,Đồng Phục Bếp Dài Tay Màu Trắng Đỏ Đen Chuyên Nghiệp Cho Nam Và Nữ",
+      "price": 165000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lk6e31p6ln781d",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "78",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "[CHEFX5] Áo Bếp dài tay cúc bấm có phối lưới co dãn sau lưng - CHEF X Kitchen Uniform",
+      "price": 326600,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lw35dik2svrv72",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "79",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "Plus Áo Khoác Đầu Bếp Tay Ngắn / Dài Chuyên Nghiệp",
+      "price": 111974,
+      "oldPrice": 207360,
+      "image": "https://down-vn.img.susercontent.com/file/97159eb4540ac1d90cb335003db37a4a",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "80",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "Áo Bếp Nam Nữ Cổ Chéo, Áo Đầu Bếp , Đồng Phục Bếp Dài Tay",
+      "price": 240000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7qukw-lk6eb1cgbv2a3d",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "81",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "Áo Bếp Tay Ngắn Dinos, Cổ Tàu Cho Nam Nữ Nhân Viên Bếp Nhà Hàng, Khách Sạn, Quán Ăn - Nhiều Màu Sắc",
+      "price": 155000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mr743yagdkavb0",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "82",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "Đồng phục bếp ngắn tay,áo bếp trắng đen phù hợp cho nam nữ( hàng sẵn síp nhanh )",
+      "price": 218000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-llulfn06z6qne8",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "83",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "Đồng Phục Áo Bếp Nam Nữ Dinos Vải Kaki Dày Dặn, Màu Đen Sang Trọng Cho Nhà Hàng, Khách Sạn, Quán Ăn",
+      "price": 130000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mr5qhds2hwcl90",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "84",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "Áo Đồng Phục Đầu Bếp Dài Tay Màu Xám Cho Nam Và Nữ",
+      "price": 186678,
+      "oldPrice": 373356,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-22110-o0fh7t9113jve4",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "85",
+      "categoryId": 4,
+      "tabId": 3,
+      "name": "Áo Bếp Ngắn Tay Dinos Vải Kaki 65 Đủ Màu Sắc Cho Nam/Nữ Đầu Bếp, Phụ Bếp Nhà Hàg, Khách Sạn, Quán Ăn",
+      "price": 140000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mr9lz4csq9s199",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "86",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "Áo Bảo Hộ Jumbotec [Vàng] – Dải Phản Quang Siêu Sáng Ban Đêm, An Toàn Khi Lưu Thông, Phù Hợp Khi Di Chuyển",
+      "price": 149000,
+      "oldPrice": 155000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mthyf0yhf4zse8",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "87",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "Áo lao động phản quang cho công trình, Áo lưới lao động phản quang ban đêm giá rẻ",
+      "price": 29000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-ltaq2c2v9spl21",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "88",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "( HỎA TỐC - SÀI GÒN ) Áo phản quang vải POLY có nhiều túi khóa dành cho kĩ sư, Sếp, công nhân",
+      "price": 50000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-824i2-mpv1tya6bwni61",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "89",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "Áo Bảo Hộ Phản Quang Đi Phượt Ban Đêm – Nhìn Rõ Từ Xa, Tránh Va Chạm, An Toàn Cho Mỗi Chuyến Đi",
+      "price": 146000,
+      "oldPrice": 155000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mhtco5niylms18",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "90",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "áo phản quang dây thun phượt",
+      "price": 42000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/cc656a85cd9071ecaec37954d88103b6",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "91",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "Áo phản quang khoá kéo lưới dày có túi bảo hộ lao động cho công nhân xây dựng, phượt, công trình",
+      "price": 36720,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7r98o-lzk7cw5qhhup22",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "92",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "ÁO PHẢN QUANG TÚI HỘP LOẠI TỐT ĐỦ SIZE: M,L,XL,2XL,3XL",
+      "price": 33000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mgg28qfgni8a43",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "93",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "[GL15] Áo ghi lê bảo hộ lao động - Áo lưới Tàu phản quang, có túi - Nhận in logo, đồng phục cho doanh nghiệp, nhà xưởng",
+      "price": 50000,
+      "oldPrice": 64000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mfuw3gm1su17e0",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "94",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "Áo phản quang 3M",
+      "price": 40000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/2bfe1dae5d033f3be2133d0ac71555ae",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "95",
+      "categoryId": 5,
+      "tabId": 4,
+      "name": "Áo Phản Quang Cao Cấp Đi Lại An Toàn - Phản Sáng Mạnh Ban Đêm, Dễ Quan Sát",
+      "price": 36630,
+      "oldPrice": 37000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134201-81ztc-mnav1u1z0b9g79",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "96",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "Áo Khoác Học Sinh Pha Chéo Cánh Dơi 3 Lớp Trầm Bông nhiều màu",
+      "price": 161698,
+      "oldPrice": 250000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mhj3of4t0eteae",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "#000033",
+        "#ffffff",
+        "#800000"
+      ]
+    },
+    {
+      "id": "97",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "Áo Khoác Gió Đồng Phục Học Sinh Pha Chéo Cánh Dơi 2 Lớp và 3 lớp form rộng",
+      "price": 130000,
+      "oldPrice": 200000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mtnvzt11ebr9b5",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "#000033",
+        "#ffffff"
+      ]
+    },
+    {
+      "id": "98",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "Áo phao trường tiểu học, trung học trần bông 3 lớp 5 màu basic",
+      "price": 135000,
+      "oldPrice": 240000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mj5dfi8s8z5s84",
+      "sizes": [
+        "120",
+        "130",
+        "140",
+        "150",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000033",
+        "#ff0000",
+        "#ffa500",
+        "#0000ff",
+        "#ffffff"
+      ]
+    },
+    {
+      "id": "99",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "Áo khoác gió đồng phục học sinh, sinh viên với 3 màu phổ biến 2 lớp, 3 lớp lót bông",
+      "price": 133000,
+      "oldPrice": 190000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mu1kb3pygfepfe",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "#0000ff",
+        "#000033",
+        "#ff0000"
+      ]
+    },
+    {
+      "id": "100",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "Áo Khoác Gió Học Sinh Pha Chéo Cánh Dơi 3 Lớp Trần Bông",
+      "price": 165000,
+      "oldPrice": 250000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mhj3of4t0eteae",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "#000033",
+        "#ffffff"
+      ]
+    },
+    {
+      "id": "101",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "Áo Khoác Gió Đồng cho Học Sinh - Áo Mùa Đông Pha Chéo Cánh Dơi 2 Lớp 3 Lớp",
+      "price": 156200,
+      "oldPrice": 260000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mudpy8eveubn04",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "#000000",
+        "#000080",
+        "#ff0000"
+      ]
+    },
+    {
+      "id": "102",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "Áo Khoác Gió Đồng cho Học Sinh - Áo 2 Lớp và 3 lớp Cánh Dơi Mùa Đông",
+      "price": 116400,
+      "oldPrice": 170000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134201-820l4-mg56nerk6bka9e",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000033",
+        "#ffffff",
+        "#808080"
+      ]
+    },
+    {
+      "id": "103",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "Áo Khoác Gió 2 LỚP LÓT LƯỚI Đồng Phục Học Sinh Mùa Đông Cánh Dơi",
+      "price": 134000,
+      "oldPrice": 200000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mik47uuomlty5f",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "#000033",
+        "#ffffff",
+        "#ff0000",
+        "#808080",
+        "#ffff00"
+      ]
+    },
+    {
+      "id": "104",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "[Viền Ngang] Áo Khoác Gió Viền Kẻ Ngang Đồng Phục Học Sinh Mùa Đông",
+      "price": 120000,
+      "oldPrice": 200000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-mk3z758ctvd35d",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "colors": [
+        "#000033",
+        "#808080",
+        "#ff0000"
+      ]
+    },
+    {
+      "id": "105",
+      "categoryId": 6,
+      "tabId": 6,
+      "name": "Áo khoác nỉ đồng phục Vinschool",
+      "price": 500000,
+      "oldPrice": 500000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m32cdeulagu20a",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000080",
+        "#ff0000"
+      ]
+    },
+    {
+      "id": "126",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "Áo polo nam nữ đồng phục (in đồng phục theo yêu cầu) - Chất Mè Thể Thao",
+      "price": 89100,
+      "oldPrice": 99000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m2q5y10vtf3uc2",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "106",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "Đồng phục bóng chuyền Baju Lelaki Malaysia 2026 Phong cách mới Chất lượng cao thoáng khí khô ngắn tay Áo thun nam nữ Đồng phục huấn luyện đội thời trang",
+      "price": 95073,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-82586-mshjc9zl3zls4c",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "107",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "Áo thun đồng phục PGbank - Ngân hàng TMCP thịnh vượng, mẫu mới nhất cho sự phát triển bền vững. L75",
+      "price": 138000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134201-820l4-mg6cg24dwjkefd",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "108",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "Áo POLO Thun Thể Thao Polo Cá Sấu Mè Có Cổ Nhiều Màu Nam Nữ Vải Nhẹ Mát",
+      "price": 67500,
+      "oldPrice": 75000,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-23020-8objdngigunv9e",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "109",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "Áo thun thể thao Graphic thun chạy bộ, tập gym chất liệu cao cấp, thấm hút mồ hôi tốt, năng động, trẻ trung",
+      "price": 119000,
+      "oldPrice": 198000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m0r386hwhq0da6",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "110",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "Áo Đồng Bộ Thun Ngân Hà Vietnam VCB Mẫu Thêu Mới 2025 xfctt",
+      "price": 145000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134201-81ztc-mln7squua8lgd9",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "111",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "Áo thun đồng phục ngân hàng La ' House - Màu xanh đen sọc trắng MB chất liệu thoải mái, phong cách chuyên nghiệp. GKD",
+      "price": 128000,
+      "oldPrice": null,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134201-820l4-mg7qq120qya636",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "112",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "Áo Polo Đồng phục Văn phòng ngân hàng VPBank - DHT Sports Áo ngắn tay theo yêu cầu",
+      "price": 129600,
+      "oldPrice": 180000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-muucdu1mu3ntf3",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "113",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "Áo Polo Đồng phục Văn phòng ngân hàng VIB - DHT Sports Áo ngắn tay theo yêu cầu",
+      "price": 129600,
+      "oldPrice": 180000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-81ztc-muubr9ytknb400",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "114",
+      "categoryId": 7,
+      "tabId": 6,
+      "name": "2026 Aurora Gaming Câu lạc bộ thể thao điện tử Mùa hè Đồng phục nam CS2 ESL Pro League Áo tập luyện Người hâm mộ Người chơi ID Áo thun tùy chỉnh",
+      "price": 220320,
+      "oldPrice": 288360,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-825a2-muq45da238jucb",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#007a78",
+        "#d9d9d9"
+      ]
+    },
+    {
+      "id": "116",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "Mũ Lưỡi Trai, Mũ Đồng Phục, Mũ Pha Chế, Đồng Phục Quán Cà Phê, Mũ In Theo Yêu Cầu",
+      "price": 85500,
+      "oldPrice": 95000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-820l4-mjqw9wdwa8zmf7",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000000",
+        "#ffffff",
+        "#808080",
+        "#ff0000"
+      ]
+    },
+    {
+      "id": "117",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "Trâm cài lông vũ hoàn toàn tinh tế, ghim đính kim cương giả nam và nữ, ghim ve áo, phụ kiện áo khoác, quà tặng sinh nhật",
+      "price": 159058,
+      "oldPrice": 223710,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-825ag-mu50jlpb1gcn65",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#ffd700",
+        "#c0c0c0"
+      ]
+    },
+    {
+      "id": "118",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "Vòng bít phong cách truyền thống cho Hanfu (quần áo Han truyền thống) — tiện ích kéo tay từ tính cho mùa xuân / mùa hè, mặc hàng ngày",
+      "price": 50292,
+      "oldPrice": 55880,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-8259n-mv5wraz5mk1t9d",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#ffffff",
+        "#000000",
+        "#ffc0cb"
+      ]
+    },
+    {
+      "id": "119",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "Cà vạt nam nữ mẫu thắt sẵn dây thun phi bóng 5cm màu đen 2024 Giangpkc - 35cm ( ĐEN )",
+      "price": 37897,
+      "oldPrice": 37897,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134201-7qukw-lgbp91zlicxj10",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000000"
+      ]
+    },
+    {
+      "id": "120",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "Phụ kiện việt phục dây chuyền nách xà tích đeo áo ngũ thân nhiều mẫu trong phân loại làm phụ kiện trang sức cổ phục",
+      "price": 25000,
+      "oldPrice": 25000,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-22120-suwdzcpk7kkvc5",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#ffd700",
+        "#c0c0c0"
+      ]
+    },
+    {
+      "id": "121",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "Bộ Cà Vạt + Khăn Choàng Vuông + Khuy Măng Sét + Kẹp Cà Vạt 8cm Kẻ Sọc Đen Lịch Lãm Cho Chú Rể",
+      "price": 135700,
+      "oldPrice": 230000,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-23030-piczxkbzeaovfd",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000000",
+        "#ffffff",
+        "#808080"
+      ]
+    },
+    {
+      "id": "122",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "Nơ Cài Cổ Áo Đồng Phục Học Sinh Nhật Bản Dành Cho Nam Nữ",
+      "price": 47000,
+      "oldPrice": 47000,
+      "image": "https://down-vn.img.susercontent.com/file/sg-11134201-7rdws-lxk8qdyaapyh12",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000033",
+        "#ff0000",
+        "#008000"
+      ]
+    },
+    {
+      "id": "123",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "Phụ kiện đồng phục bảo vệ Nhật Dương, Cầu vai bảo vệ, Ve áo, Nón bảo vệ",
+      "price": 150000,
+      "oldPrice": 200000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m3ynml3v13lc24",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000033",
+        "#ffffff"
+      ]
+    },
+    {
+      "id": "124",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "(Sỉ giá xưởng) Mũ Nón lưỡi trai nhiều màu, nón kết trơn, đồng phục nhiều màu - Polo365",
+      "price": 19260,
+      "oldPrice": 30000,
+      "image": "https://down-vn.img.susercontent.com/file/vn-11134207-7ra0g-m6dgpgs6qsjn63",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000000",
+        "#ffffff",
+        "#ff0000",
+        "#0000ff",
+        "#ffff00"
+      ]
+    },
+    {
+      "id": "125",
+      "categoryId": 8,
+      "tabId": 7,
+      "name": "Cà vạt nơ cổ đen học sinh đi làm đám cưới có khóa kéo tiện dụng",
+      "price": 10111,
+      "oldPrice": 11222,
+      "image": "https://down-vn.img.susercontent.com/file/01f1bb807e63dd286dd1ebc54af98bed",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "colors": [
+        "#000000"
+      ]
+    }
+  ],
   "users": [
     {
-      "id": 1,
+      "id": "user_1",
       "fullName": "Nguyễn Nhật Hưng",
       "email": "admin@vietuniform.vn",
       "phone": "0988234567",
       "password": "123"
+    },
+    {
+      "id": "NZ_evcoJPDo",
+      "fullName": "Phạm Quốc Đăng",
+      "email": "23130042@st.hcmuaf.edu.vn",
+      "phone": "0937112206",
+      "password": "11111111"
     }
   ],
-  "cart": [],
-  "orders": []
+  "cart": [
+    {
+      "userId": "NZ_evcoJPDo",
+      "items": [
+        {
+          "id": "4",
+          "name": "Áo Sơ Mi Cổ Điển DETERMINANT Chống Nhăn Dáng Suông Dài Tay DET301",
+          "image": "https://salt.tikicdn.com/cache/280x280/ts/product/d5/89/27/d288e4dd3aecb804236eb689e283dd79.JPG",
+          "size": "M",
+          "color": "#ffffff",
+          "sku": "SP-4",
+          "price": 1168000,
+          "oldPrice": 1290000,
+          "quantity": 3,
+          "selected": true
+        }
+      ],
+      "id": "ZmPcre8Y__g"
+    }
+  ],
+  "orders": [],
+  "$schema": "./node_modules/json-server/schema.json"
 }
