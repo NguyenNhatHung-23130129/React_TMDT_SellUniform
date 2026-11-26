@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
-import type { RootState } from '../../store/store';
-import heroImg from '../../assets/hero.png';
+import { API_URL } from '../../config/api';
 import deliveryTruckIcon from '../../assets/icons/delivery-truck-icon.svg';
 import lightningIcon from '../../assets/icons/lightning-icon.svg';
 import trashCanIcon from '../../assets/icons/trash-can-icon.svg';
@@ -23,38 +21,89 @@ interface CartItem {
 
 export default function Cart() {
     const navigate = useNavigate();
-    const products = useSelector((state: RootState) => state.data.products);
 
     const [items, setItems] = useState<CartItem[]>([]);
     const [voucherCode, setVoucherCode] = useState('');
     const [voucherDiscount, setVoucherDiscount] = useState(0);
 
-    useEffect(() => {
-        const savedCart = localStorage.getItem('cart_items');
-        if (savedCart) {
-            setItems(JSON.parse(savedCart));
-            return;
-        }
-        if (products && products.length > 0) {
-            const initialItems: CartItem[] = products.slice(0, 4).map((p: any, idx: number) => ({
-                id: String(p.id),
-                name: p.name,
-                image: p.image || heroImg,
-                size: ['L', 'M', 'Freesize', '39 (M)'][idx] || 'M',
-                color: p.colors?.[0] || 'Navy Đậm',
-                sku: p.sku || `SP-${p.id}`,
-                price: Number(p.price),
-                oldPrice: Number(p.oldPrice) || Math.round(Number(p.price) * 1.15),
-                quantity: idx === 0 ? 4 : 3,
-                selected: true,
-            }));
-            setItems(initialItems);
-        }
-    }, [products]);
+    const getCurrentUser = () => {
+        const saved = localStorage.getItem('user');
+        return saved ? JSON.parse(saved) : null;
+    };
 
-    const updateCart = (nextItems: CartItem[]) => {
+    const syncCartToServer = async (nextItems: CartItem[]) => {
+        const user = getCurrentUser();
+        if (!user?.id) return;
+
+        try {
+            const res = await fetch(`${API_URL}/cart?userId=${encodeURIComponent(user.id)}`);
+            const existing = await res.json();
+
+            if (nextItems.length === 0) {
+                if (Array.isArray(existing)) {
+                    for (const cart of existing) {
+                        await fetch(`${API_URL}/cart/${cart.id}`, {
+                            method: 'DELETE',
+                        });
+                    }
+                }
+                return;
+            }
+
+            if (Array.isArray(existing) && existing.length > 0) {
+                await fetch(`${API_URL}/cart/${existing[0].id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: nextItems }),
+                });
+            } else {
+                await fetch(`${API_URL}/cart`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: user.id,
+                        items: nextItems,
+                    }),
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        const loadCart = async () => {
+            const user = getCurrentUser();
+            if (!user?.id) {
+                setItems([]);
+                localStorage.removeItem('cart_items');
+                window.dispatchEvent(new Event('cartUpdated'));
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_URL}/cart?userId=${encodeURIComponent(user.id)}`);
+                const serverCarts = await res.json();
+                const serverItems = Array.isArray(serverCarts) && serverCarts.length > 0 && Array.isArray(serverCarts[0].items)
+                    ? serverCarts[0].items
+                    : [];
+                setItems(serverItems);
+                localStorage.setItem('cart_items', JSON.stringify(serverItems));
+                window.dispatchEvent(new Event('cartUpdated'));
+            } catch {
+                const savedCart = localStorage.getItem('cart_items');
+                setItems(savedCart ? JSON.parse(savedCart) : []);
+            }
+        };
+
+        loadCart();
+    }, []);
+
+    const updateCart = async (nextItems: CartItem[]) => {
         setItems(nextItems);
         localStorage.setItem('cart_items', JSON.stringify(nextItems));
+        window.dispatchEvent(new Event('cartUpdated'));
+        await syncCartToServer(nextItems);
     };
 
     const allSelected = items.length > 0 && items.every((item) => item.selected);
@@ -64,20 +113,20 @@ export default function Cart() {
         updateCart(items.map((item) => ({ ...item, selected: nextState })));
     };
 
-    const handleToggleItem = (id: string) => {
-        updateCart(items.map((item) => (item.id === id ? { ...item, selected: !item.selected } : item)));
+    const handleToggleItem = (index: number) => {
+        updateCart(items.map((item, idx) => (idx === index ? { ...item, selected: !item.selected } : item)));
     };
 
-    const handleQuantity = (id: string, delta: number) => {
+    const handleQuantity = (index: number, delta: number) => {
         updateCart(
-            items.map((item) =>
-                item.id === id ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+            items.map((item, idx) =>
+                idx === index ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
             )
         );
     };
 
-    const handleRemoveItem = (id: string) => {
-        updateCart(items.filter((item) => item.id !== id));
+    const handleRemoveItem = (index: number) => {
+        updateCart(items.filter((_, idx) => idx !== index));
     };
 
     const handleClearCart = () => {
@@ -129,14 +178,14 @@ export default function Cart() {
                                     <p>Giỏ hàng của bạn đang trống.</p>
                                 </div>
                             ) : (
-                                items.map((item) => (
-                                    <div key={item.id} className="cart-item">
+                                items.map((item, index) => (
+                                    <div key={`${item.id}-${item.size}-${item.color}-${index}`} className="cart-item">
                                         <div className="cart-item-select">
                                             <label className="checkbox-label">
                                                 <input
                                                     type="checkbox"
                                                     checked={item.selected}
-                                                    onChange={() => handleToggleItem(item.id)}
+                                                    onChange={() => handleToggleItem(index)}
                                                 />
                                                 <span className="checkbox-custom"></span>
                                             </label>
@@ -164,7 +213,7 @@ export default function Cart() {
                                                 <button
                                                     type="button"
                                                     className="remove-item-btn"
-                                                    onClick={() => handleRemoveItem(item.id)}
+                                                    onClick={() => handleRemoveItem(index)}
                                                 >
                                                     <img src={trashCanIcon} alt="Remove" className="trash-icon-img" />
                                                 </button>
@@ -186,7 +235,7 @@ export default function Cart() {
                                                     <button
                                                         type="button"
                                                         className="qty-btn"
-                                                        onClick={() => handleQuantity(item.id, -1)}
+                                                        onClick={() => handleQuantity(index, -1)}
                                                     >
                                                         -
                                                     </button>
@@ -194,7 +243,7 @@ export default function Cart() {
                                                     <button
                                                         type="button"
                                                         className="qty-btn"
-                                                        onClick={() => handleQuantity(item.id, 1)}
+                                                        onClick={() => handleQuantity(index, 1)}
                                                     >
                                                         +
                                                     </button>
