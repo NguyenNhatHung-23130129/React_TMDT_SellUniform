@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, Product, AppDispatch } from '../../store/store';
 import { toggleFavorite } from '../../store/store';
+import { API_URL } from '../../config/api';
 import heroImg from '../../assets/hero.png';
 import shoppingCartIcon from '../../assets/icons/shopping-cart-icon.svg';
 import searchIcon from '../../assets/icons/search-icon.svg';
@@ -31,13 +32,13 @@ export default function ProductDetails() {
 
     const product = products.find((item) => String(item.id) === String(id)) || products[0];
     const productId = product?.id;
-    const isLiked = productId ? favorites.includes(productId) : false;
+    const isLiked = productId !== undefined ? favorites.includes(productId as never) : false;
 
     const handleToggleFavorite = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
         if (productId !== undefined) {
-            dispatch(toggleFavorite(productId));
+            dispatch(toggleFavorite(productId as never));
         }
     };
 
@@ -86,18 +87,36 @@ export default function ProductDetails() {
 
     const relatedProducts = products.filter((item) => String(item.id) !== String(product?.id)).slice(0, 3);
 
-    const saveItemToCart = () => {
-        const savedCart = JSON.parse(localStorage.getItem('cart_items') || '[]');
+    const saveItemToCart = async () => {
+        const savedUser = localStorage.getItem('user');
+        const user = savedUser ? JSON.parse(savedUser) : null;
+        if (!user?.id) {
+            alert('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!');
+            navigate('/auth/login');
+            return false;
+        }
+
+        let currentCart = [];
+        try {
+            const getRes = await fetch(`${API_URL}/cart?userId=${encodeURIComponent(user.id)}`);
+            const existing = await getRes.json();
+            if (Array.isArray(existing) && existing.length > 0 && Array.isArray(existing[0].items)) {
+                currentCart = existing[0].items;
+            }
+        } catch {
+            currentCart = JSON.parse(localStorage.getItem('cart_items') || '[]');
+        }
+
         const itemId = String(product?.id || '1');
-        const existingIndex = savedCart.findIndex(
+        const existingIndex = currentCart.findIndex(
             (i: { id: string; size: string; color: string }) =>
                 i.id === itemId && i.size === selectedSize && i.color === activeColor
         );
 
         if (existingIndex >= 0) {
-            savedCart[existingIndex].quantity += quantity;
+            currentCart[existingIndex].quantity += quantity;
         } else {
-            savedCart.push({
+            currentCart.push({
                 id: itemId,
                 name: productName,
                 image: productImage,
@@ -111,17 +130,48 @@ export default function ProductDetails() {
             });
         }
 
-        localStorage.setItem('cart_items', JSON.stringify(savedCart));
+        localStorage.setItem('cart_items', JSON.stringify(currentCart));
+        window.dispatchEvent(new Event('cartUpdated'));
+
+        try {
+            const res = await fetch(`${API_URL}/cart?userId=${encodeURIComponent(user.id)}`);
+            const existing = await res.json();
+
+            if (Array.isArray(existing) && existing.length > 0) {
+                await fetch(`${API_URL}/cart/${existing[0].id}`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: currentCart }),
+                });
+            } else {
+                await fetch(`${API_URL}/cart`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: user.id,
+                        items: currentCart,
+                    }),
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+        return true;
     };
 
-    const handleAddToCart = () => {
-        saveItemToCart();
-        setShowToast(true);
+    const handleAddToCart = async () => {
+        const ok = await saveItemToCart();
+        if (ok) {
+            setShowToast(true);
+        }
     };
 
-    const handleBuyNow = () => {
-        saveItemToCart();
-        navigate('/cart');
+    const handleBuyNow = async () => {
+        const ok = await saveItemToCart();
+        if (ok) {
+            navigate('/cart');
+        }
     };
 
     return (
