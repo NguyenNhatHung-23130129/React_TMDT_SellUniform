@@ -79,7 +79,7 @@
     width: 16px;
     height: 16px;
     display: inline-block;
-    filter: invert(67%) sepia(16%) saturate(442%) hue-rotate(178deg) brightness(91%) contrast(87%);
+    filter: invert(24%) sepia(87%) saturate(2283%) hue-rotate(345deg) brightness(93%) contrast(93%);
 }
 
 .trash-icon-img.trash-red {
@@ -125,26 +125,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-}
-
-.stock-notice {
-    font-size: 11px;
-    color: #059669;
-    background: #ECFDF5;
-    padding: 2px 8px;
-    border-radius: 4px;
-    width: fit-content;
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.lightning-icon-img {
-    width: 14px;
-    height: 14px;
-    filter: invert(72%) sepia(85%) saturate(1210%) hue-rotate(349deg) brightness(101%) contrast(96%);
 }
 
 .item-title-row {
