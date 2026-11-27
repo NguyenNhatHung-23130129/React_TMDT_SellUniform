@@ -253,23 +253,22 @@ export default function ProductDetails() {
                                 <strong>BẢNG CHIẾT KHẤU TỰ ĐỘNG THEO SỐ LƯỢNG</strong>
                             </div>
                             <div className="tier-grid">
-                                <div className={`tier-item ${quantity >= 20 && quantity <= 49 ? 'active' : ''}`}>
-                                    <span className="tier-qty">Từ 20 - 49 cái</span>
+                                <div className={`tier-item ${quantity >= 5 && quantity <= 9 ? 'active' : ''}`}>
+                                    <span className="tier-qty">Từ 5 - 9 cái</span>
                                     <span className="tier-discount">Giảm 5%</span>
                                     <span className="tier-price">{formatPrice(Math.round(basePrice * 0.95))} / cái</span>
                                 </div>
-                                <div className={`tier-item ${quantity >= 50 && quantity <= 99 ? 'active' : ''}`}>
-                                    <span className="tier-qty">Từ 50 - 99 cái</span>
+                                <div className={`tier-item ${quantity >= 10 && quantity <= 19 ? 'active' : ''}`}>
+                                    <span className="tier-qty">Từ 10 - 19 cái</span>
                                     <span className="tier-discount">Giảm 10%</span>
                                     <span className="tier-price">{formatPrice(Math.round(basePrice * 0.9))} / cái</span>
                                 </div>
-                                <div className={`tier-item ${quantity >= 100 ? 'active' : ''}`}>
-                                    <span className="tier-qty">Từ 100 cái trở lên</span>
+                                <div className={`tier-item ${quantity >= 20 ? 'active' : ''}`}>
+                                    <span className="tier-qty">Từ 20 cái trở lên</span>
                                     <span className="tier-discount">Giảm 15%</span>
                                     <span className="tier-price">{formatPrice(Math.round(basePrice * 0.85))} / cái</span>
                                 </div>
                             </div>
-                            <p className="tier-footer">Hệ thống sẽ tự động tính giảm giá ngay khi bạn chọn số lượng phù hợp</p>
                         </div>
 
                         <div className="option-section">
