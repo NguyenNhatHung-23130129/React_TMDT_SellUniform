@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { API_URL } from '../../config/api';
 import deliveryTruckIcon from '../../assets/icons/delivery-truck-icon.svg';
-import lightningIcon from '../../assets/icons/lightning-icon.svg';
 import trashCanIcon from '../../assets/icons/trash-can-icon.svg';
 import './Cart.css';
 
@@ -147,9 +146,9 @@ export default function Cart() {
 
     const selectedItems = items.filter((item) => item.selected);
     const totalQuantity = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
-    const originalSubtotal = selectedItems.reduce((sum, item) => sum + item.oldPrice * item.quantity, 0);
     const currentSubtotal = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const wholesaleDiscount = totalQuantity >= 10 ? Math.round(currentSubtotal * 0.1) : 0;
+    const wholesaleRate = totalQuantity >= 20 ? 0.15 : totalQuantity >= 10 ? 0.1 : totalQuantity >= 5 ? 0.05 : 0;
+    const wholesaleDiscount = Math.round(currentSubtotal * wholesaleRate);
     const shippingFee = currentSubtotal >= 300000 || currentSubtotal === 0 ? 0 : 30000;
     const finalTotal = Math.max(0, currentSubtotal - wholesaleDiscount - voucherDiscount + shippingFee);
 
@@ -198,10 +197,6 @@ export default function Cart() {
                                             <img src={item.image} alt={item.name} />
                                         </div>
                                         <div className="cart-item-details">
-                                            <div className="stock-notice">
-                                                <img src={lightningIcon} alt="Lightning" className="lightning-icon-img" />
-                                                Sẵn kho giao hỏa tốc 2H
-                                            </div>
                                             <div className="item-title-row">
                                                 <h3
                                                     className="item-title"
@@ -229,7 +224,9 @@ export default function Cart() {
                                                     {item.oldPrice > item.price && (
                                                         <span className="item-old-price">{formatPrice(item.oldPrice)}</span>
                                                     )}
-                                                    <span className="discount-tag">-10% Sỉ</span>
+                                                    {wholesaleRate > 0 && (
+                                                        <span className="discount-tag">-{Math.round(wholesaleRate * 100)}% Sỉ</span>
+                                                    )}
                                                 </div>
                                                 <div className="qty-picker">
                                                     <button
@@ -277,12 +274,14 @@ export default function Cart() {
                             <h2 className="summary-title">Tóm Tắt Đơn Hàng</h2>
 
                             <div className="summary-row">
-                                <span>Tạm tính tiền hàng gốc:</span>
-                                <span className="text-bold">{formatPrice(originalSubtotal)}</span>
+                                <span>Tạm tính tiền hàng:</span>
+                                <span className="text-bold">{formatPrice(currentSubtotal)}</span>
                             </div>
 
                             <div className="summary-row text-red">
-                                <span>Chiết khấu sỉ (≥10 cái -10%):</span>
+                                <span>
+                                    Chiết khấu sỉ ({totalQuantity >= 20 ? '≥20 cái -15%' : totalQuantity >= 10 ? '10-19 cái -10%' : totalQuantity >= 5 ? '5-9 cái -5%' : 'từ 5 cái'}):
+                                </span>
                                 <span className="text-bold">-{formatPrice(wholesaleDiscount)}</span>
                             </div>
 
