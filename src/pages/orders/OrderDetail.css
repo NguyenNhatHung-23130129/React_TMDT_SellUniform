@@ -796,6 +796,12 @@
   fill: currentColor;
 }
 
+.order-detail-product-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .order-detail-product-thumbnail .order-detail-shirt-seam {
   fill: none;
   stroke: rgb(255 255 255 / 65%);
