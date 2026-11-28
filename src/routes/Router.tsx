@@ -1,5 +1,4 @@
-import { createBrowserRouter, Outlet, useNavigate, useLocation } from 'react-router';
-import { store } from '../store/store';
+import { createBrowserRouter, Navigate, Outlet, useNavigate, useLocation, useParams, Link } from 'react-router';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import Home from '../pages/home/Home';
@@ -14,11 +13,12 @@ import OrderDetail from '../pages/orders/OrderDetail';
 import Auth from '../pages/auth/Auth';
 import {
     applyOrderStatusOverride,
-    demoOrderHistory,
+    readLocalOrders,
+    saveLocalOrder,
     toOrderHistoryRecord,
 } from '../pages/orders/orderHistoryTypes';
 import {useEffect} from "react";
-import {API_URL} from "../config/api.ts";
+import type { OrderConfirmation } from '../pages/checkout/orderTypes';
 
 
 export function Layout() {
@@ -40,19 +40,33 @@ function HomePage() {
     return <Home onSelectCategory={(catId) => navigate(`/search?cat=${catId}`)} />;
 }
 
+function getCurrentUserId(): string | null {
+    try {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        return user?.id != null && String(user.id) ? String(user.id) : null;
+    } catch {
+        return null;
+    }
+}
+
 function CheckoutPage() {
     const navigate = useNavigate();
     return (
         <Checkout
-            onOrderComplete={async (order) => {
-                const record = toOrderHistoryRecord(order);
-                localStorage.setItem('lastOrder', JSON.stringify(record));
-                await fetch(`${API_URL}/orders`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(record)
-                }).catch(() => {});
-                navigate('/order-success');
+            onOrderComplete={(order) => {
+                const userId = getCurrentUserId();
+                if (!userId) {
+                    alert('Vui lòng đăng nhập trước khi đặt hàng.');
+                    navigate('/auth/login');
+                    return;
+                }
+                try {
+                    const record = toOrderHistoryRecord(order);
+                    saveLocalOrder(userId, record);
+                    navigate('/order-success', { state: { orderNumber: record.orderNumber } });
+                } catch {
+                    alert('Không thể lưu đơn hàng trong trình duyệt. Vui lòng kiểm tra bộ nhớ trình duyệt và thử lại.');
+                }
             }}
         />
     );
@@ -60,34 +74,53 @@ function CheckoutPage() {
 
 function OrderSuccessPage() {
     const navigate = useNavigate();
-    const saved = JSON.parse(localStorage.getItem('lastOrder') || 'null') || demoOrderHistory[0];
-    return <OrderSuccess order={saved} onContinueShopping={() => navigate('/')} onTrackOrder={() => navigate('/orders')} />;
+    const location = useLocation();
+    const userId = getCurrentUserId();
+    if (!userId) return <Navigate to="/auth/login" replace />;
+    let orders;
+    try {
+        orders = readLocalOrders(userId);
+    } catch {
+        return <p>Không thể đọc lịch sử đơn hàng trong trình duyệt.</p>;
+    }
+    const orderNumber = (location.state as { orderNumber?: string } | null)?.orderNumber;
+    const saved = orderNumber ? orders.find((order) => order.orderNumber === orderNumber) : orders[0];
+    if (!saved) return <p>Không tìm thấy đơn hàng. <Link to="/orders">Xem lịch sử đơn hàng</Link></p>;
+    return <OrderSuccess order={saved as OrderConfirmation} onContinueShopping={() => navigate('/')} onTrackOrder={() => navigate(`/orders/${encodeURIComponent(saved.orderNumber)}`)} />;
 }
 
 function OrderHistoryPage() {
     const navigate = useNavigate();
-    const orders = (
-        store.getState().data.orders.length ? store.getState().data.orders : demoOrderHistory
-    )
-        .map(applyOrderStatusOverride);
+    const userId = getCurrentUserId();
+    if (!userId) return <Navigate to="/auth/login" replace />;
+    let orders;
+    try {
+        orders = readLocalOrders(userId).map(applyOrderStatusOverride);
+    } catch {
+        return <p>Không thể đọc lịch sử đơn hàng trong trình duyệt.</p>;
+    }
     return (
         <OrderHistory
             orders={orders}
             onContinueShopping={() => navigate('/')}
-            onSelectOrder={(order) => {
-                localStorage.setItem('selectedOrder', JSON.stringify(order));
-                navigate(`/orders/${encodeURIComponent(order.orderNumber)}`);
-            }}
+            onSelectOrder={(order) => navigate(`/orders/${encodeURIComponent(order.orderNumber)}`)}
         />
     );
 }
 
 function OrderDetailPage() {
     const navigate = useNavigate();
-    const saved = applyOrderStatusOverride(
-        JSON.parse(localStorage.getItem('selectedOrder') || 'null') || demoOrderHistory[0]
-    );
-    return <OrderDetail order={saved} onBack={() => navigate('/orders')} onContinueShopping={() => navigate('/')} />;
+    const { id } = useParams();
+    const userId = getCurrentUserId();
+    if (!userId) return <Navigate to="/auth/login" replace />;
+    let saved;
+    try {
+        saved = readLocalOrders(userId).find((order) => order.orderNumber === id);
+    } catch {
+        return <p>Không thể đọc lịch sử đơn hàng trong trình duyệt.</p>;
+    }
+    if (!saved) return <p>Không tìm thấy đơn hàng. <Link to="/orders">Quay lại lịch sử đơn hàng</Link></p>;
+    return <OrderDetail key={saved.orderNumber} order={applyOrderStatusOverride(saved)} onBack={() => navigate('/orders')} onContinueShopping={() => navigate('/')} />;
 }
 
 export const router = createBrowserRouter([
