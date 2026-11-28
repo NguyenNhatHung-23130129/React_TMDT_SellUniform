@@ -1127,19 +1127,18 @@
     background: #fff !important;
   }
 
-  body * {
-    visibility: hidden !important;
+  #root > :not(.order-detail-page),
+  .order-detail-page > :not(.order-invoice-print) {
+    display: none !important;
   }
 
-  .order-invoice-print,
-  .order-invoice-print * {
-    visibility: visible !important;
+  .order-detail-page {
+    width: 100%;
+    margin: 0;
   }
 
   .order-invoice-print {
-    position: fixed;
-    z-index: 99999;
-    inset: 0;
+    position: static;
     display: block !important;
     width: 100%;
     margin: 0;
