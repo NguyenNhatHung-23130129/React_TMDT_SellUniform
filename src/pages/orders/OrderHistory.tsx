@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router';
 import type { OrderHistoryRecord, OrderHistoryStatus } from './orderHistoryTypes';
 import './OrderHistory.css';
 
@@ -58,13 +59,13 @@ function MetricIcon({ type }: { type: 'orders' | 'waiting' | 'shipping' | 'compl
   );
 }
 
-function OrderThumbnail({ tone }: { tone: string }) {
+function OrderThumbnail({ tone, image }: { tone: string; image?: string }) {
   return (
     <span className={`history-product-thumbnail ${tone}`} aria-hidden="true">
-      <svg viewBox="0 0 48 48">
+      {image ? <img src={image} alt="" /> : <svg viewBox="0 0 48 48">
         <path d="m15 8 9 4 9-4 9 7-5 8-5-3v20H16V20l-5 3-5-8 9-7Z" />
         <path className="history-shirt-seam" d="m18 9 6 7 6-7M24 16v24" />
-      </svg>
+      </svg>}
     </span>
   );
 }
@@ -290,10 +291,10 @@ function OrderHistory({ orders, onContinueShopping, onSelectOrder }: OrderHistor
 
             <div className="history-order-items">
               {order.items.map((item, index) => (
-                <div className="history-order-item" key={`${order.orderNumber}-${item.name}`}>
-                  <OrderThumbnail tone={item.tone} />
+                <div className="history-order-item" key={`${order.orderNumber}-${item.id ?? item.name}-${index}`}>
+                  <OrderThumbnail tone={item.tone} image={item.image} />
                   <div className="history-item-copy">
-                    <h2>{item.name}</h2>
+                    <h2>{item.id ? <Link to={`/product/${encodeURIComponent(item.id)}`}>{item.name}</Link> : item.name}</h2>
                     <p>{item.options}</p>
                   </div>
                   <span className="history-item-quantity">{formatQuantity(item.quantity)}</span>
