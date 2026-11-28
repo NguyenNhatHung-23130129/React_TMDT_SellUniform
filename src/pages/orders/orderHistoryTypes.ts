@@ -29,6 +29,24 @@ export type OrderHistoryRecord = Pick<
   cancellationReason?: string;
 };
 
+const orderStorageKey = (userId: string) => `vietuniform-orders:${encodeURIComponent(userId)}`;
+
+export function readLocalOrders(userId: string): OrderHistoryRecord[] {
+  const saved = localStorage.getItem(orderStorageKey(userId));
+  if (!saved) return [];
+  const orders: unknown = JSON.parse(saved);
+  if (!Array.isArray(orders)) throw new Error('Invalid order history');
+  return orders;
+}
+
+export function saveLocalOrder(userId: string, order: OrderHistoryRecord) {
+  const orders = readLocalOrders(userId);
+  localStorage.setItem(
+    orderStorageKey(userId),
+    JSON.stringify([order, ...orders.filter((existing) => existing.orderNumber !== order.orderNumber)]),
+  );
+}
+
 type OrderStatusOverride = Partial<Pick<OrderHistoryRecord, 'status' | 'cancellationReason'>>;
 const ORDER_STATUS_OVERRIDES_KEY = 'orderStatusOverrides';
 
