@@ -1,4 +1,6 @@
 export type OrderSummaryItem = {
+  id?: string;
+  image?: string;
   name: string;
   options: string;
   quantity: string;

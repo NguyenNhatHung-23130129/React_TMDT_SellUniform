@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation } from 'react-router';
 import './Checkout.css';
 import type { OrderConfirmation } from './orderTypes';
 
@@ -502,29 +503,21 @@ function ProductThumbnail({ tone }: { tone: string }) {
   );
 }
 
-const cartItems = [
-  {
-    name: 'Áo Sơ Mi Công Sở Oxford Nam Tay Dài',
-    options: 'Màu: Xanh Navy • Size: L (May chuẩn)',
-    quantity: 'Số lượng: 10 cái',
-    price: 2_450_000,
-    tone: 'thumbnail-navy',
-  },
-  {
-    name: 'Bộ Đồng Phục Scrub Y Tế Bác Sĩ & Điều Dưỡng',
-    options: 'Màu: Xanh Teal • Size: M (Chống nhăn)',
-    quantity: 'Số lượng: 5 bộ',
-    price: 1_250_000,
-    tone: 'thumbnail-teal',
-  },
-  {
-    name: 'Áo Polo Doanh Nghiệp Cotton Pique 100%',
-    options: 'Màu: Đen Tím Than • Size: XL',
-    quantity: 'Số lượng: 15 cái',
-    price: 2_850_000,
-    tone: 'thumbnail-plum',
-  },
-];
+type CheckoutCartItem = {
+  id: string;
+  name: string;
+  image: string;
+  size: string;
+  color: string;
+  price: number;
+  quantity: number;
+  selected: boolean;
+};
+
+type CheckoutLocationState = {
+  items?: CheckoutCartItem[];
+  voucherDiscount?: number;
+};
 
 const formatCurrency = (amount: number) => `${amount.toLocaleString('vi-VN')} đ`;
 
@@ -533,6 +526,26 @@ type CheckoutProps = {
 };
 
 function Checkout({ onOrderComplete }: CheckoutProps) {
+  const location = useLocation();
+  const checkoutState = location.state as CheckoutLocationState | null;
+  const [selectedItems] = useState<CheckoutCartItem[]>(() => {
+    if (Array.isArray(checkoutState?.items)) return checkoutState.items;
+    try {
+      const saved = JSON.parse(localStorage.getItem('cart_items') || '[]');
+      return Array.isArray(saved) ? saved.filter((item: CheckoutCartItem) => item.selected) : [];
+    } catch {
+      return [];
+    }
+  });
+  const cartItems = selectedItems.map((item) => ({
+    id: String(item.id),
+    image: item.image,
+    name: item.name,
+    options: `Màu: ${item.color} • Size: ${item.size}`,
+    quantity: `${item.quantity} cái`,
+    price: item.price * item.quantity,
+    tone: 'thumbnail-navy',
+  }));
   const deliveryFormRef = useRef<HTMLFormElement>(null);
   const deliveryEditSnapshotRef = useRef<DeliveryEditSnapshot | null>(null);
   const [customerType, setCustomerType] = useState<CustomerType>('personal');
@@ -556,8 +569,8 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
   const [locationLoadError, setLocationLoadError] = useState(false);
   const [shippingMethod, setShippingMethod] = useState('standard');
   const [paymentMethod, setPaymentMethod] = useState('vietqr');
-  const [coupon, setCoupon] = useState('CORP2024');
-  const [couponStatus, setCouponStatus] = useState<'applied' | 'error' | 'idle'>('applied');
+  const [coupon, setCoupon] = useState('');
+  const [couponStatus, setCouponStatus] = useState<'applied' | 'error' | 'idle'>('idle');
 
   const beginDeliveryEdit = () => {
     if (!deliveryEditSnapshotRef.current) {
@@ -627,7 +640,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
     try {
       window.localStorage.setItem(savedDeliveryAddressesStorageKey, JSON.stringify(savedAddresses));
     } catch {
-      // Saved addresses remain available for the current checkout if storage is unavailable.
+      return;
     }
   }, [savedAddresses]);
 
@@ -737,11 +750,15 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
   const isBusiness = customerType === 'business';
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
-  const productDiscount = 786_000;
-  const couponDiscount = isBusiness && couponStatus === 'applied' ? 327_500 : 0;
-  const shippingCost = shippingMethod === 'express' ? 35_000 : 0;
-  const vat = isBusiness ? 435_000 : 0;
-  const total = subtotal - productDiscount - couponDiscount + shippingCost + vat;
+  const totalQuantity = selectedItems.reduce((sum, item) => sum + item.quantity, 0);
+  const wholesaleRate = totalQuantity >= 20 ? 0.15 : totalQuantity >= 10 ? 0.1 : totalQuantity >= 5 ? 0.05 : 0;
+  const productDiscount = Math.round(subtotal * wholesaleRate);
+  const cartVoucherDiscount = Math.max(0, Number(checkoutState?.voucherDiscount) || 0);
+  const businessDiscount = isBusiness && couponStatus === 'applied' ? Math.round(subtotal * 0.05) : 0;
+  const couponDiscount = Math.min(Math.max(0, subtotal - productDiscount), cartVoucherDiscount + businessDiscount);
+  const shippingCost = shippingMethod === 'express' ? 35_000 : subtotal >= 300_000 || subtotal === 0 ? 0 : 30_000;
+  const vat = isBusiness ? Math.round((subtotal - productDiscount - couponDiscount) * 0.08) : 0;
+  const total = Math.max(0, subtotal - productDiscount - couponDiscount + shippingCost + vat);
 
   const handleSaveDeliveryInfo = () => {
     const form = deliveryFormRef.current;
@@ -824,6 +841,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
   };
 
   const handleCompleteOrder = () => {
+    if (cartItems.length === 0) return;
     const form = deliveryFormRef.current;
 
     if (!form?.reportValidity()) {
@@ -861,7 +879,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
       deliveryNote: isBusiness ? undefined : getValue('deliveryNote'),
       paymentLabel: paymentLabels[paymentMethod] ?? paymentLabels.vietqr,
       shippingLabel: shippingLabels[shippingMethod] ?? shippingLabels.standard,
-      couponCode: couponDiscount > 0 ? coupon.trim().toUpperCase() : undefined,
+      couponCode: businessDiscount > 0 ? coupon.trim().toUpperCase() : undefined,
       items: cartItems.map((item) => ({ ...item })),
       subtotal,
       productDiscount,
@@ -1035,7 +1053,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
                     Thời gian nhận từ 1 - 3 ngày làm việc (Viettel Post / GHN bảo hiểm kiện hàng)
                   </span>
                 </span>
-                <strong className="checkout-choice-price price-free">Miễn phí</strong>
+                <strong className="checkout-choice-price price-free">{subtotal >= 300_000 ? 'Miễn phí' : formatCurrency(30_000)}</strong>
               </label>
 
               <label
@@ -1171,15 +1189,20 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
         <aside className="checkout-order-summary" aria-labelledby="order-summary-title">
           <div className="order-summary-heading">
             <h2 id="order-summary-title">Tóm Tắt Đơn Hàng</h2>
-            <span>3 sản phẩm</span>
+            <span>{cartItems.length} sản phẩm</span>
           </div>
 
           <div className="summary-product-list">
+            {cartItems.length === 0 && <p>Chưa có sản phẩm được chọn. Vui lòng quay lại giỏ hàng.</p>}
             {cartItems.map((item) => (
-              <article className="summary-product" key={item.name}>
-                <ProductThumbnail tone={item.tone} />
+              <article className="summary-product" key={`${item.id}-${item.options}`}>
+                {item.image ? (
+                  <img className="summary-product-thumbnail" src={item.image} alt={item.name} />
+                ) : (
+                  <ProductThumbnail tone={item.tone} />
+                )}
                 <div className="summary-product-info">
-                  <h3>{item.name}</h3>
+                  <h3><Link to={`/product/${encodeURIComponent(item.id)}`}>{item.name}</Link></h3>
                   <p>{item.options}</p>
                   <p>{item.quantity}</p>
                 </div>
@@ -1226,18 +1249,18 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
 
           <dl className="summary-totals">
             <div>
-              <dt>Tạm tính tổng sản phẩm (30 chiếc):</dt>
+              <dt>Tạm tính tổng sản phẩm ({totalQuantity} chiếc):</dt>
               <dd>{formatCurrency(subtotal)}</dd>
             </div>
             <div className="summary-discount">
               <dt>
-                Chiết khấu sỉ tự động (≥20 món) <span>-12%</span>:
+                Chiết khấu sỉ tự động <span>-{wholesaleRate * 100}%</span>:
               </dt>
               <dd>- {formatCurrency(productDiscount)}</dd>
             </div>
-            {isBusiness && (
+            {couponDiscount > 0 && (
               <div className="summary-discount">
-                <dt>Voucher đối tác CORP2024:</dt>
+                <dt>Giảm giá voucher:</dt>
                 <dd>- {formatCurrency(couponDiscount)}</dd>
               </div>
             )}
@@ -1269,7 +1292,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
             </p>
           </div>
 
-          <button type="button" className="summary-submit" onClick={handleCompleteOrder}>
+          <button type="button" className="summary-submit" onClick={handleCompleteOrder} disabled={cartItems.length === 0}>
             Hoàn Tất Đặt Hàng <span aria-hidden="true">→</span>
           </button>
           <p className="summary-terms">

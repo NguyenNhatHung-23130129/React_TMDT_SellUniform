@@ -178,6 +178,12 @@
   fill: currentColor;
 }
 
+.success-product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .success-product-thumb .success-shirt-seam {
   fill: none;
   stroke: rgb(255 255 255 / 60%);

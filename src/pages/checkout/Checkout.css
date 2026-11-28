@@ -664,6 +664,7 @@
   width: 54px;
   height: 54px;
   place-items: center;
+  object-fit: cover;
   overflow: hidden;
   border-radius: 50%;
   color: #fff;
