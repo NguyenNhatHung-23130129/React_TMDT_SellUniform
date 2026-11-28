@@ -1,12 +1,12 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router';
 import type { OrderHistoryRecord, OrderHistoryStatus } from './orderHistoryTypes';
-import { saveOrderStatusOverride } from './orderHistoryTypes';
 import './OrderDetail.css';
 
 type OrderDetailProps = {
   order: OrderHistoryRecord;
   onBack: () => void;
+  onCancelOrder: (reason: string) => Promise<OrderHistoryRecord>;
   onContinueShopping: () => void;
 };
 
@@ -348,12 +348,13 @@ function OrderThumbnail({ tone, image }: { tone: string; image?: string }) {
   );
 }
 
-function OrderDetail({ order: initialOrder, onBack, onContinueShopping }: OrderDetailProps) {
+function OrderDetail({ order: initialOrder, onBack, onContinueShopping, onCancelOrder }: OrderDetailProps) {
   const [order, setOrder] = useState(initialOrder);
   const [isEmailPreviewOpen, setIsEmailPreviewOpen] = useState(false);
   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
   const [selectedCancelReason, setSelectedCancelReason] = useState('');
   const [otherCancelReason, setOtherCancelReason] = useState('');
+  const [isCancelling, setIsCancelling] = useState(false);
 
   useEffect(() => {
     setOrder(initialOrder);
@@ -449,29 +450,22 @@ function OrderDetail({ order: initialOrder, onBack, onContinueShopping }: OrderD
     setOtherCancelReason('');
   };
 
-  const confirmCancelOrder = () => {
+  const confirmCancelOrder = async () => {
     const reason =
       selectedCancelReason === 'Lý do khác' ? otherCancelReason.trim() : selectedCancelReason;
     if (!canCancelOrder || !reason) return;
 
-    const cancelledOrder: OrderHistoryRecord = {
-      ...order,
-      status: 'cancelled',
-      cancellationReason: reason,
-    };
-    setOrder(cancelledOrder);
-    saveOrderStatusOverride(order.orderNumber, {
-      status: 'cancelled',
-      cancellationReason: reason,
-    });
-    localStorage.setItem('selectedOrder', JSON.stringify(cancelledOrder));
-
-    const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || 'null');
-    if (lastOrder?.orderNumber === order.orderNumber) {
-      localStorage.setItem('lastOrder', JSON.stringify(cancelledOrder));
+    if (isCancelling) return;
+    setIsCancelling(true);
+    try {
+      const cancelledOrder = await onCancelOrder(reason);
+      setOrder(cancelledOrder);
+      closeCancelDialog();
+    } catch {
+      alert('Không thể hủy đơn hàng. Vui lòng kiểm tra json-server và thử lại.');
+    } finally {
+      setIsCancelling(false);
     }
-
-    closeCancelDialog();
   };
 
   return (
@@ -906,7 +900,7 @@ function OrderDetail({ order: initialOrder, onBack, onContinueShopping }: OrderD
                 className="cancel-order-confirm-button"
                 onClick={confirmCancelOrder}
                 disabled={
-                  !selectedCancelReason ||
+                  isCancelling || !selectedCancelReason ||
                   (selectedCancelReason === 'Lý do khác' && !otherCancelReason.trim())
                 }
               >
