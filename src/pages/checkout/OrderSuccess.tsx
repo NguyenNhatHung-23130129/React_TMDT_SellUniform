@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
 import type { OrderConfirmation } from './orderTypes';
 import './OrderSuccess.css';
 
@@ -60,16 +61,18 @@ function OrderSuccess({ order, onContinueShopping, onTrackOrder }: OrderSuccessP
           </div>
 
           <div className="success-product-list">
-            {order.items.map((item) => (
-              <article className="success-product" key={item.name}>
+            {order.items.map((item, index) => (
+              <article className="success-product" key={`${item.id ?? item.name}-${index}`}>
                 <span className={`success-product-thumb ${item.tone}`} aria-hidden="true">
+                  {item.image ? <img src={item.image} alt="" /> : (
                   <svg viewBox="0 0 48 48">
                     <path d="m15 8 9 4 9-4 9 7-5 8-5-3v20H16V20l-5 3-5-8 9-7Z" />
                     <path className="success-shirt-seam" d="m18 9 6 7 6-7M24 16v24" />
                   </svg>
+                  )}
                 </span>
                 <div className="success-product-copy">
-                  <h3>{item.name}</h3>
+                  <h3>{item.id ? <Link to={`/product/${encodeURIComponent(item.id)}`}>{item.name}</Link> : item.name}</h3>
                   <p>{item.options}</p>
                   <p>{item.quantity}</p>
                 </div>
