@@ -523,9 +523,10 @@ const formatCurrency = (amount: number) => `${amount.toLocaleString('vi-VN')} đ
 
 type CheckoutProps = {
   onOrderComplete: (order: OrderConfirmation) => void;
+  isSubmitting: boolean;
 };
 
-function Checkout({ onOrderComplete }: CheckoutProps) {
+function Checkout({ onOrderComplete, isSubmitting }: CheckoutProps) {
   const location = useLocation();
   const checkoutState = location.state as CheckoutLocationState | null;
   const [selectedItems] = useState<CheckoutCartItem[]>(() => {
@@ -1292,7 +1293,7 @@ function Checkout({ onOrderComplete }: CheckoutProps) {
             </p>
           </div>
 
-          <button type="button" className="summary-submit" onClick={handleCompleteOrder} disabled={cartItems.length === 0}>
+          <button type="button" className="summary-submit" onClick={handleCompleteOrder} disabled={cartItems.length === 0 || isSubmitting}>
             Hoàn Tất Đặt Hàng <span aria-hidden="true">→</span>
           </button>
           <p className="summary-terms">

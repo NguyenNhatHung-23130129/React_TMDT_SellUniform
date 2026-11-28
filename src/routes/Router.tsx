@@ -14,10 +14,11 @@ import Auth from '../pages/auth/Auth';
 import {
     applyOrderStatusOverride,
     readLocalOrders,
-    saveLocalOrder,
     toOrderHistoryRecord,
 } from '../pages/orders/orderHistoryTypes';
-import {useEffect} from "react";
+import { useEffect, useRef, useState } from 'react';
+import { API_URL } from '../config/api';
+import { createOrderApi, type ServerOrder } from '../pages/orders/orderApi';
 import type { OrderConfirmation } from '../pages/checkout/orderTypes';
 
 
@@ -49,23 +50,78 @@ function getCurrentUserId(): string | null {
     }
 }
 
+const orderApi = createOrderApi(API_URL);
+const pendingLoads = new Map<string, Promise<ServerOrder[]>>();
+
+function loadOrders(userId: string): Promise<ServerOrder[]> {
+    const pending = pendingLoads.get(userId);
+    if (pending) return pending;
+    const loading = (async () => {
+        const orders = await orderApi.list(userId);
+        let oldOrders = [];
+        try {
+            oldOrders = readLocalOrders(userId);
+        } catch {
+            return orders;
+        }
+        for (const oldOrder of oldOrders) {
+            if (orders.some((order) => order.orderNumber === oldOrder.orderNumber)) continue;
+            const migrated = await orderApi.create(userId, applyOrderStatusOverride(oldOrder));
+            orders.push(migrated);
+        }
+        return orders.sort((a, b) => b.createdAt - a.createdAt);
+    })();
+    pendingLoads.set(userId, loading);
+    void loading.finally(() => pendingLoads.delete(userId)).catch(() => {});
+    return loading;
+}
+
+function useOrders(userId: string | null) {
+    const [orders, setOrders] = useState<ServerOrder[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    useEffect(() => {
+        if (!userId) return;
+        let active = true;
+        setLoading(true);
+        setError(false);
+        loadOrders(userId).then((result) => {
+            if (active) setOrders(result);
+        }).catch(() => {
+            if (active) setError(true);
+        }).finally(() => {
+            if (active) setLoading(false);
+        });
+        return () => { active = false; };
+    }, [userId]);
+    return { orders, loading, error };
+}
+
 function CheckoutPage() {
     const navigate = useNavigate();
+    const submitting = useRef(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     return (
         <Checkout
-            onOrderComplete={(order) => {
+            isSubmitting={isSubmitting}
+            onOrderComplete={async (order) => {
                 const userId = getCurrentUserId();
                 if (!userId) {
                     alert('Vui lòng đăng nhập trước khi đặt hàng.');
                     navigate('/auth/login');
                     return;
                 }
+                if (submitting.current) return;
+                submitting.current = true;
+                setIsSubmitting(true);
                 try {
-                    const record = toOrderHistoryRecord(order);
-                    saveLocalOrder(userId, record);
-                    navigate('/order-success', { state: { orderNumber: record.orderNumber } });
+                    const saved = await orderApi.create(userId, toOrderHistoryRecord(order));
+                    navigate('/order-success', { state: { orderNumber: saved.orderNumber } });
                 } catch {
-                    alert('Không thể lưu đơn hàng trong trình duyệt. Vui lòng kiểm tra bộ nhớ trình duyệt và thử lại.');
+                    alert('Không thể lưu đơn hàng. Vui lòng kiểm tra json-server và thử lại.');
+                } finally {
+                    submitting.current = false;
+                    setIsSubmitting(false);
                 }
             }}
         />
@@ -76,13 +132,10 @@ function OrderSuccessPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const userId = getCurrentUserId();
+    const { orders, loading, error } = useOrders(userId);
     if (!userId) return <Navigate to="/auth/login" replace />;
-    let orders;
-    try {
-        orders = readLocalOrders(userId);
-    } catch {
-        return <p>Không thể đọc lịch sử đơn hàng trong trình duyệt.</p>;
-    }
+    if (loading) return <p>Đang tải đơn hàng...</p>;
+    if (error) return <p>Không thể tải đơn hàng. Vui lòng kiểm tra json-server.</p>;
     const orderNumber = (location.state as { orderNumber?: string } | null)?.orderNumber;
     const saved = orderNumber ? orders.find((order) => order.orderNumber === orderNumber) : orders[0];
     if (!saved) return <p>Không tìm thấy đơn hàng. <Link to="/orders">Xem lịch sử đơn hàng</Link></p>;
@@ -92,35 +145,24 @@ function OrderSuccessPage() {
 function OrderHistoryPage() {
     const navigate = useNavigate();
     const userId = getCurrentUserId();
+    const { orders, loading, error } = useOrders(userId);
     if (!userId) return <Navigate to="/auth/login" replace />;
-    let orders;
-    try {
-        orders = readLocalOrders(userId).map(applyOrderStatusOverride);
-    } catch {
-        return <p>Không thể đọc lịch sử đơn hàng trong trình duyệt.</p>;
-    }
-    return (
-        <OrderHistory
-            orders={orders}
-            onContinueShopping={() => navigate('/')}
-            onSelectOrder={(order) => navigate(`/orders/${encodeURIComponent(order.orderNumber)}`)}
-        />
-    );
+    if (loading) return <p>Đang tải lịch sử đơn hàng...</p>;
+    if (error) return <p>Không thể tải lịch sử đơn hàng. Vui lòng kiểm tra json-server.</p>;
+    return <OrderHistory orders={orders} onContinueShopping={() => navigate('/')} onSelectOrder={(order) => navigate(`/orders/${encodeURIComponent(order.orderNumber)}`)} />;
 }
 
 function OrderDetailPage() {
     const navigate = useNavigate();
     const { id } = useParams();
     const userId = getCurrentUserId();
+    const { orders, loading, error } = useOrders(userId);
     if (!userId) return <Navigate to="/auth/login" replace />;
-    let saved;
-    try {
-        saved = readLocalOrders(userId).find((order) => order.orderNumber === id);
-    } catch {
-        return <p>Không thể đọc lịch sử đơn hàng trong trình duyệt.</p>;
-    }
+    if (loading) return <p>Đang tải đơn hàng...</p>;
+    if (error) return <p>Không thể tải đơn hàng. Vui lòng kiểm tra json-server.</p>;
+    const saved = orders.find((order) => order.orderNumber === id);
     if (!saved) return <p>Không tìm thấy đơn hàng. <Link to="/orders">Quay lại lịch sử đơn hàng</Link></p>;
-    return <OrderDetail key={saved.orderNumber} order={applyOrderStatusOverride(saved)} onBack={() => navigate('/orders')} onContinueShopping={() => navigate('/')} />;
+    return <OrderDetail key={saved.orderNumber} order={saved} onCancelOrder={(reason) => orderApi.cancel(saved, reason)} onBack={() => navigate('/orders')} onContinueShopping={() => navigate('/')} />;
 }
 
 export const router = createBrowserRouter([
