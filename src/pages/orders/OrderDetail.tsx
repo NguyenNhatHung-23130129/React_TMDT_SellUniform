@@ -1,4 +1,5 @@
 import { useEffect, useState, type CSSProperties } from 'react';
+import { Link } from 'react-router';
 import type { OrderHistoryRecord, OrderHistoryStatus } from './orderHistoryTypes';
 import { saveOrderStatusOverride } from './orderHistoryTypes';
 import './OrderDetail.css';
@@ -332,13 +333,17 @@ function DetailIcon({ type }: { type: 'pin' | 'payment' | 'support' }) {
   );
 }
 
-function OrderThumbnail({ tone }: { tone: string }) {
+function OrderThumbnail({ tone, image }: { tone: string; image?: string }) {
   return (
     <span className={`order-detail-product-thumbnail ${tone}`} aria-hidden="true">
-      <svg viewBox="0 0 48 48">
-        <path d="m15 8 9 4 9-4 9 7-5 8-5-3v20H16V20l-5 3-5-8 9-7Z" />
-        <path className="order-detail-shirt-seam" d="m18 9 6 7 6-7M24 16v24" />
-      </svg>
+      {image ? (
+        <img src={image} alt="" />
+      ) : (
+        <svg viewBox="0 0 48 48">
+          <path d="m15 8 9 4 9-4 9 7-5 8-5-3v20H16V20l-5 3-5-8 9-7Z" />
+          <path className="order-detail-shirt-seam" d="m18 9 6 7 6-7M24 16v24" />
+        </svg>
+      )}
     </span>
   );
 }
@@ -602,12 +607,16 @@ function OrderDetail({ order: initialOrder, onBack, onContinueShopping }: OrderD
               </div>
 
               <div className="order-detail-product-list">
-                {order.items.map((item) => (
-                  <article className="order-detail-product" key={item.name}>
-                    <OrderThumbnail tone={item.tone} />
+                {order.items.map((item, index) => (
+                  <article className="order-detail-product" key={`${item.id ?? item.name}-${index}`}>
+                    <OrderThumbnail tone={item.tone} image={item.image} />
                     <div className="order-detail-product-copy">
                       <span className="order-detail-product-category">Đồng phục cao cấp</span>
-                      <h4>{item.name}</h4>
+                      <h4>
+                        {item.id ? (
+                          <Link to={`/product/${encodeURIComponent(item.id)}`}>{item.name}</Link>
+                        ) : item.name}
+                      </h4>
                       <p>{item.options}</p>
                       <small>Số lượng: {item.quantity}</small>
                     </div>
