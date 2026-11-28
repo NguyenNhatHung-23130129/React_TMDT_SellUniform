@@ -4,7 +4,6 @@ import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import Home from '../pages/home/Home';
 import { SearchResults } from '../pages/products/SearchResults';
-import { ShopDetail } from '../pages/home/ShopDetail';
 import ProductDetails from '../pages/products/ProductDetails';
 import FavoriteProducts from '../pages/products/FavoriteProducts';
 import Cart from '../pages/cart/Cart';
@@ -97,7 +96,7 @@ export const router = createBrowserRouter([
         element: <Layout />,
         children: [
             { index: true, element: <HomePage /> },
-            { path: 'shop', element: <ShopDetail /> },
+            // { path: 'shop', element:  },
             { path: 'search', element: <SearchResults /> },
             { path: 'product/:id', element: <ProductDetails /> },
             { path: 'favorites', element: <FavoriteProducts /> },
